@@ -1,13 +1,15 @@
 import { ref } from 'vue'
 
-const message = ref('test');
+const cartItemCnt = ref(0)
+const testy = ref('this is a test')
 
-export const useComposition = function() {
+export const cartItemCount = function() {
 
   // other functions, for example to mutate message ref
   
   return {
-    message,
+    cartItemCnt,
+    testy
     // ...
   }
 }

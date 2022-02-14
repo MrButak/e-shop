@@ -1,18 +1,20 @@
 <script>
 import { defineComponent } from 'vue'
-import { useComposition } from '../compositions/composition'
+import { cartItemCount } from '../compositions/composition'
 
 export default defineComponent({
   setup() {
-    const { message } = useComposition();
-
+    const { cartItemCnt } = cartItemCount();
+    const { testy } = cartItemCount()
     return { // make it available in <template>
-      message
+      cartItemCnt,
+      testy
     }
   },
 })
 </script>
 <template>
-    {{ message }}
-    <button @click="this.message = 'New message'">change message</button>
+    <p>{{ cartItemCnt }}</p>
+    <p>{{ testy }}</p>
+    <button @click="this.cartItemCnt++">change message</button>
 </template>
