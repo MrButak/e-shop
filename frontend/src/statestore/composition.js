@@ -1,7 +1,8 @@
-import { ref } from 'vue'
+import { ref } from 'vue';
 
-const cartItemCnt = ref(0)
-const menuItems = ref({})
+const cartItemCnt = ref(0);
+const menuItems = ref({});
+const shoppingCart = ref({})
 
 export const cartItemCount = function() {
 
@@ -9,7 +10,8 @@ export const cartItemCount = function() {
   
   return {
     cartItemCnt,
-    menuItems
+    menuItems,
+    shoppingCart
     // ...
-  }
-}
+  };
+};

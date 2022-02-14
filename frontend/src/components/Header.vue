@@ -4,17 +4,21 @@ import { cartItemCount } from '../statestore/composition'
 
 export default defineComponent({
   setup() {
-    const { cartItemCnt, testy } = cartItemCount();
+    const { cartItemCnt } = cartItemCount();
     
     return { // make it available in <template>
       cartItemCnt,
-      testy
+      
     }
   },
 })
 </script>
 <template>
+    <p>Number of items in cart</p>
     <p>{{ cartItemCnt }}</p>
-    <p>{{ testy }}</p>
-    <button @click="this.cartItemCnt++">change message</button>
+    <div v-if="this.cartItemCnt > 0">
+
+        <button>Checkout</button>
+
+    </div>
 </template>

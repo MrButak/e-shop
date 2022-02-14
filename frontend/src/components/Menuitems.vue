@@ -1,12 +1,14 @@
 <template>
     <p>Menu Items</p>
-    <div id="menuCardWrapperMain" v-for="item in this.menuItems">
-        <div id="menuCardWrapper">
-            {{ item['name'] }}
-            {{ item['description'] }}
-            stock  {{ item['quantity'] }}
-            available {{ item['inStock'] }}
-            price {{ item['price'] }}
+    <div id="menuCardWrapperMain">
+        <div v-for="item in this.menuItems" id="menuCardWrapper" :data-item="item['id']">
+            <text>{{ item['name'] }}</text>
+            <text>{{ item['description'] }}</text>
+            <text>stock  {{ item['quantity'] }}</text>
+            <text v-if="item['inStock'] === 1">available - in stock</text>
+            <text v-else>out of stock</text>
+            <text> price {{ item['price'] }}</text>
+            <button @click="addToCart">Add to cart</button>
         </div>
     </div>
     
@@ -19,11 +21,12 @@ import { cartItemCount } from '../statestore/composition'
 export default defineComponent({
 
     setup() {
-        const { cartItemCnt, menuItems } = cartItemCount();
+        const { cartItemCnt, menuItems, shoppingCart } = cartItemCount();
 
         return { // make it available in <template>
             cartItemCnt,
-            menuItems
+            menuItems,
+            shoppingCart
         }
     },
 
@@ -37,7 +40,7 @@ export default defineComponent({
 
         // function queries database to get menu items and info (function is called on page load (mount()))
         async getMenuItems() {
-            console.log("what's the deal?")
+
             let response = await axios({
                 method: 'post',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -48,20 +51,40 @@ export default defineComponent({
             .then((response) => {
                 
                 // set global state of menuItems object
-                console.log(response.data.length)
-                let itemCnt = 1
-
+                let tmpItemCnt = 1
                 response.data.forEach((item) => {
-                    this.menuItems[`item-${itemCnt}`] = item;
-                    itemCnt++;
+                    this.menuItems[`item-${tmpItemCnt}`] = item;
+                    // add a buyQuantity property to the object
+                    this.menuItems[`item-${tmpItemCnt}`].buyQuantity = 0;
+                    tmpItemCnt++;
                 });
-                console.log(this.menuItems);
             });
             
             return;
         },
+
+        addToCart(event) {
+            
+            // menu item clicked
+            this.cartItemCnt++
+            // if item already exists in shopping cart, increase buy quantity
+            if(this.shoppingCart[`item-${event.path[1].dataset.item}`]) {
+                this.shoppingCart[`item-${event.path[1].dataset.item}`].buyQuantity++
+            }
+            // else add item to shopping cart
+            else {
+                this.shoppingCart[`item-${event.path[1].dataset.item}`] = this.menuItems[`item-${event.path[1].dataset.item}`];
+                this.shoppingCart[`item-${event.path[1].dataset.item}`].buyQuantity = 1;
+            }
+            
+            console.log(this.shoppingCart)
+            
+            
+        }
         
-    }
+    },
+
+    
 
 
 })
@@ -77,7 +100,8 @@ export default defineComponent({
 }
 #menuCardWrapper {
     display: flex;
-    width: 50%;
+    flex-direction: column;
+    width: 40%;
     border: 1px solid black;
 }
 </style>
