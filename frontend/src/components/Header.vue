@@ -4,8 +4,8 @@ import { cartItemCount } from '../compositions/composition'
 
 export default defineComponent({
   setup() {
-    const { cartItemCnt } = cartItemCount();
-    const { testy } = cartItemCount()
+    const { cartItemCnt, testy } = cartItemCount();
+    
     return { // make it available in <template>
       cartItemCnt,
       testy
