@@ -5,8 +5,7 @@ const paymentManager = require('../public/javascripts/paymentManager')
 
 
 async function paymentIntent(req, res, next) {
-
-    console.log("I should end up here^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
+    
     const stripe = require("stripe")('sk_test_51KSQNbAaTEmIXM6wt6O7rs6rMT1LttdkEP6NQBUtdHSIrilfukpYC6ZDT1vJRzbP6vHoOwbliaEwMnSA7JwJKpsV00sDkfdvxx');
     
     const calculateOrderAmount = (items) => {
@@ -30,7 +29,7 @@ async function paymentIntent(req, res, next) {
     res.send({
         clientSecret: paymentIntent.client_secret,
     });
-
+    
     // res.status(200).json(paymentIntention.client_secret)
     
 };
