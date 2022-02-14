@@ -1,6 +1,6 @@
 <script>
 import { defineComponent } from 'vue'
-import { cartItemCount } from '../compositions/composition'
+import { cartItemCount } from '../statestore/composition'
 
 export default defineComponent({
   setup() {
