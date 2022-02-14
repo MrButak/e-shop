@@ -1,17 +1,16 @@
 <template>
     <p>Menu Items</p>
-    <ul v-for="item in this.menuItems">
-        <li>
+    <div id="menuCardWrapperMain" v-for="item in this.menuItems">
+        <div id="menuCardWrapper">
             {{ item['name'] }}
             {{ item['description'] }}
             stock  {{ item['quantity'] }}
             available {{ item['inStock'] }}
             price {{ item['price'] }}
-        </li>
-    </ul>
-    {{ menuItems }}
+        </div>
+    </div>
+    
 </template>
-
 <script>
 import axios from 'axios';
 import { defineComponent } from 'vue'
@@ -72,5 +71,13 @@ export default defineComponent({
 </script>
 
 <style>
-
+#menuCardWrapperMain {
+    display: flex;
+    width: 90%;    
+}
+#menuCardWrapper {
+    display: flex;
+    width: 50%;
+    border: 1px solid black;
+}
 </style>
