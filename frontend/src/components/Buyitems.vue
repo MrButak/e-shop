@@ -16,7 +16,7 @@
 
         <div id="card-element"></div>
         <div id="card-errors" role="alert"></div>
-        <button @click="submitPayment">Submit Payment</button>
+        <button @click="createPaymentIntent">Submit Payment</button>
     </form>
     </div>
     
@@ -50,43 +50,14 @@ export default defineComponent({
 
     methods: {
 
-        card() {
-            // const stripe = Stripe('PUBLISHABLE_KEY'); // Your Publishable Key
-            // const elements = stripe.elements();
+        
 
-            // Create our card inputs
-            //  
-
-            // Give our token to our form
-            // const stripeTokenHandler = token => {
-            // const hiddenInput = document.createElement('input');
-            // hiddenInput.setAttribute('type', 'hidden');
-            // hiddenInput.setAttribute('name', 'stripeToken');
-            // hiddenInput.setAttribute('value', token.id);
-            // form.appendChild(hiddenInput);
-
-            // form.submit();
-            // }
-
-            // Create token from card data
-            // form.addEventListener('submit', e => {
-            // e.preventDefault();
-
-            // stripe.createToken(card).then(res => {
-            //     if (res.error) errorEl.textContent = res.error.message;
-            //     else stripeTokenHandler(res.token);
-            // })
-            // })
-    
-        },
-
-
-        async submitPayment() {
+        async createPaymentIntent() {
 
             let response = await axios({
                 method: 'post',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                url: 'http://127.0.0.1:3000/checkout',
+                url: 'http://127.0.0.1:3000/create-payment-intent',
                 data: null
             })
             
