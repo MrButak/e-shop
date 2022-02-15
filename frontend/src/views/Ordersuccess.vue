@@ -12,7 +12,7 @@ import Orderconfirm from '@/components/Orderconfirm.vue'
 
 
 export default {
-  name: 'Home',
+  name: 'Ordersuccess',
   components: {
     Orderconfirm
   }

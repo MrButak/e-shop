@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import Checkout from '../views/Checkout.vue'
-import Ordersuccess from '../views/Ordersuccess'
+import Ordersuccess from '../views/Ordersuccess.vue'
 const routes = [
   {
     path: '/',
