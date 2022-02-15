@@ -27,7 +27,8 @@ export default {
             
             stripe: Stripe('pk_test_51KSQNbAaTEmIXM6wL3LwNtZaJUdoM4PqzKuLQFjWv24tO3CEiugdMODrtIwK60mLl6UWDE4OCRWpj5a7uYipNTaB008sPbbmch'),
             elements: null,
-            client_secret: null
+            client_secret: null,
+            messageContainerText: null
         }
     },
 
@@ -56,7 +57,6 @@ export default {
 
         renderStripeForm(client_secret) {
             
-            // const stripe = Stripe('pk_test_51KSQNbAaTEmIXM6wL3LwNtZaJUdoM4PqzKuLQFjWv24tO3CEiugdMODrtIwK60mLl6UWDE4OCRWpj5a7uYipNTaB008sPbbmch');
                 const options = {
                     clientSecret: client_secret,
                     
@@ -66,7 +66,7 @@ export default {
                     },
                 };
 
-                // Set up Stripe.js and Elements to use in checkout form, passing the client secret obtained in step 2
+                // Set up Stripe.js and Elements to use in checkout form, passing the client secret
                 this.elements = this.stripe.elements(options);
 
 
@@ -77,14 +77,21 @@ export default {
 
         async handleSubmit(e) {
 
+            
             e.preventDefault();
+
+            // turn loading spinner on
             this.setLoading(true);
 
+            // asign var to access form elements
+            let elements = this.elements;
+            
             const { error } = await this.stripe.confirmPayment({
-                this.elements,
+                
+                elements,
                 confirmParams: {
                 // Make sure to change this to your payment completion page
-                return_url: "http://localhost:8080/",
+                return_url: 'http://localhost:8080/ordersuccess',
                 },
             });
 
@@ -108,28 +115,29 @@ export default {
             const clientSecret = new URLSearchParams(window.location.search).get(
                 "payment_intent_client_secret"
             );
-
+            
             if (!clientSecret) {
                 return;
             }
 
             const { paymentIntent } = await this.stripe.retrievePaymentIntent(clientSecret);
-
+            
             switch (paymentIntent.status) {
 
                 case "succeeded":
-                    showMessage("Payment succeeded!");
+                    this.showMessage("Payment succeeded!");
                     break;
                 case "processing":
-                    showMessage("Your payment is processing.");
+                    this.showMessage("Your payment is processing.");
                     break;
                 case "requires_payment_method":
-                    showMessage("Your payment was not successful, please try again.");
+                    this.showMessage("Your payment was not successful, please try again.");
                     break;
                 default:
-                    showMessage("Something went wrong.");
+                    this.showMessage("Something went wrong.");
                     break;
             }
+            
         },
 
         // ------- UI helpers -------
@@ -137,17 +145,16 @@ export default {
         showMessage(messageText) {
 
             const messageContainer = document.querySelector("#payment-message");
-
             messageContainer.classList.remove("hidden");
             messageContainer.textContent = messageText;
 
             setTimeout(function () {
                 messageContainer.classList.add("hidden");
-                messageText.textContent = "";
-            }, 4000);
+                messageContainer.textContent = "";
+            }, 8000);
         },
 
-            // Show a spinner on payment submission
+        // Show a spinner on payment submission
         setLoading(isLoading) {
 
             if (isLoading) {
@@ -174,19 +181,13 @@ export default {
 
         this.createPaymentIntent()
         
-        // document.onreadystatechange = () => {
-        //     if (document.readyState == "complete") {
-        //         console.log('Page completed with image and files!')
-        //         this.renderStripeForm()    
-        //     }
-        // }
-        
     }
     
 }
 </script>
 
 <style scoped>
+
 * {
   box-sizing: border-box;
 }
