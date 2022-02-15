@@ -1,53 +1,27 @@
-<element>
-    <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <!-- Display a payment form -->
-    <form id="payment-form">
-      <div id="payment-element">
-        <!--Stripe.js injects the Payment Element-->
-      </div>
-      <button id="submit">
-        <div class="spinner hidden" id="spinner"></div>
-        <span id="button-text">Pay now</span>
-      </button>
-      <div id="payment-message" class="hidden"></div>
+<template>
+    <form id="payment-form" data-secret="{{ client_secret }}">
+        <div id="payment-element">
+            <!-- Elements will create form elements here -->
+        </div>
+
+        <button id="submit">Submit</button>
     </form>
-
-</element>
-
-
-
-
-
+    
+</template>
 
 <script>
-import axios from 'axios';
-import { defineComponent } from 'vue'
-import { cartItemCount } from '../statestore/composition'
-// const stripe = Stripe("pk_test_51KSQNbAaTEmIXM6wL3LwNtZaJUdoM4PqzKuLQFjWv24tO3CEiugdMODrtIwK60mLl6UWDE4OCRWpj5a7uYipNTaB008sPbbmch");
+import axios from 'axios'
 
-export default defineComponent({
+export default {
+    name: 'Pay',
+    //   props: {
+    //     msg: String
+    //   }
 
-    // send the payment intent to stripe as soon is module is loaded
-    mounted() {
-
-        this.createPaymentIntent()
-        
-    },
 
     data() {
-
         return {
 
-            
-        }
-    },
-
-    setup() {
-    const { cartItemCnt } = cartItemCount();
-
-        return { // make it available in <template>
-            cartItemCnt,
-            
         }
     },
 
@@ -63,19 +37,47 @@ export default defineComponent({
             })
             
             .then((response) => {
-                // const stripe = Stripe("pk_test_51KSQNbAaTEmIXM6wL3LwNtZaJUdoM4PqzKuLQFjWv24tO3CEiugdMODrtIwK60mLl6UWDE4OCRWpj5a7uYipNTaB008sPbbmch");
-                // const appearance = {
-                //     theme: 'stripe',
-                // }
-                // initialize stripe ui library withe  client secret received from stripe
-                let clientSecret = response.data.clientSecret;
-                console.log(clientSecret)
+                
+                let client_secret = response.data.clientSecret
+                console.log(response.data.clientSecret)
+                this.renderStripeForm(client_secret)
                 
             })
         },
+        renderStripeForm(client_secret) {
+            console.log(client_secret)
+            const stripe = Stripe('pk_test_51KSQNbAaTEmIXM6wL3LwNtZaJUdoM4PqzKuLQFjWv24tO3CEiugdMODrtIwK60mLl6UWDE4OCRWpj5a7uYipNTaB008sPbbmch');
+                const options = {
+                    clientSecret: client_secret,
+                    
+                    // Fully customizable with appearance API.
+                    appearance: {/*...*/},
+                };
+
+                // Set up Stripe.js and Elements to use in checkout form, passing the client secret obtained in step 2
+                const elements = stripe.elements(options);
+
+                // Create and mount the Payment Element
+                const paymentElement = elements.create('payment');
+                paymentElement.mount('#payment-element');
+        }
+        
+
+    },
+    
+    mounted() {
+        
+        document.onreadystatechange = () => {
+            if (document.readyState == "complete") {
+                console.log('Page completed with image and files!')
+                this.createPaymentIntent()
+                
+            }
+            
+        }
         
     }
-
-})
-
+    
+}
 </script>
+
