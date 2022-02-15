@@ -31,10 +31,6 @@ export default defineComponent({
     mounted() {
 
         this.createPaymentIntent()
-        var self=this;
-        self.stripe= Stripe(self.spk);
-        self.card = self.stripe.elements().create('card');
-        self.card.mount(self.$refs.card);
         
     },
 
@@ -42,12 +38,7 @@ export default defineComponent({
 
         return {
 
-            spk:"pk_test_51KSQNbAaTEmIXM6wL3LwNtZaJUdoM4PqzKuLQFjWv24tO3CEiugdMODrtIwK60mLl6UWDE4OCRWpj5a7uYipNTaB008sPbbmch",
-            stripe:undefined,
-            card:undefined,
-            payAmount:"$10.00",
-            lockSubmit:false,
-            api:"https://yourdomain.com/api/"
+            
         }
     },
 
@@ -72,73 +63,17 @@ export default defineComponent({
             })
             
             .then((response) => {
-                const stripe = Stripe("pk_test_51KSQNbAaTEmIXM6wL3LwNtZaJUdoM4PqzKuLQFjWv24tO3CEiugdMODrtIwK60mLl6UWDE4OCRWpj5a7uYipNTaB008sPbbmch");
-                const appearance = {
-                    theme: 'stripe',
-                }
+                // const stripe = Stripe("pk_test_51KSQNbAaTEmIXM6wL3LwNtZaJUdoM4PqzKuLQFjWv24tO3CEiugdMODrtIwK60mLl6UWDE4OCRWpj5a7uYipNTaB008sPbbmch");
+                // const appearance = {
+                //     theme: 'stripe',
+                // }
                 // initialize stripe ui library withe  client secret received from stripe
                 let clientSecret = response.data.clientSecret;
+                console.log(clientSecret)
                 
             })
         },
-
-        purchase() {
-            var self = this;
-            self.lockSubmit=true
-
-            self.stripe.createToken(self.cardNumber).then(function(result) {
-                if (result.error) {
-                alert(result.error.message)
-                self.$forceUpdate(); // Forcing the DOM to update so the Stripe Element can update.
-                self.lockSubmit=false
-                return;
-                }
-                else{ 
-                self.processTransaction(result.token.id)
-                }
-            })
-            .catch((err) => {
-                alert("error: "+err.message)
-                self.lockSubmit=false
-            });
-        },
-
-        processTransaction(transactionToken){
-            var self=this;
-            dt= {
-                amount:self.stripCurrency(self.payAmount), //stripe uses an int [with shifted decimal place] so we must convert our payment amount
-                currency:"USD",
-                description:"something to say",
-                token:transactionToken
-            }
-            var route=self.api+"/charge/card"
-            self.$http.post(route,dt, {
-                headers: {
-                }
-            }).then(response => {
-
-                if(response.status==200){
-                    alert("Transaction succeeded")
-                    self.lockSubmit=false
-                }
-                else{
-                    throw new Error("failed donation")
-                }
-
-            }).catch((err) => {
-                alert("error: "+err.message)
-                self.lockSubmit=false
-            });
-
-        },
-
-            stripCurrency(val){
-                return val.replace(',','').relpace('$','').replace('.','')
-            
-            }
-
-      
-            
+        
     }
 
 })
