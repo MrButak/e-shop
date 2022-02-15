@@ -8,6 +8,7 @@ async function paymentIntent(req, res, next) {
     
     const stripe = require("stripe")('sk_test_51KSQNbAaTEmIXM6wt6O7rs6rMT1LttdkEP6NQBUtdHSIrilfukpYC6ZDT1vJRzbP6vHoOwbliaEwMnSA7JwJKpsV00sDkfdvxx');
     
+    // TODO: calculate total
     const calculateOrderAmount = (items) => {
         // Replace this constant with a calculation of the order's amount
         // Calculate the order total on the server to prevent
