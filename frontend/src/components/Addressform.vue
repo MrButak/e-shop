@@ -1,0 +1,223 @@
+<template>
+    
+    <form id="address-form" action="" method="get" autocomplete="off">
+        <p class="title">Sample address form for North America</p>
+        <p class="note"><em>* = required field</em></p>
+        <label class="full-field">
+            <!-- Avoid the word "address" in id, name, or label text to avoid browser autofill from conflicting with Place Autocomplete. Star or comment bug https://crbug.com/587466 to request Chromium to honor autocomplete="off" attribute. -->
+            <span class="form-label">Deliver to*</span>
+            <input id="ship-address" name="ship-address" required="" autocomplete="off" class="pac-target-input" placeholder="Enter a location" data-com.bitwarden.browser.user-edited="yes">
+        </label>
+        <label class="full-field">
+            <span class="form-label">Apartment, unit, suite, or floor #</span>
+            <input id="address2" name="address2">
+        </label>
+        <label class="full-field">
+            <span class="form-label">City*</span>
+            <input id="locality" name="locality" required="">
+        </label>
+        <label class="slim-field-left">
+            <span class="form-label">State/Province*</span>
+            <input id="state" name="state" required="" data-com.bitwarden.browser.user-edited="yes">
+        </label>
+        <label class="slim-field-right" for="postal_code">
+            <span class="form-label">Postal code*</span>
+            <input id="postcode" name="postcode" required="">
+        </label>
+        <label class="full-field">
+            <span class="form-label">Country/Region*</span>
+            <input id="country" name="country" required="" data-com.bitwarden.browser.user-edited="yes">
+        </label>
+        <button type="button" class="my-button">Save address</button>
+
+        <!-- Reset button provided for development testing convenience.
+    Not recommended for user-facing forms due to risk of mis-click when aiming for Submit button. -->
+        <input type="reset" value="Clear form">
+        
+    </form>
+    
+</template>
+
+<script>
+export default {
+    name: 'Addressform',
+
+    data() {
+
+        return {
+            autocomplete: null,
+            address1Field: null,
+            address2Field: null,
+            postalField: null
+        }
+    },
+    mounted() {
+
+        this.initAutocomplete()
+
+    },
+
+    methods: {
+
+        // This sample uses the Places Autocomplete widget to:
+        // 1. Help the user select a place
+        // 2. Retrieve the address components associated with that place
+        // 3. Populate the form fields with those address components.
+        // This sample requires the Places library, Maps JavaScript API.
+        // Include the libraries=places parameter when you first load the API.
+        // For example: 
+        //<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
+
+        
+
+        initAutocomplete() {
+            
+            // console.log(process.env)
+            // console.log(process.env.VUE_APP_GOOGLE_MAP_API)
+            // var salem = new google.maps.LatLng(37.64877079015148, -91.54367384593301);
+            
+            this.address1Field = document.querySelector("#ship-address");
+            this.address2Field = document.querySelector("#address2");
+            this.postalField = document.querySelector("#postcode");
+            // Create the autocomplete object, restricting the search predictions to
+            // addresses in the US and Canada.
+            this.autocomplete = new google.maps.places.Autocomplete(this.address1Field, {
+                LatLngBounds: {radius: 20, center: {lat: 37.648770, lng: -91.5436738}},
+                componentRestrictions: { country: ["us"] },
+                fields: ["address_components", "geometry"],
+                types: ["address"],
+                
+            });
+            this.address1Field.focus();
+            // When the user selects an address from the drop-down, populate the
+            // address fields in the form.
+            this.autocomplete.addListener("place_changed", this.fillInAddress);
+        },
+
+        fillInAddress() {
+            // Get the place details from the autocomplete object.
+            const place = this.autocomplete.getPlace();
+            let address1 = "";
+            let postcode = "";
+
+            // Get each component of the address from the place details,
+            // and then fill-in the corresponding field on the form.
+            // place.address_components are google.maps.GeocoderAddressComponent objects
+            // which are documented at http://goo.gle/3l5i5Mr
+            for (const component of place.address_components) {
+                const componentType = component.types[0];
+
+                switch (componentType) {
+                case "street_number": {
+                    address1 = `${component.long_name} ${address1}`;
+                    break;
+                }
+
+                case "route": {
+                    address1 += component.short_name;
+                    break;
+                }
+
+                case "postal_code": {
+                    postcode = `${component.long_name}${postcode}`;
+                    break;
+                }
+
+                case "postal_code_suffix": {
+                    postcode = `${postcode}-${component.long_name}`;
+                    break;
+                }
+                case "locality":
+                    document.querySelector("#locality").value = component.long_name;
+                    break;
+                case "administrative_area_level_1": {
+                    document.querySelector("#state").value = component.short_name;
+                    break;
+                }
+                case "country":
+                    document.querySelector("#country").value = component.long_name;
+                    break;
+                }
+            }
+
+            this.address1Field.value = address1;
+            this.postalField.value = postcode;
+            // After filling the form with address components from the Autocomplete
+            // prediction, set cursor focus on the second address line to encourage
+            // entry of subpremise information such as apartment, unit, or floor number.
+            this.address2Field.focus();
+        }
+
+    }
+}
+</script>
+
+<style scoped>
+#address-form {
+
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    max-width: 400px;
+    padding: 20px;
+}
+.title {
+
+    width: 100%;
+    margin-block-end: 0;
+    font-weight: 500;
+}
+.note {
+
+    width: 100%;
+    margin-block-start: 0;
+    font-size: 12px;
+}
+.full-field {
+
+    flex: 400px;
+    margin: 15px 0;
+}
+.form-label {
+
+    width: 100%;
+    padding: 0.5em;
+}
+.pac-target-input:not(:-webkit-autofill) {
+    animation-name: endBrowserAutofill;
+}
+input {
+    width: 100%;
+    height: 1.2rem;
+    margin-top: 0;
+    padding: 0.5em;
+    border: 0;
+    border-bottom: 2px solid gray;
+    font-family: "Roboto", sans-serif;
+    font-size: 18px;
+}
+.slim-field-left {
+    flex: 1 150px;
+    margin: 15px 15px 15px 0px;
+}
+.slim-field-right {
+    flex: 1 150px;
+    margin: 15px 0px 15px 15px;
+}
+.my-button {
+    background-color: #000;
+    border-radius: 6px;
+    color: #fff;
+    margin: 10px;
+    padding: 6px 24px;
+    text-decoration: none;
+}
+input[type="reset"] {
+    width: auto;
+    height: auto;
+    border-bottom: 0;
+    background-color: transparent;
+    color: #686868;
+    font-size: 14px;
+}
+</style>
