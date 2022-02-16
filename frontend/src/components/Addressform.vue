@@ -33,8 +33,9 @@
         <!-- Reset button provided for development testing convenience.
     Not recommended for user-facing forms due to risk of mis-click when aiming for Submit button. -->
         <input type="reset" value="Clear form">
+        
     </form>
-
+    
 </template>
 
 <script>
@@ -44,7 +45,6 @@ export default {
     data() {
 
         return {
-
             autocomplete: null,
             address1Field: null,
             address2Field: null,
@@ -72,6 +72,8 @@ export default {
 
         initAutocomplete() {
             
+            // console.log(process.env)
+            // console.log(process.env.VUE_APP_GOOGLE_MAP_API)
             // var salem = new google.maps.LatLng(37.64877079015148, -91.54367384593301);
             
             this.address1Field = document.querySelector("#ship-address");
