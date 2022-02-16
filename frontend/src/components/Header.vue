@@ -16,9 +16,5 @@ export default defineComponent({
 <template>
     <p>Number of items in cart</p>
     <p>{{ cartItemCnt }}</p>
-    <div v-if="this.cartItemCnt > 0">
-
-        <button>Checkout</button>
-
-    </div>
+    
 </template>
