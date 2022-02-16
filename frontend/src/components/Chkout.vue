@@ -17,7 +17,6 @@
 <script>
 import axios from 'axios'
 
-// const stripe = Stripe('pk_test_51KSQNbAaTEmIXM6wL3LwNtZaJUdoM4PqzKuLQFjWv24tO3CEiugdMODrtIwK60mLl6UWDE4OCRWpj5a7uYipNTaB008sPbbmch');
 
 export default {
     name: 'Pay',
@@ -91,7 +90,7 @@ export default {
                 elements,
                 confirmParams: {
                 // Make sure to change this to your payment completion page
-                return_url: 'http://localhost:8080/ordersuccess',
+                return_url: 'http://localhost:8081/ordersuccess',
                 },
             });
 

@@ -1,7 +1,7 @@
 <template>
 
     <p>{{ paymentMessage }}</p>
- 
+    <p>test</p>
 </template>
 
 
@@ -34,7 +34,6 @@
 
             getPaymentMessage() {
 
-                let paymentMessage = this.paymentMessage
                 const stripe =  Stripe('pk_test_51KSQNbAaTEmIXM6wL3LwNtZaJUdoM4PqzKuLQFjWv24tO3CEiugdMODrtIwK60mLl6UWDE4OCRWpj5a7uYipNTaB008sPbbmch');
                 const queryString = window.location.search;
                 const urlParams = new URLSearchParams(queryString);
@@ -44,13 +43,15 @@
                 stripe
                     .retrievePaymentIntent(paymentIntentClientSecret)
 
-                    .then(function(result) {
+                    .then((result) => {
+
+                        
                         // Handle result.error or result.paymentIntent
                         console.log(result.paymentIntent)
-                        paymentMessage = result.paymentIntent
+                        this.paymentMessage = result.paymentIntent
                     });
 
-                this.paymentMessage = paymentMessage
+                // this.paymentMessage = paymentMessage
 
             }
         }
