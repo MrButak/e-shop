@@ -5,8 +5,13 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+const bodyParser = require('body-parser');
 
 var app = express();
+
+// this ensures I receive the raw header from stripe webhooks
+app.use('/webhook', bodyParser.raw({type: "*/*"}));
+
 
 app.use(logger('dev'));
 app.use(express.json());
