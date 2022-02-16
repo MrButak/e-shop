@@ -23,6 +23,7 @@ async function paymentIntent(req, res, next) {
     const paymentIntent = await stripe.paymentIntents.create({
         amount: 23 * 1000,// calculateOrderAmount(items),
         currency: "usd",
+        receipt_email: 'mspence5555@gmail.com'
         // automatic_payment_methods: {
         // enabled: true,
         // },
