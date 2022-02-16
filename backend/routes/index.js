@@ -1,8 +1,10 @@
 var express = require('express');
 var router = express.Router();
 var app = express();
+
 const index = require('../controllers/index');
 const payment = require('../controllers/payment');
+const stripeWebHooks = require('../controllers/stripewebhooks');
 
 // allow requests from vue front end
 const allowRequest = app.use(function(req, res, next) {
@@ -16,11 +18,6 @@ router.post('/getmenu', allowRequest, index.getMenu);
 router.post('/create-payment-intent', allowRequest, payment.paymentIntent)
 
 
-// app.post('/webhook', allowRequest, 
-
-/* GET home page. */
-// router.get('/', function(req, res, next) {
-//   res.render('index', { title: 'Express' });
-// });
+router.post('/webhook', stripeWebHooks.paymentSuccess);
 
 module.exports = router;

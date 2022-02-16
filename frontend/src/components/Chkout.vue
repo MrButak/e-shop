@@ -90,7 +90,7 @@ export default {
                 elements,
                 confirmParams: {
                 // Make sure to change this to your payment completion page
-                return_url: 'http://localhost:8081/ordersuccess',
+                return_url: 'http://localhost:8080/ordersuccess',
                 },
             });
 
@@ -168,11 +168,7 @@ export default {
                 document.querySelector("#spinner").classList.add("hidden");
                 document.querySelector("#button-text").classList.remove("hidden");
             }
-        }
-
-
-
-        
+        } 
 
     },
     
