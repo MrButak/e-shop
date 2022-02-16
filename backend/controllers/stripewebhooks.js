@@ -1,11 +1,12 @@
 
-
+require('dotenv').config()
+const sk_test = process.env.STRIPE_SK;
 
 
 
 exports.paymentSuccess = (req, res, next) => {
 
-    const stripe = require('stripe')('sk_test_51KSQNbAaTEmIXM6wt6O7rs6rMT1LttdkEP6NQBUtdHSIrilfukpYC6ZDT1vJRzbP6vHoOwbliaEwMnSA7JwJKpsV00sDkfdvxx');
+    const stripe = require('stripe')(sk_test);
     const webhookSecret = 'whsec_37f7f1684ac20431a347f5e09e6200e5c430ae11fbb62165ee230a58794e6226';
    
     const sig = req.headers['stripe-signature'];

@@ -1,12 +1,13 @@
 const { default: Stripe } = require('stripe')
 const paymentManager = require('../public/javascripts/paymentManager')
 
-
+require('dotenv').config()
+const sk_test = process.env.STRIPE_SK;
 
 
 async function paymentIntent(req, res, next) {
     
-    const stripe = require("stripe")('sk_test_51KSQNbAaTEmIXM6wt6O7rs6rMT1LttdkEP6NQBUtdHSIrilfukpYC6ZDT1vJRzbP6vHoOwbliaEwMnSA7JwJKpsV00sDkfdvxx');
+    const stripe = require("stripe")(sk_test);
     
     // TODO: receive shopping cart object (req) and total ammount here
     // const calculateOrderAmount = (items) => {
