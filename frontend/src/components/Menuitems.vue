@@ -1,6 +1,7 @@
 <template>
-    <p>Menu Items</p>
+    <h2>Menu</h2>
     <div id="menuCardWrapperMain">
+        
         <div v-for="item in this.menuItems" id="menuCardWrapper" :data-item="item['id']">
             <text>{{ item['name'] }}</text>
             <text>{{ item['description'] }}</text>
@@ -89,7 +90,7 @@ export default defineComponent({
 
 </script>
 
-<style>
+<style scoped>
 #menuCardWrapperMain {
     display: flex;
     width: 90%;    
@@ -99,5 +100,6 @@ export default defineComponent({
     flex-direction: column;
     width: 40%;
     border: 1px solid black;
+    flex: 1 1 40%; /*grow | shrink | basis */
 }
 </style>

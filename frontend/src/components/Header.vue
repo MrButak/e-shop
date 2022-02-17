@@ -1,5 +1,6 @@
 <script>
-import MySVGComponent from '@/components/Svg.vue'
+import HamburgMenu from '@/components/svgs/Hamburgmenu.vue'
+import ShoppingCartIcon from '@/components/svgs/Shoppingcart.vue'
 import { defineComponent } from 'vue'
 import { globalState } from '../statestore/composition'
 
@@ -13,26 +14,42 @@ export default defineComponent({
     }
   },
   components: {
-    MySVGComponent
+    HamburgMenu,
+    ShoppingCartIcon
   },
 })
 </script>
+
+
 <template>
 
     <header class="menu">
         <div class="menu-wrap">
-            <img src="" class="logo-img" alt="Logo">
-            <img src="" class="mobile-logo-img" alt="Logo">
+           
+            
+            
             <input type="checkbox" id="checkbox">
+            <label class="hamburg-menu-icon" for="checkbox">
+                <HamburgMenu />
+            </label>
+           <!-- <img src="" class="mobile-logo-img" alt="Logo"> -->
+           <router-link style="text-decoration: none;" to="/"><h1>Smoothie Shop</h1></router-link>
             <nav>
                 <ul>
-                    <li><a href="/">Home</a></li>
-                    <li><a href="/about">About</a></li>
+                    <li><router-link to="/">Home</router-link></li>
+                    <li><router-link to="/about">About</router-link></li>
                 </ul>
             </nav>
-            <label  class="menu-icon" for="checkbox">
-                <MySVGComponent />
-            </label>
+            <router-link style="text-decoration: none;" to="/Shoppingcart">
+                <div class="shoppingCartWrapper">
+                    <span class = shopping-cart-icon>
+                        <ShoppingCartIcon />
+                    </span>
+                    <span class="countPill">({{ cartItemCnt }})</span>
+                </div>
+            </router-link>
+            <img src="" class="logo-img" alt="Logo">
+           
         </div>
     </header>
    
@@ -40,16 +57,37 @@ export default defineComponent({
 </template>
 
 <style scoped>
+.shoppingCartWrapper {
+
+    display: flex;
+    padding: 5px 18px 0 0;
+}
+
+.shopping-cart-icon {
+    
+}
+.countPill {
+    
+    
+    font-size: 19px;
+    color: #333;
+    font-weight: 400;
+    padding: 7px 0 0 0;
+    display: inline-block;
+}
+
+
+
 header {
     background-color: #feecea;
     padding: 10px 0;
-    box-shadow: 0 1px 0 rgb(0 0 0 / 10%);
+    
 }
 .menu-wrap {
     display: flex;
     justify-content: space-between;
-    padding: 0px 35px 0px 0;
-    height: 124px;
+    align-items: center;
+    
 }
 .logo-img {
     max-width: 100%;
@@ -59,15 +97,14 @@ header {
 .mobile-logo-img {
     max-width: 100%;
     height: auto;
-    display: block;
-    padding: 5px 10px;
+   
 }
-.menu-icon {
-    /* font-size: 2.4em; */
-    color: white;
-    line-height: 50px;
-    padding-top: 40px;
+.hamburg-menu-icon {
+
+    padding: 0 0 0 18px;
+    
 }
+
 nav {
     position: absolute;
     background-color: white;
@@ -120,7 +157,7 @@ nav ul li a:hover, nav ul li a:focus {
         height: auto;
         display: none;
     }
-    .menu-icon {
+    .hamburg-menu-icon {
         display: none;
     }
     nav {
