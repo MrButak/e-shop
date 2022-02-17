@@ -104,9 +104,7 @@ header {
    
 }
 .hamburg-menu-icon {
-
     padding: 0 0 0 18px;
-    
 }
 
 nav {
