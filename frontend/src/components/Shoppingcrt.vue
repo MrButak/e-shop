@@ -17,11 +17,11 @@
 
 // import axios from 'axios';
 import { defineComponent } from 'vue';
-import { cartItemCount } from '../statestore/composition';
+import { globalState } from '../statestore/composition';
 export default defineComponent({
 
     setup() {
-        const { cartItemCnt, menuItems, shoppingCart } = cartItemCount();
+        const { cartItemCnt, menuItems, shoppingCart } = globalState();
 
         return { // make it available in <template>
             cartItemCnt,

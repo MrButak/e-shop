@@ -1,13 +1,21 @@
 <template>
 
     <p>Everything look good?</p>
+
+    <div v-for="info in this.customerDetails.user">
+        <div>
+            <p>{{ info }}</p>
+            
+        </div>
+    </div>
+    
     <div v-for="item in this.shoppingCart">
         <div id="shoppingCartItems">
             <p>{{ item.name }}</p>
             <p>quantity: {{ item.buyQuantity }}</p>
             <p>total price :{{ item.price * item.buyQuantity }}</p>
         </div>
-    </div> 
+    </div>
     
     <router-link to="/checkout">Pay</router-link>
 </template>
@@ -16,28 +24,36 @@
 
 
 import { defineComponent } from 'vue';
-import { cartItemCount } from '../statestore/composition';
+import { globalState } from '../statestore/composition';
+
 export default defineComponent({
 
+    name: 'Usrvalidation',
+
     setup() {
-        const { cartItemCnt, menuItems, shoppingCart } = cartItemCount();
+        const { cartItemCnt, shoppingCart, customerDetails } = globalState();
 
         return { // make it available in <template>
+            
             cartItemCnt,
-            menuItems,
-            shoppingCart
+            shoppingCart,
+            customerDetails
         }
     },
 
     
     mounted() {
         
+        this.testy()
    
     },
 
     methods: {
 
-       
+       testy() {
+
+           console.log(this.customerDetails.user.add1Field)
+       }
     },
 
 })

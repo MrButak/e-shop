@@ -1,10 +1,10 @@
 <script>
 import { defineComponent } from 'vue'
-import { cartItemCount } from '../statestore/composition'
+import { globalState } from '../statestore/composition'
 
 export default defineComponent({
   setup() {
-    const { cartItemCnt } = cartItemCount();
+    const { cartItemCnt } = globalState();
     
     return { // make it available in <template>
       cartItemCnt,

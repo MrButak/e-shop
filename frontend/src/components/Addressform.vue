@@ -1,3 +1,5 @@
+
+
 <template>
     
     <form id="address-form" action="" method="get" autocomplete="off">
@@ -28,7 +30,7 @@
             <span class="form-label">Country/Region*</span>
             <input id="country" name="country" required="" data-com.bitwarden.browser.user-edited="yes">
         </label>
-        <button @click="validateAddress" type="button" class="my-button">Save address</button>
+        <button @click="validateAddress" type="submit" class="my-button">Save address</button>
 
         <!-- Reset button provided for development testing convenience.
     Not recommended for user-facing forms due to risk of mis-click when aiming for Submit button. -->
@@ -39,8 +41,24 @@
 </template>
 
 <script>
-export default {
+import { defineComponent } from 'vue';
+import { globalState } from '../statestore/composition';
+
+export default defineComponent ({
+
     name: 'Addressform',
+
+    setup() {
+
+        const { cartItemCnt, shoppingCart, customerDetails } = globalState();
+
+        return { // make it available in <template>
+            
+            cartItemCnt,
+            shoppingCart,
+            customerDetails
+        }
+    },
 
     data() {
 
@@ -77,7 +95,6 @@ export default {
             
             // console.log(process.env)
             // console.log(process.env.VUE_APP_GOOGLE_MAP_API)
-            
             
             this.address1Field = document.querySelector("#ship-address");
             this.address2Field = document.querySelector("#address2");
@@ -154,10 +171,12 @@ export default {
             this.address2Field.focus();
         },
 
-        async validateAddress() {
-            
+        async validateAddress(e) {
+
+            console.log(e)
+            e.preventDefault()
             const axios = require('axios');
-            let deliveryInfo;
+            let deliveryInfo = {};
 
             // make sure form fields contain data (for some reason required is not working on the html)
             try {
@@ -196,18 +215,26 @@ export default {
             
             .then((response) => {
                 
+                // if valid address
                 if(response.data) {
-                    console.log("salem address");
+
+                    // assign customer details to global state object
+                    this.customerDetails.user = deliveryInfo;
                     this.$router.push('Uservalidation');
+                }
+                // TODO: display error message and clear form
+                else {
+                    console.log("not salem, mo address");
+                    return;
                 };
-                console.log("not salem, mo address");
-                return;
+                
             });
             
         }
 
     }
-}
+});
+
 </script>
 
 <style scoped>
