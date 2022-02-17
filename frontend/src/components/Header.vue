@@ -21,16 +21,16 @@ export default defineComponent({
 
     <header class="menu">
         <div class="menu-wrap">
-            <img src="/img/stories-logo-300x300-white.png" class="logo-img" alt="Logo">
-            <img src="/img/stories-logo-200x200-white.png" class="mobile-logo-img" alt="Logo">
+            <img src="" class="logo-img" alt="Logo">
+            <img src="" class="mobile-logo-img" alt="Logo">
             <input type="checkbox" id="checkbox">
             <nav>
                 <ul>
                     <li><a href="/">Home</a></li>
-                    <li><a href="/logout">Logout</a></li>
+                    <li><a href="/about">About</a></li>
                 </ul>
             </nav>
-            <label for="checkbox">
+            <label  class="menu-icon" for="checkbox">
                 <MySVGComponent />
             </label>
         </div>
@@ -41,7 +41,7 @@ export default defineComponent({
 
 <style scoped>
 header {
-    background-color: black;
+    background-color: #feecea;
     padding: 10px 0;
     box-shadow: 0 1px 0 rgb(0 0 0 / 10%);
 }
@@ -144,7 +144,8 @@ nav ul li a:hover, nav ul li a:focus {
         border: none;
     }
     nav ul li a {
-        color: #F0F0E4;
+        color: rgba(0,0,0,0.8);
+        
     }
 }
 /*Desktop sizes*-----------------------------------------------------*/

@@ -14,8 +14,8 @@ export default {
 
 <style scoped>
 .my-svg-component {
-    width: 24px;
-    height: 24px;
-    color: white;
+    width: 34px;
+    height: 34px;
+    color: #ADCF3C;
 }
 </style>
