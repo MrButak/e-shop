@@ -10,7 +10,7 @@
         </div>
     </div> 
     
-    <router-link to="/checkout">Checkout</router-link>
+    <router-link to="/address">Checkout</router-link>
 </template>
 
 <script>
