@@ -110,7 +110,7 @@ header {
 nav {
     position: absolute;
     background-color: white;
-    top: 143px;
+    top: 68px;
     left:0;
     width: 100%; 
 }
