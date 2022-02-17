@@ -36,7 +36,7 @@ export default defineComponent({
             <nav>
                 <ul>
                     <li><router-link to="/">Menu</router-link></li>
-                    <li><router-link to="/shoppingcart">Shopping cart</router-link></li>
+                    <li class="shoppingCartLink"><router-link to="/shoppingcart">Shopping cart</router-link></li>
                     <li><router-link to="/about">About</router-link></li>
                 </ul>
             </nav>
@@ -48,7 +48,7 @@ export default defineComponent({
                     <span class="cartCount">({{ cartItemCnt }})</span>
                 </div>
             </router-link>
-            <img src="" class="logo-img" alt="Logo">
+           <!-- <img src="" class="logo-img" alt="Logo"> -->
            
         </div>
     </header>
@@ -146,52 +146,10 @@ nav ul li a:hover, nav ul li a:focus {
     border: 1px solid black;
     background-color: white;
 }
-/*Tablet sizes---------------------------------------------------------*/
-@media (min-width: 768px) {
 
-    /*Header start*/
-    .logo-img {
-        max-width: 100%;
-        height: auto;
-        display: block;
-        padding: 5px 10px;
-    }
-    .mobile-logo-img {
-        max-width: 100%;
-        height: auto;
-        display: none;
-    }
-    .hamburg-menu-icon {
-        display: none;
-    }
-    nav {
-        top: -10px;
-        background-color: transparent; 
-    }
-    nav ul {
-    max-height: 178px;
-    padding: 55px 25px 0 0;
-    
-    align-items: center;
-    text-align: right;
-    /* font-size: 26px; */
-    }
-    nav ul li {
-        display: inline-flex;
-        padding: 0px;  
-    }
-    #checkbox:checked ~ nav ul {
-        padding-top: 55px;
-        border: none;
-    }
-    nav ul li a {
-        color: rgba(0,0,0,0.8);
-        
-    }
-}
 /*Desktop sizes*-----------------------------------------------------*/
 
-@media (min-width: 1200px) { 
+@media (min-width: 1023px) { 
 
     /*Header start*/
     .logo-img {
@@ -204,7 +162,7 @@ nav ul li a:hover, nav ul li a:focus {
         height: auto;
         display: none;
     }
-    .menu-icon {
+    .hamburg-menu-icon, .shoppingCartLink {
         display: none;
     }
     nav {
@@ -212,12 +170,11 @@ nav ul li a:hover, nav ul li a:focus {
         background-color: transparent;
     }
     nav ul {
-        max-height: 178px;
-        padding: 55px 25px 0 0;;
-        padding-right: 75px;
-        align-items: center;
+        /* set max height to header height*/
+        max-height: 60px;
+        padding: 17px 94px 0 0;
         text-align: right;
-        /* font-size: 28px; */
+   
     }
     nav ul li {
         display: inline-flex;
