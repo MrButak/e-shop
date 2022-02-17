@@ -4,10 +4,13 @@
         
         <div v-for="item in this.menuItems" id="menuCardWrapper" :data-item="item['id']">
             <text>{{ item['name'] }}</text>
-            <text>{{ item['description'] }}</text>
+            <img :src="item['imageUrl']"/> 
+
+         <!--   <text>{{ item['description'] }}</text>
             <text>stock  {{ item['quantity'] }}</text>
             <text v-if="item['inStock'] === 1">available - in stock</text>
-            <text v-else>out of stock</text>
+            <text v-else>out of stock</text>  -->
+
             <text> price {{ item['price'] }}</text>
             <button @click="addToCart">Add to cart</button>
         </div>
@@ -15,6 +18,7 @@
     
 </template>
 <script>
+
 import axios from 'axios';
 import { defineComponent } from 'vue'
 import { globalState } from '../statestore/composition'
@@ -28,6 +32,14 @@ export default defineComponent({
             cartItemCnt,
             menuItems,
             shoppingCart
+        }
+    },
+
+    data() {
+
+        return {
+
+    
         }
     },
 
@@ -93,13 +105,18 @@ export default defineComponent({
 <style scoped>
 #menuCardWrapperMain {
     display: flex;
-    width: 90%;    
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 10px;
+    gap: 10px; 
 }
 #menuCardWrapper {
     display: flex;
     flex-direction: column;
-    width: 40%;
     border: 1px solid black;
     flex: 1 1 40%; /*grow | shrink | basis */
+    min-height: 100%
 }
 </style>

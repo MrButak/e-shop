@@ -13,6 +13,7 @@ export default defineComponent({
       
     }
   },
+  // svg icons
   components: {
     HamburgMenu,
     ShoppingCartIcon
@@ -26,8 +27,6 @@ export default defineComponent({
     <header class="menu">
         <div class="menu-wrap">
            
-            
-            
             <input type="checkbox" id="checkbox">
             <label class="hamburg-menu-icon" for="checkbox">
                 <HamburgMenu />
@@ -36,7 +35,8 @@ export default defineComponent({
            <router-link style="text-decoration: none;" to="/"><h1>Smoothie Shop</h1></router-link>
             <nav>
                 <ul>
-                    <li><router-link to="/">Home</router-link></li>
+                    <li><router-link to="/">Menu</router-link></li>
+                    <li><router-link to="/shoppingcart">Shopping cart</router-link></li>
                     <li><router-link to="/about">About</router-link></li>
                 </ul>
             </nav>
@@ -45,7 +45,7 @@ export default defineComponent({
                     <span class = shopping-cart-icon>
                         <ShoppingCartIcon />
                     </span>
-                    <span class="countPill">({{ cartItemCnt }})</span>
+                    <span class="cartCount">({{ cartItemCnt }})</span>
                 </div>
             </router-link>
             <img src="" class="logo-img" alt="Logo">
@@ -57,30 +57,12 @@ export default defineComponent({
 </template>
 
 <style scoped>
-.shoppingCartWrapper {
-
-    display: flex;
-    padding: 5px 18px 0 0;
-}
-
-.shopping-cart-icon {
-    
-}
-.countPill {
-    
-    
-    font-size: 19px;
-    color: #333;
-    font-weight: 400;
-    padding: 7px 0 0 0;
-    display: inline-block;
-}
-
 
 
 header {
     background-color: #feecea;
     padding: 10px 0;
+    
     
 }
 .menu-wrap {
@@ -89,6 +71,28 @@ header {
     align-items: center;
     
 }
+
+.shoppingCartWrapper {
+
+    display: flex;
+    padding: 5px 18px 0 0;
+ 
+}
+
+.shopping-cart-icon {
+    
+}
+.cartCount {
+    font-size: 19px;
+    color: #333;
+    font-weight: 400;
+    padding: 6px 0 0 1px;
+    /*padding: 0 0 0 0;
+    margin: -5px 0 0 13px;
+    display: inline-block;
+    position: absolute; */
+}
+
 .logo-img {
     max-width: 100%;
     height: auto;
