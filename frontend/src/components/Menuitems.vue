@@ -1,4 +1,5 @@
 <template>
+
     <h2 class="menuTitle">Menu</h2>
     <div id="menuCardWrapperMain">
         
@@ -13,29 +14,34 @@
             <h3 class="menuItemName">{{ item['name'] }}</h3>
             <text class="menuPrice"> price: ${{ item['price'] }}</text>
             <div class="menuItemBtnWrapper">
-                <button @click="addToCart">View Item</button>
+                <button @click="testy">View Item</button>
                 <button @click="addToCart">Add to cart</button>
             </div>
         </div>
     </div>
-    
+   <!-- <HelloWorld ref="helloWorld" /> -->
+   <Viewitem />
 </template>
 <script>
 
 import axios from 'axios';
-import { defineComponent } from 'vue'
-import { globalState } from '../statestore/composition'
-
+import { defineComponent } from 'vue';
+import { globalState } from '../statestore/composition';
+import Viewitem from '../components/Viewitem.vue';
 export default defineComponent({
 
     setup() {
-        const { cartItemCnt, menuItems, shoppingCart } = globalState();
+        const { cartItemCnt, menuItems, shoppingCart, currentItemView } = globalState();
 
         return { // make it available in <template>
             cartItemCnt,
             menuItems,
-            shoppingCart
+            shoppingCart,
+            currentItemView
         }
+    },
+    components: {
+        Viewitem
     },
 
     data() {
@@ -54,6 +60,13 @@ export default defineComponent({
 
     methods: {
 
+        testy(e) {
+
+            let menuItemNum = e.path[2].dataset.item;
+            this.currentItemView = this.menuItems[`item-${menuItemNum}`];
+            //console.log(this.menuItems[`item-${menuItemNum}`]);
+            console.log(this.currentItemView)
+        },
         // function queries database to get menu items and info (function is called on page load (mount()))
         async getMenuItems() {
 
@@ -84,13 +97,13 @@ export default defineComponent({
             // menu item clicked
             this.cartItemCnt++
             // if item already exists in shopping cart, increase order quantity
-            if(this.shoppingCart[`item-${event.path[1].dataset.item}`]) {
-                this.shoppingCart[`item-${event.path[1].dataset.item}`].buyQuantity++
+            if(this.shoppingCart[`item-${event.path[2].dataset.item}`]) {
+                this.shoppingCart[`item-${event.path[2].dataset.item}`].buyQuantity++
             }
             // else add item to shopping cart
             else {
-                this.shoppingCart[`item-${event.path[1].dataset.item}`] = this.menuItems[`item-${event.path[1].dataset.item}`];
-                this.shoppingCart[`item-${event.path[1].dataset.item}`].buyQuantity = 1;
+                this.shoppingCart[`item-${event.path[2].dataset.item}`] = this.menuItems[`item-${event.path[2].dataset.item}`];
+                this.shoppingCart[`item-${event.path[2].dataset.item}`].buyQuantity = 1;
             }
             
             console.log(this.shoppingCart)

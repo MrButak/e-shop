@@ -4,6 +4,7 @@ const cartItemCnt = ref(0);
 const menuItems = ref({});
 const shoppingCart = ref({});
 const customerDetails = ref({});
+const currentItemView = ref({});
 
 export const globalState = function() {
 
@@ -13,6 +14,7 @@ export const globalState = function() {
     cartItemCnt,
     menuItems,
     shoppingCart,
-    customerDetails
+    customerDetails,
+    currentItemView
   };
 };
