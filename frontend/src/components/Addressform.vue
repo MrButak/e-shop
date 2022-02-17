@@ -177,11 +177,8 @@ export default {
             catch {
                 return
             };
-            console.log(deliveryInfo.add1Field)
-            // let deliveryAddress = JSON.stringify({ deliveryInfo });
-            // let deliveryAddress = JSON.parse(deliveryInfo)
-            // console.log(deliveryAddress)
-
+            
+            // validate address is local (salem, mo, usa)
             let response = await axios({
                 method: 'post',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -194,13 +191,17 @@ export default {
                     postalCode: deliveryInfo.posField,
                     country: deliveryInfo.countryField
                 }
-                
-                
+                 
             })
             
             .then((response) => {
                 
-                console.log(response)
+                if(response.data) {
+                    console.log("salem address");
+                    this.$router.push('Uservalidation');
+                };
+                console.log("not salem, mo address");
+                return;
             });
             
         }

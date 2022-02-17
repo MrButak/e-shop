@@ -1,9 +1,9 @@
-const bodyParser = require("body-parser");
+const validationManager = require('../public/javascripts/validationManager');
 
 exports.validateDeliveryAddress = (req, res, next) => {
 
-    data = Object.keys(req.body)
+    let data = Object.keys(req.body)
     data = JSON.parse(data)
-    console.log(data)
-    // res.status(200).json(cities)
+    // validationManager.validateDeliveryAddress(data)
+    res.status(200).json(validationManager.validateDeliveryAddress(data))
 };
