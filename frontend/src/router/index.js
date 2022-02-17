@@ -3,6 +3,7 @@ import Home from '../views/Home.vue'
 import Checkout from '../views/Checkout.vue'
 import Ordersuccess from '../views/Ordersuccess.vue'
 import Address from '../views/Address'
+import Uservalidation from '../views/Uservalidation'
 const routes = [
   {
     path: '/',
@@ -39,6 +40,11 @@ const routes = [
     path: '/address',
     name: 'Address',
     component: Address
+  },
+  {
+    path: '/uservalidation',
+    name: 'Uservalidation',
+    component: Uservalidation
   }
 ]
 

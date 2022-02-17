@@ -5,6 +5,7 @@ var app = express();
 const index = require('../controllers/index');
 const payment = require('../controllers/payment');
 const stripeWebHooks = require('../controllers/stripewebhooks');
+const validateForms = require('../controllers/validateforms');
 
 // allow requests from vue front end
 const allowRequest = app.use(function(req, res, next) {
@@ -19,5 +20,7 @@ router.post('/create-payment-intent', allowRequest, payment.paymentIntent)
 
 
 router.post('/webhook', stripeWebHooks.paymentSuccess);
+
+router.post('/validatedeliveryaddress', allowRequest, validateForms.validateDeliveryAddress);
 
 module.exports = router;

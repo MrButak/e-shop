@@ -1,7 +1,9 @@
+
+
 <template>
     
     <form id="address-form" action="" method="get" autocomplete="off">
-        <p class="title">Sample address form for North America</p>
+        <p class="title">Where do we deliver to?</p>
         <p class="note"><em>* = required field</em></p>
         <label class="full-field">
             <!-- Avoid the word "address" in id, name, or label text to avoid browser autofill from conflicting with Place Autocomplete. Star or comment bug https://crbug.com/587466 to request Chromium to honor autocomplete="off" attribute. -->
@@ -28,19 +30,35 @@
             <span class="form-label">Country/Region*</span>
             <input id="country" name="country" required="" data-com.bitwarden.browser.user-edited="yes">
         </label>
-        <button type="button" class="my-button">Save address</button>
+        <button @click="validateAddress" type="submit" class="my-button">Save address</button>
 
         <!-- Reset button provided for development testing convenience.
     Not recommended for user-facing forms due to risk of mis-click when aiming for Submit button. -->
-        <input type="reset" value="Clear form">
+        <!--<input type="reset" value="Clear form">-->
         
     </form>
     
 </template>
 
 <script>
-export default {
+import { defineComponent } from 'vue';
+import { globalState } from '../statestore/composition';
+
+export default defineComponent ({
+
     name: 'Addressform',
+
+    setup() {
+
+        const { cartItemCnt, shoppingCart, customerDetails } = globalState();
+
+        return { // make it available in <template>
+            
+            cartItemCnt,
+            shoppingCart,
+            customerDetails
+        }
+    },
 
     data() {
 
@@ -48,7 +66,10 @@ export default {
             autocomplete: null,
             address1Field: null,
             address2Field: null,
-            postalField: null
+            postalField: null,
+            country: null,
+            state: null,
+            locality: null
         }
     },
     mounted() {
@@ -74,20 +95,19 @@ export default {
             
             // console.log(process.env)
             // console.log(process.env.VUE_APP_GOOGLE_MAP_API)
-            // var salem = new google.maps.LatLng(37.64877079015148, -91.54367384593301);
             
             this.address1Field = document.querySelector("#ship-address");
             this.address2Field = document.querySelector("#address2");
             this.postalField = document.querySelector("#postcode");
-            // Create the autocomplete object, restricting the search predictions to
-            // addresses in the US and Canada.
+            // Create the autocomplete object
             this.autocomplete = new google.maps.places.Autocomplete(this.address1Field, {
-                LatLngBounds: {radius: 20, center: {lat: 37.648770, lng: -91.5436738}},
+
+                // LatLngBounds: {radius: 20, center: {lat: 37.648770, lng: -91.5436738}},
                 componentRestrictions: { country: ["us"] },
                 fields: ["address_components", "geometry"],
-                types: ["address"],
-                
+                types: ["address"], 
             });
+
             this.address1Field.focus();
             // When the user selects an address from the drop-down, populate the
             // address fields in the form.
@@ -99,6 +119,9 @@ export default {
             const place = this.autocomplete.getPlace();
             let address1 = "";
             let postcode = "";
+            this.state = document.querySelector("#state");
+            this.country = document.querySelector("#country");
+            this.locality = document.querySelector("#locality");
 
             // Get each component of the address from the place details,
             // and then fill-in the corresponding field on the form.
@@ -128,14 +151,14 @@ export default {
                     break;
                 }
                 case "locality":
-                    document.querySelector("#locality").value = component.long_name;
+                    this.locality.value = component.long_name;
                     break;
                 case "administrative_area_level_1": {
-                    document.querySelector("#state").value = component.short_name;
+                    this.state.value = component.short_name;
                     break;
                 }
                 case "country":
-                    document.querySelector("#country").value = component.long_name;
+                    this.country.value = component.long_name;
                     break;
                 }
             }
@@ -146,10 +169,72 @@ export default {
             // prediction, set cursor focus on the second address line to encourage
             // entry of subpremise information such as apartment, unit, or floor number.
             this.address2Field.focus();
+        },
+
+        async validateAddress(e) {
+
+            console.log(e)
+            e.preventDefault()
+            const axios = require('axios');
+            let deliveryInfo = {};
+
+            // make sure form fields contain data (for some reason required is not working on the html)
+            try {
+
+                deliveryInfo = {
+
+                    add1Field: this.address1Field.value,
+                    add2Field: this.address2Field.value,
+                    posField: this.postalField.value,
+                    countryField: this.country.value,
+                    stateField: this.state.value,
+                    cityField: this.locality.value
+                };
+                
+            }
+
+            catch {
+                return
+            };
+            
+            // validate address is local (salem, mo, usa)
+            let response = await axios({
+                method: 'post',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                url: 'http://127.0.0.1:3000/validatedeliveryaddress',
+                data: {
+                    streetAddress: deliveryInfo.add1Field,
+                    addressDetails: deliveryInfo.add2Field,
+                    city: deliveryInfo.cityField,
+                    state: deliveryInfo.stateField,
+                    postalCode: deliveryInfo.posField,
+                    country: deliveryInfo.countryField
+                }
+                 
+            })
+            
+            .then((response) => {
+                
+                // if valid address
+                if(response.data) {
+
+                    // assign customer details to global state object
+                    this.customerDetails.user = deliveryInfo;
+                    this.$router.push('Uservalidation');
+                }
+                // TODO: display error message and clear form
+                else {
+                    console.log("not salem, mo address");
+                    return;
+                };
+                
+            });
+            
         }
 
     }
-}
+});
+
 </script>
 
 <style scoped>
