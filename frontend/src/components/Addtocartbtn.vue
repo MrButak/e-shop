@@ -7,7 +7,7 @@
         <button type="button" @click="decreaseItemQty">-</button>
     </div>
 </form>
-    <button>Add to cart</button>
+<button @click="addToCart">Add to cart</button>
 
 
 </template>
@@ -15,7 +15,7 @@
 
 import { defineComponent } from 'vue';
 import { globalState } from '../statestore/composition';
-
+import Menuitemscomponent from '../components/Menuitems';
 export default defineComponent({
 
     name: "Addtocartbtn",
@@ -29,6 +29,7 @@ export default defineComponent({
             currentItemView
         }
     },
+   
     
     data() {
 
@@ -69,6 +70,23 @@ export default defineComponent({
             };
             
             this.currentItemView['buyQtyInput']--;
+        },
+
+        addToCart() {
+            
+            // increase shopping cart items
+            this.cartItemCnt += this.currentItemView['buyQtyInput'];
+
+            // if item already exists in shopping cart, increase order quantity
+            if(this.shoppingCart[`item-${this.currentItemView['id']}`]) {
+                this.shoppingCart[`item-${this.currentItemView['id']}`].buyQuantity += this.currentItemView['buyQtyInput'];
+            }
+            // else add item to shopping cart
+            else {
+                this.shoppingCart[`item-${this.currentItemView['id']}`] = this.menuItems[`item-${this.currentItemView['id']}`];
+                this.shoppingCart[`item-${this.currentItemView['id']}`].buyQuantity = this.currentItemView['buyQtyInput'];
+            };
+            
         }
         
     },

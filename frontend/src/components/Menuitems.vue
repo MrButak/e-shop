@@ -46,6 +46,7 @@ import { globalState } from '../statestore/composition';
 import Addtocartbtn from '../components/Addtocartbtn';
 export default defineComponent({
 
+    name: "Menuitems",
     setup() {
         const { cartItemCnt, menuItems, shoppingCart, currentItemView } = globalState();
 
