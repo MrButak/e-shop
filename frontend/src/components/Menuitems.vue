@@ -1,3 +1,6 @@
+// ISSUE global state of menuItems is getting set everytime this view is loaded
+// this is conflicting with my current setup to keep track of items in stock
+
 <template>
 
     <h2 class="menuTitle">Menu</h2>
@@ -12,14 +15,19 @@
             <text v-if="item['inStock'] === 1">available - in stock</text>
             <text v-else>out of stock</text>  -->
             <h3 class="menuItemName">{{ item['name'] }}</h3>
-            <text class="menuPrice"> price: ${{ item['price'] }}</text>
+            <p class="menuPrice"> price: ${{ item['price'] }}</p>
+            <!-- show message if out of stock -->
 
+            <!-- TODO: add a class list to out of stock items which will dim the backgound color and make 'out of stock' more obvious -->
+            <p v-if="item['quantity'] < 1">Out of stock</p>
             <div class="menuItemBtnWrapper">
                 <!-- click function will set global view item (this.currentItemView) and trigger modal popup -->
                 <span @click="this.setViewItem">
                     <button @click="this.toggleModal" class="trigger">View Item</button>
                 </span>
-                <button @click="addToCart">Add to cart</button>
+
+                <!-- Have decided (for now) to remove the add to cart button from menu. Adding something to cart can be done in view item popup modal-->
+                <!-- <button @click="addToCart">Add to cart</button> -->
             </div>
         </div>
     </div>
@@ -32,6 +40,9 @@
                 <img :src="this.currentItemView['imageUrl']"/>
                 <h3 class="menuItemName">{{ this.currentItemView['name'] }}</h3>
                 <p>{{ this.currentItemView['description'] }}</p>
+                <!-- show message if out of stock -->
+                <p v-if="this.currentItemView['quantity'] > 0">in stock: {{ this.currentItemView['quantity'] }}</p>
+                <p v-else>Out of stock</p>
                 <Addtocartbtn ref="addToCartBtn" />
             </div>
         </div>
@@ -96,7 +107,6 @@ export default defineComponent({
             this.currentItemView = this.menuItems[`item-${menuItemNum}`];
             // set the text input for buy quantity
             this.currentItemView['buyQtyInput'] = 1;
-            console.log(this.currentItemView);
             
         },
 
@@ -120,6 +130,7 @@ export default defineComponent({
         // function queries database to get menu items and info (function is called on page load (mount()))
         async getMenuItems() {
 
+
             let response = await axios({
                 method: 'post',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -129,14 +140,26 @@ export default defineComponent({
             
             .then((response) => {
                 
-                // set global state of menuItems object
-                let tmpItemCnt = 1
-                response.data.forEach((item) => {
-                    this.menuItems[`item-${tmpItemCnt}`] = item;
-                    // add a buyQuantity property to the object
-                    this.menuItems[`item-${tmpItemCnt}`].buyQuantity = 0;
-                    tmpItemCnt++;
-                });
+                // console.log(this.menuItems['item-1']);
+
+                // if(!this.menuItmes) {
+                    // set global state of menuItems object if it hasn't already been set
+                    let tmpItemCnt = 1;
+
+                    response.data.forEach((item) => {
+                        this.menuItems[`item-${tmpItemCnt}`] = item;
+                        // add a buyQuantity property to the object
+                        this.menuItems[`item-${tmpItemCnt}`].buyQuantity = 0;
+                        tmpItemCnt++;
+                    });
+
+                    // console.log(this.menuItems)
+                // }
+                // else {
+                    
+                //     return;
+                // }
+                
             });
 
             
@@ -145,6 +168,8 @@ export default defineComponent({
 
         addToCart(event) {
             
+            //TODO: make a backend validation check on the input number
+
             // menu item clicked
             this.cartItemCnt++
             // if item already exists in shopping cart, increase order quantity
