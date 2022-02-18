@@ -13,21 +13,28 @@
             <text v-else>out of stock</text>  -->
             <h3 class="menuItemName">{{ item['name'] }}</h3>
             <text class="menuPrice"> price: ${{ item['price'] }}</text>
+
             <div class="menuItemBtnWrapper">
-                <button @click="testy">View Item</button>
+                <!-- will trigger modal popup -->
+                <button @click="this.toggleModal">View Item</button>
                 <button @click="addToCart">Add to cart</button>
             </div>
         </div>
     </div>
-   <!-- <HelloWorld ref="helloWorld" /> -->
-   <Viewitem />
+  <!--  <button @click="this.toggleModal" class="trigger">View Item</button> -->
+   <div class="modal">
+        <div class="modal-content">
+            <span @click="this.toggleModal" class="close-button">&times;</span>
+            <h1>This is where I'll put my info</h1>
+        </div>
+    </div>
 </template>
 <script>
 
 import axios from 'axios';
 import { defineComponent } from 'vue';
 import { globalState } from '../statestore/composition';
-import Viewitem from '../components/Viewitem.vue';
+
 export default defineComponent({
 
     setup() {
@@ -40,14 +47,14 @@ export default defineComponent({
             currentItemView
         }
     },
-    components: {
-        Viewitem
-    },
-
+    
     data() {
 
         return {
 
+            modal: document.querySelector(".modal"),
+            trigger: document.querySelector(".trigger"),
+            closeButton: document.querySelector(".close-button")
     
         }
     },
@@ -60,15 +67,28 @@ export default defineComponent({
 
     methods: {
 
+        toggleModal() {
+            this.modal.classList.toggle("show-modal");
+        },
+
+        windowOnClick(event) {
+            if (event.target === this.modal) {
+                this.toggleModal();
+            }
+        },
+
         testy(e) {
 
+            
             let menuItemNum = e.path[2].dataset.item;
             this.currentItemView = this.menuItems[`item-${menuItemNum}`];
-            //console.log(this.menuItems[`item-${menuItemNum}`]);
-            console.log(this.currentItemView)
+            
         },
+
         // function queries database to get menu items and info (function is called on page load (mount()))
         async getMenuItems() {
+
+            
 
             let response = await axios({
                 method: 'post',
@@ -88,7 +108,14 @@ export default defineComponent({
                     tmpItemCnt++;
                 });
             });
-            
+
+            this.modal = document.querySelector(".modal");
+            this.trigger = document.querySelector(".trigger");
+            this.closeButton = document.querySelector(".close-button");
+
+            this.trigger.addEventListener("click", toggleModal);
+            this.closeButton.addEventListener("click", toggleModal);
+            window.addEventListener("click", windowOnClick);
             return;
         },
 
@@ -153,6 +180,51 @@ export default defineComponent({
     justify-content: space-between;
     margin-top: auto;
     width: 100%;
+}
+
+.modal {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(1.1);
+    transition: visibility 0s linear 0.25s, opacity 0.25s 0s, transform 0.25s;
+}
+
+.modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: red;
+    padding: 1rem 1.5rem;
+    width: 24rem;
+    border-radius: 0.5rem;
+}
+
+.close-button {
+    float: right;
+    width: 1.5rem;
+    line-height: 1.5rem;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 0.25rem;
+    background-color: lightgray;
+}
+
+.close-button:hover {
+    background-color: darkgray;
+}
+
+.show-modal {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1.0);
+    transition: visibility 0s linear 0s, opacity 0.25s 0s, transform 0.25s;
 }
 /*Desktop sizes*-----------------------------------------------------*/
 
