@@ -1,6 +1,3 @@
-// ISSUE global state of menuItems is getting set everytime this view is loaded
-// this is conflicting with my current setup to keep track of items in stock
-
 <template>
 
     <h2 class="menuTitle">Menu</h2>
@@ -36,10 +33,11 @@
         
         <div class="modal-content">
             <div class="modalContentWrapper">
-                <span @click="this.toggleModal" class="close-button">&times;</span>
+               <!-- <span @click="this.toggleModal" class="close-button">&times;</span> -->
                 <img :src="this.currentItemView['imageUrl']"/>
                 <h3 class="menuItemName">{{ this.currentItemView['name'] }}</h3>
                 <p>{{ this.currentItemView['description'] }}</p>
+                <p>Price: ${{ this.currentItemView['price'] }}</p>
                 <!-- show message if out of stock -->
                 <p v-if="this.currentItemView['quantity'] > 0">in stock: {{ this.currentItemView['quantity'] }}</p>
                 <p v-else>Out of stock</p>
@@ -228,7 +226,7 @@ export default defineComponent({
 }
 .menuItemBtnWrapper {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     margin-top: auto;
     width: 100%;
 }
@@ -252,6 +250,7 @@ export default defineComponent({
     display: flex;
     flex-direction: column;
     width: 100%;
+    gap: 12px;
 
     
 }
@@ -262,7 +261,7 @@ export default defineComponent({
     transform: translate(-50%, -50%);
     background-color: white;
     padding: 1rem 1.5rem;
-    width: 90%;
+    max-width: 90%;
     border-radius: 0.5rem;
 }
 
@@ -288,14 +287,52 @@ export default defineComponent({
 }
 /*end view item popup modal*/
 
+
+@media (min-width: 723px) {
+
+
+    .modal-content {
+ /*   position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 1rem 1.5rem;
+    border-radius: 0.5rem; */
+    width: auto;
+    
+}
+}
+
+
 /*Desktop sizes*-----------------------------------------------------*/
 
 @media (min-width: 1023px) {
 
     #menuCardWrapper {
     
-    flex: 1 1 30%; /*grow | shrink | basis */
-}
+        flex: 1 1 30%; /*grow | shrink | basis */
+    }
+
+    .modalContentWrapper {
+
+    /*  display: flex;
+        flex-direction: row;
+        width: 100%; */
+
+    
+    }
+    .modal-content {
+   /*   position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: white;
+        padding: 1rem 1.5rem;
+        border-radius: 0.5rem; */
+        max-width: 35%;
+        
+    }
 
 }
 

@@ -12,6 +12,7 @@
 </form>
 
 <button @click="addToCart">Add to cart</button>
+<button @click="toggleModal">Continue shopping</button>
 
 </template>
 <script>
