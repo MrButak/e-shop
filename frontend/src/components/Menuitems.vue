@@ -88,30 +88,41 @@ export default defineComponent({
     // call database to set global menu item and display
     // set variables for the view item popup modal
     mounted() {
-        this.getMenuItems();
+        this.checkForMenuItems();
         this.setViewModal();
 
     },
 
     methods: {
 
+        checkForMenuItems() {
+
+            if(this.menuItems === 0) {
+
+                this.getMenuItems();
+                return;
+            };
+
+            return;
+        },
+
         toggleModal() {
 
             this.modal.classList.toggle("show-modal");
         },
+
         // function will set the global state currentItemView and make it available to the popup view item modal
         setViewItem(e) {
-
 
             let menuItemNum = e.path[3].dataset.item;
             this.currentItemView = this.menuItems[`item-${menuItemNum}`];
             // set the text input for buy quantity
             this.currentItemView['buyQtyInput'] = 1;
-            
         },
 
         // function will hide modal if area outside of modal is clicked
         windowOnClick(event) {
+
             if (event.target === this.modal) {
                 this.toggleModal();
             }
@@ -122,14 +133,14 @@ export default defineComponent({
             this.modal = document.querySelector(".modal");
             this.trigger = document.querySelector(".trigger");
             this.closeButton = document.querySelector(".close-button");
+
             // click outside of modal to hide
             window.addEventListener("click", this.windowOnClick);
             
         },
 
-        // function queries database to get menu items and info (function is called on page load (mount()))
+        // function queries database to get menu items if global state object this.menuItems hasn't been assigned yet
         async getMenuItems() {
-
 
             let response = await axios({
                 method: 'post',
@@ -140,26 +151,16 @@ export default defineComponent({
             
             .then((response) => {
                 
-                // console.log(this.menuItems['item-1']);
+                // set global state of menuItems object if it hasn't already been set
+                this.menuItems = {};
+                let tmpItemCnt = 1;
 
-                // if(!this.menuItmes) {
-                    // set global state of menuItems object if it hasn't already been set
-                    let tmpItemCnt = 1;
-
-                    response.data.forEach((item) => {
-                        this.menuItems[`item-${tmpItemCnt}`] = item;
-                        // add a buyQuantity property to the object
-                        this.menuItems[`item-${tmpItemCnt}`].buyQuantity = 0;
-                        tmpItemCnt++;
-                    });
-
-                    // console.log(this.menuItems)
-                // }
-                // else {
-                    
-                //     return;
-                // }
-                
+                response.data.forEach((item) => {
+                    this.menuItems[`item-${tmpItemCnt}`] = item;
+                    // add a buyQuantity property to the object
+                    this.menuItems[`item-${tmpItemCnt}`].buyQuantity = 0;
+                    tmpItemCnt++;
+                });
             });
 
             

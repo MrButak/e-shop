@@ -1,7 +1,7 @@
 import { ref } from 'vue';
 
 const cartItemCnt = ref(0);
-const menuItems = ref({});
+const menuItems = ref(0);
 const shoppingCart = ref({});
 const customerDetails = ref({});
 const currentItemView = ref({});
