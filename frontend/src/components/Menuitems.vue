@@ -180,8 +180,7 @@ export default defineComponent({
                 this.shoppingCart[`item-${event.path[2].dataset.item}`] = this.menuItems[`item-${event.path[2].dataset.item}`];
                 this.shoppingCart[`item-${event.path[2].dataset.item}`].buyQuantity = 1;
             }
-            
-            console.log(this.shoppingCart)
+   
             
             
         }
