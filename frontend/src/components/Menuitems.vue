@@ -15,18 +15,26 @@
             <text class="menuPrice"> price: ${{ item['price'] }}</text>
 
             <div class="menuItemBtnWrapper">
-                <!-- will trigger modal popup -->
-                <button @click="this.toggleModal">View Item</button>
+                <!-- click function will set global view item (this.currentItemView) and trigger modal popup -->
+                <span @click="this.setViewItem">
+                    <button @click="this.toggleModal" class="trigger">View Item</button>
+                </span>
                 <button @click="addToCart">Add to cart</button>
             </div>
         </div>
     </div>
-  <!--  <button @click="this.toggleModal" class="trigger">View Item</button> -->
-   <div class="modal">
+  
+    <div class="modal">
+        
         <div class="modal-content">
-            <span @click="this.toggleModal" class="close-button">&times;</span>
-            <h1>This is where I'll put my info</h1>
+            <div class="modalContentWrapper">
+                <span @click="this.toggleModal" class="close-button">&times;</span>
+                <img :src="this.currentItemView['imageUrl']"/>
+                <h3 class="menuItemName">{{ this.currentItemView['name'] }}</h3>
+                <p>{{ this.currentItemView['description'] }}</p>
+            </div>
         </div>
+        
     </div>
 </template>
 <script>
@@ -52,43 +60,57 @@ export default defineComponent({
 
         return {
 
-            modal: document.querySelector(".modal"),
-            trigger: document.querySelector(".trigger"),
-            closeButton: document.querySelector(".close-button")
+            modal: null,
+            trigger: null,
+            closeButton: null
     
         }
     },
 
-    // on load of home page, call this function to retreive menu items from database
+    // call database to set global menu item and display
+    // set variables for the view item popup modal
     mounted() {
         this.getMenuItems();
+        this.setViewModal();
 
     },
 
     methods: {
 
         toggleModal() {
+
             this.modal.classList.toggle("show-modal");
         },
+        // function will set the global state currentItemView and make it available to the popup view item modal
+        setViewItem(e) {
 
+
+            let menuItemNum = e.path[3].dataset.item;
+            this.currentItemView = this.menuItems[`item-${menuItemNum}`];
+
+            console.log(this.currentItemView);
+            
+        },
+
+        // function will hide modal if area outside of modal is clicked
         windowOnClick(event) {
             if (event.target === this.modal) {
                 this.toggleModal();
             }
         },
 
-        testy(e) {
+        setViewModal() {
 
-            
-            let menuItemNum = e.path[2].dataset.item;
-            this.currentItemView = this.menuItems[`item-${menuItemNum}`];
+            this.modal = document.querySelector(".modal");
+            this.trigger = document.querySelector(".trigger");
+            this.closeButton = document.querySelector(".close-button");
+            // click outside of modal to hide
+            window.addEventListener("click", this.windowOnClick);
             
         },
 
         // function queries database to get menu items and info (function is called on page load (mount()))
         async getMenuItems() {
-
-            
 
             let response = await axios({
                 method: 'post',
@@ -109,13 +131,7 @@ export default defineComponent({
                 });
             });
 
-            this.modal = document.querySelector(".modal");
-            this.trigger = document.querySelector(".trigger");
-            this.closeButton = document.querySelector(".close-button");
-
-            this.trigger.addEventListener("click", toggleModal);
-            this.closeButton.addEventListener("click", toggleModal);
-            window.addEventListener("click", windowOnClick);
+            
             return;
         },
 
@@ -147,6 +163,7 @@ export default defineComponent({
 
 <style scoped>
 
+/*start menu items display*/
 .menuTitle {
     text-align: center;
     font-weight: 800;
@@ -181,7 +198,9 @@ export default defineComponent({
     margin-top: auto;
     width: 100%;
 }
+/*end menu items*/
 
+/*start view item popup modal*/
 .modal {
     position: fixed;
     left: 0;
@@ -194,15 +213,19 @@ export default defineComponent({
     transform: scale(1.1);
     transition: visibility 0s linear 0.25s, opacity 0.25s 0s, transform 0.25s;
 }
+.modalContentWrapper {
 
+    width: 60%;
+}
 .modal-content {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: red;
+    background-color: white;
     padding: 1rem 1.5rem;
-    width: 24rem;
+    /*width: 24rem;*/
+    width: 90%;
     border-radius: 0.5rem;
 }
 
@@ -226,6 +249,8 @@ export default defineComponent({
     transform: scale(1.0);
     transition: visibility 0s linear 0s, opacity 0.25s 0s, transform 0.25s;
 }
+/*end view item popup modal*/
+
 /*Desktop sizes*-----------------------------------------------------*/
 
 @media (min-width: 1023px) {
