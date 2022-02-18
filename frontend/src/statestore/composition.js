@@ -8,6 +8,7 @@ const currentItemView = ref({});
 
 export const globalState = function() {
 
+  
   // other functions, for example to mutate message ref
   
   return {

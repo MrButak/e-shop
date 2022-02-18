@@ -32,6 +32,7 @@
                 <img :src="this.currentItemView['imageUrl']"/>
                 <h3 class="menuItemName">{{ this.currentItemView['name'] }}</h3>
                 <p>{{ this.currentItemView['description'] }}</p>
+                <Addtocartbtn ref="addToCartBtn" />
             </div>
         </div>
         
@@ -42,7 +43,7 @@
 import axios from 'axios';
 import { defineComponent } from 'vue';
 import { globalState } from '../statestore/composition';
-
+import Addtocartbtn from '../components/Addtocartbtn';
 export default defineComponent({
 
     setup() {
@@ -54,6 +55,11 @@ export default defineComponent({
             shoppingCart,
             currentItemView
         }
+    },
+
+    components: {
+
+        Addtocartbtn
     },
     
     data() {
@@ -87,7 +93,8 @@ export default defineComponent({
 
             let menuItemNum = e.path[3].dataset.item;
             this.currentItemView = this.menuItems[`item-${menuItemNum}`];
-
+            // set the text input for buy quantity
+            this.currentItemView['buyQtyInput'] = 1;
             console.log(this.currentItemView);
             
         },
@@ -215,7 +222,11 @@ export default defineComponent({
 }
 .modalContentWrapper {
 
-    width: 60%;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    
 }
 .modal-content {
     position: absolute;
@@ -224,7 +235,6 @@ export default defineComponent({
     transform: translate(-50%, -50%);
     background-color: white;
     padding: 1rem 1.5rem;
-    /*width: 24rem;*/
     width: 90%;
     border-radius: 0.5rem;
 }
@@ -261,4 +271,5 @@ export default defineComponent({
 }
 
 }
+
 </style>
