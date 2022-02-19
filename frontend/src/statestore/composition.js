@@ -1,6 +1,7 @@
 import { ref } from 'vue';
 
 const cartItemCnt = ref(0);
+const subTotal = ref(0);
 const menuItems = ref(0);
 const shoppingCart = ref({});
 const customerDetails = ref({});
@@ -13,6 +14,7 @@ export const globalState = function() {
   
   return {
     cartItemCnt,
+    subTotal,
     menuItems,
     shoppingCart,
     customerDetails,

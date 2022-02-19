@@ -14,6 +14,7 @@
 <button @click="addToCart">Add to cart</button>
 <button @click="toggleModal">Continue shopping</button>
 
+
 </template>
 <script>
 
@@ -131,4 +132,5 @@ export default defineComponent({
     text-align: center;
     width: 35px;
 }
+
 </style>

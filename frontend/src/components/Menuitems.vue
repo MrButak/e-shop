@@ -79,16 +79,15 @@ export default defineComponent({
             modal: null,
             trigger: null,
             closeButton: null
-    
         }
     },
 
     // call database to set global menu item and display
     // set variables for the view item popup modal
     mounted() {
+
         this.checkForMenuItems();
         this.setViewModal();
-
     },
 
     methods: {
@@ -97,6 +96,7 @@ export default defineComponent({
 
             if(this.menuItems === 0) {
 
+                // I initially set the global state of menuItems to 0
                 this.getMenuItems();
                 return;
             };
@@ -180,8 +180,7 @@ export default defineComponent({
                 this.shoppingCart[`item-${event.path[2].dataset.item}`] = this.menuItems[`item-${event.path[2].dataset.item}`];
                 this.shoppingCart[`item-${event.path[2].dataset.item}`].buyQuantity = 1;
             }
-            
-            console.log(this.shoppingCart)
+   
             
             
         }
