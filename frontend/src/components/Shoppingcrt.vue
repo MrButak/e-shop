@@ -10,22 +10,23 @@
             <p class="cartItemName">{{ item.name }}</p>
             <form action="">
                 <div class="qtyAdjustWrapper">
-                    <p>quantity: {{ item.buyQuantity }}</p>
+                    <p>order quantity: {{ item.buyQuantity }}</p>
+                    
                     <div class="buyQtyBtnWrapper">
                         <button type="button" @click="decreaseItemQty">-</button>
                         <input id="buyQtyTxtInput" :value="item['buyQuantity']" pattern="[0-9]*">
                         <button type="button" @click="increaseItemQty">+</button>
                     </div>
                 </div>
+            <p>left in stock: {{ item.quantity }}</p>
             <p>total price :{{ item.price * item.buyQuantity }}</p>
             </form>
         </div>
     </div>
     <div class="subTotal">
-
-        <p>Subtotal: ${{ subTotal }}</p>
-        
-
+        <div class="subTotalText">
+            <p>Subtotal: ${{ subTotal }}</p>
+        </div>
     </div>
 </div>    
     <router-link to="/address">Checkout</router-link>
@@ -66,9 +67,9 @@ export default defineComponent({
 
         calculateTotalCost() {
 
-            // TODO validate ammount, set a env(?) variable for ammount and validate again
+            // TODO validate ammount, set a .env(?) variable for ammount and validate again
             // right before payment
-            console.log(this.shoppingCart)
+            // console.log(this.shoppingCart)
             let ShoppingCartObj = this.shoppingCart
             
             // get subtotal
@@ -76,25 +77,32 @@ export default defineComponent({
             Object.keys(ShoppingCartObj).forEach(function (key){
                 subTotal += ShoppingCartObj[key]['price'] * ShoppingCartObj[key]['buyQuantity'];
        
-                console.log(subTotal)
+                // console.log(subTotal)
             });
             this.subTotal = subTotal;
-            console.log(subTotal)
+            // console.log(subTotal)
          
         },
 
         decreaseItemQty(event) {
 
-            // current item in shopping cart
-            let shoppingCrtObj = this.shoppingCart[`item-${event.path[4].dataset.item}`];
-            let shoppingCrtDataNum = event.path[4].dataset.item;
             
-            if(shoppingCrtObj.buyQuantity > 1) {
+            // current item in shopping cart
+            // let shoppingCrtObj = this.shoppingCart[`item-${event.path[5].dataset.item}`];
+            // let shoppingCrtDataNum = event.path[5].dataset.item
 
-                console.log(shoppingCrtObj.buyQuantity)
-                
-                this.shoppingCart[`item-${shoppingCrtDataNum}`].buyQuantity--;
+            let keyDataNum = event.path[5].dataset.item;
+            let curntShoppingCrtItem = this.shoppingCart[`item-${keyDataNum}`];
+            // let curntMenuItem = this.menuItems[`item-${keyDataNum}`];
+
+            if(curntShoppingCrtItem.buyQuantity > 1) {
+
+                // decrease item from shopping cart
+                this.shoppingCart[`item-${keyDataNum}`].buyQuantity--;
+                // increase item quantity
+                this.menuItems[`item-${keyDataNum}`].quantity++;
                 this.cartItemCnt--;
+                this.calculateTotalCost()
                 return;
             }
             else {
@@ -108,6 +116,43 @@ export default defineComponent({
             //     this.shoppingCart[`item-${event.path[2].dataset.item}`] = this.menuItems[`item-${event.path[2].dataset.item}`];
             //     this.shoppingCart[`item-${event.path[2].dataset.item}`].buyQuantity = 1;
             // };
+        },
+
+        increaseItemQty(event) {
+
+            // console.log
+            let keyDataNum = event.path[5].dataset.item;
+            let curntShoppingCrtItem = this.shoppingCart[`item-${keyDataNum}`];
+            
+            let curntMenuItem = this.menuItems[`item-${keyDataNum}`];
+            
+            // console.log("shopping cart")
+            // if(curntShoppingCrtItem.buyQuantity < curntMenuItem.quantity) {
+            if(curntMenuItem.quantity > 0) {
+
+                // console.log(menuObj);
+                
+
+                // decrease item quantity
+                this.menuItems[`item-${keyDataNum}`].quantity--;
+
+                // increase client buy quantity
+                this.shoppingCart[`item-${keyDataNum}`].buyQuantity++;
+                
+            
+                this.cartItemCnt++;
+
+                console.log(curntShoppingCrtItem.buyQuantity)
+                console.log(curntMenuItem.quantity)
+                this.calculateTotalCost()
+                return;
+            }
+            else {
+
+                console.log("out of stock")
+                return
+            }
+
         }
     },
 
@@ -140,7 +185,7 @@ export default defineComponent({
 .cartItem {
     
     width: 80%;
-    padding: 10px;
+    padding: 10px 0 10px;
     border-bottom: 1px solid #ccbdae;
 }
 .cartItemName {
@@ -165,12 +210,13 @@ export default defineComponent({
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: flex-start;
-    border-bottom: 1px solid #ccbdae;
+    align-items: center;
     width: 100%;
-    padding: 10px;
-    margin-left: 10%;
     
+}
+.subTotalText {
+    width: 80%;
+    padding-top: 10px;
 }
 
 </style>
