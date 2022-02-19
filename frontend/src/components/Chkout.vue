@@ -16,10 +16,28 @@
 
 <script>
 import axios from 'axios'
+import { defineComponent } from 'vue';
+import { globalState } from '../statestore/composition';
 
-
-export default {
+export default defineComponent ({
     name: 'Pay',
+
+    setup() {
+        const { customerDetails, cartItemCnt, menuItems, shoppingCart, subTotal } = globalState();
+
+        return { // make it available in <template>
+            cartItemCnt,
+            menuItems,
+            shoppingCart,
+            subTotal,
+            customerDetails
+        }
+    },
+
+    mounted() {
+
+        createPaymentIntent();
+    },
 
     data() {
         return {
@@ -33,15 +51,36 @@ export default {
 
     methods: {
 
+        // deliveryInfo = {
+
+        //             name: this.name.value,
+        //             email: this.email.value,
+        //             add1Field: this.address1Field.value,
+        //             add2Field: this.address2Field.value,
+        //             posField: this.postalField.value,
+        //             countryField: this.country.value,
+        //             stateField: this.state.value,
+        //             cityField: this.locality.value,
+        //             deliveryNote: this.deliveryNote.value
+        // }
+
+        
         // function requests backend to send payment information to stripe (called onMount())
         async createPaymentIntent() {
-            
+            console.log(this.customerDetails)
             let response = await axios({
                 method: 'post',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 url: 'http://127.0.0.1:3000/create-payment-intent',
                 // TODO: send shopping cart items along with the request
-                data: null
+                data: {
+                    streetAddress: deliveryInfo.add1Field,
+                    addressDetails: deliveryInfo.add2Field,
+                    city: deliveryInfo.cityField,
+                    state: deliveryInfo.stateField,
+                    postalCode: deliveryInfo.posField,
+                    country: deliveryInfo.countryField
+                }
             })
             
             .then((response) => {
@@ -178,7 +217,7 @@ export default {
         
     }
     
-}
+})
 </script>
 
 <style scoped>

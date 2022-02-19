@@ -209,7 +209,7 @@ export default defineComponent ({
                     countryField: this.country.value,
                     stateField: this.state.value,
                     cityField: this.locality.value,
-                   // deliveryNote: this.deliveryNote.value
+                    deliveryNote: this.deliveryNote.value
                 };
                 
             }

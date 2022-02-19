@@ -152,25 +152,7 @@ export default defineComponent({
 </script>
 
 <style scoped>
-/*
-.shoppingCartItems {
 
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-}
-.cartItem {
-    
-    width: 90%;
-    padding: 10px 0 10px;
-    border-bottom: 1px solid #ccbdae;
-}
-.cartItemName {
-    text-align: left;
-    font-weight: 600;
-} */
 .buyQtyBtnWrapper {
 
     display: flex;
@@ -185,21 +167,7 @@ export default defineComponent({
     text-align: center;
     width: 35px;
 }
-/*
-.subTotal {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    
-}
-.subTotalText {
-    width: 90%;
-    padding: 10px 0;
-    font-weight: 600;
-    border-bottom: 1px solid #ccbdae;
-} */
+
 
 
 

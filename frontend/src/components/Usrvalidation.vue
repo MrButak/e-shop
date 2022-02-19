@@ -1,6 +1,12 @@
 <template>
+    <div class="editCrtWrapper">
+        <p class="summarySubTitleText">Items ordered</p>
+        <a @click="this.$router.push('shoppingcart')"><p>edit cart</p></a>
+    </div>
+    
 
-    <p class="summarySubTitleText">Items ordered</p>
+
+
 
     <div class="orderSummaryWrapper">
         <div class="orderSummaryItems" v-for="item in this.shoppingCart">
@@ -10,10 +16,15 @@
                 <p>quantity: {{ item.buyQuantity }}</p>
                 <p>price: ${{ item.price * item.buyQuantity }}</p>
             </div>
-
         </div>
+        
     </div>
-    <p class="summarySubTitleText">Delivery address</p>
+    <div class="editCrtWrapper">
+        <p class="summarySubTitleText">Delivery address</p>
+        <!-- TODO: (maybe) send user to a seperate view for address form -->
+        <a @click="this.$router.push('shoppingcart')"><p>edit address</p></a>
+    </div>
+
     <div class="deliveryWrapperMain">
         <p>{{ this.customerDetails.user['name'] }}</p>
         <p>{{ this.customerDetails.user['email'] }}</p>
@@ -21,6 +32,7 @@
         <p v-if="this.customerDetails.user['add2Field']">{{ add2Field }}</p>
         <p>{{ this.customerDetails.user['cityField'] }}, {{ this.customerDetails.user['stateField'] }} {{ this.customerDetails.user['posField'] }}</p>
         <p>{{ this.customerDetails.user['countryField'] }}</p>
+        <p v-if="this.customerDetails.user['deliveryNote']">{{ this.deliveryNote }}</p>
         
     </div>
 
@@ -30,11 +42,10 @@
         </div>
     </div>
 
-    <router-link tag="button" class="payProcessBtn" to="/checkout">Pay</router-link>
+    <div class="payBtnWrapper">
+        <router-link tag="button" class="payProcessBtn" to="/checkout">Pay</router-link>
+    </div>
 
-    <!--    <div style="width: 90%;" class="deliverWrapper" v-for="customerInfo in this.customerDetails.user">
-            <p>{{ customerInfo }}</p>
-        </div> -->
 </template>
 
 <script>
@@ -84,8 +95,8 @@ export default defineComponent({
 .summarySubTitleText {
 
     font-weight: 600;
-    margin-left: 5%;
-    padding-top: 10px;
+   
+   
 
 }
 .orderSummaryWrapper {
@@ -125,7 +136,19 @@ export default defineComponent({
     width: 90%;
     padding: 10px 0;
     font-weight: 600;
+}
+.editCrtWrapper {
+    display: flex;
+    justify-content: space-between;
+    width: 90%;
+    margin: 0 0 0 5%;
     
-   
+    
+}
+
+.payBtnWrapper {
+    display:flex;
+    padding-top: 15px;
+    margin-left: 5%;
 }
 </style>
