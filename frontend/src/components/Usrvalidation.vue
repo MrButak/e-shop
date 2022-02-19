@@ -1,30 +1,3 @@
-<!--<div v-for="item in this.shoppingCart" class="shoppingCartItems" :data-item="item['id']">
-    
-     only show cart items with positive quantity -->
-   <!-- <div v-if="item['buyQuantity'] > 0" class="cartItem"> 
-        <p class="cartItemName">{{ item.name }}</p>
-        <form action="">
-            <div class="qtyAdjustWrapper">
-                <p>order quantity: {{ item.buyQuantity }}</p>
-                
-                <div class="buyQtyBtnWrapper">
-                    <button type="button" @click="decreaseItemQty">-</button>
-                    <input id="buyQtyTxtInput" :value="item['buyQuantity']" pattern="[0-9]*">
-                    <button type="button" @click="increaseItemQty">+</button>
-                </div>
-            </div>
-        <p>left in stock: {{ item.quantity }}</p>
-        <p>total price: ${{ item.price * item.buyQuantity }}</p>
-        </form>
-    </div>
-</div>
-
-<div class="subTotal">
-    <div class="subTotalText">
-        <p>Subtotal: ${{ subTotal }}</p>
-    </div>
-</div> -->
-
 <template>
 
     <p class="summarySubTitleText">Items ordered</p>
@@ -42,6 +15,8 @@
     </div>
     <p class="summarySubTitleText">Delivery address</p>
     <div class="deliveryWrapperMain">
+        <p>{{ this.customerDetails.user['name'] }}</p>
+        <p>{{ this.customerDetails.user['email'] }}</p>
         <p>{{ this.customerDetails.user['add1Field'] }}</p>
         <p v-if="this.customerDetails.user['add2Field']">{{ add2Field }}</p>
         <p>{{ this.customerDetails.user['cityField'] }}, {{ this.customerDetails.user['stateField'] }} {{ this.customerDetails.user['posField'] }}</p>

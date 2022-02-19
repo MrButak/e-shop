@@ -2,11 +2,19 @@
 
 <template>
     
-    <form id="address-form" action="" method="" autocomplete="off">
+    <form id="address-form" action="" method="" autocomplete="on"> <!-- may have to toggleback on -->
         <p class="AddressFormTitle">Delivery Address</p>
         <p class="note"><em>* = required field</em></p>
+        <!-- Avoid the word "address" in id, name, or label text to avoid browser autofill from conflicting with Place Autocomplete. Star or comment bug https://crbug.com/587466 to request Chromium to honor autocomplete="off" attribute. -->
         <label class="full-field">
-            <!-- Avoid the word "address" in id, name, or label text to avoid browser autofill from conflicting with Place Autocomplete. Star or comment bug https://crbug.com/587466 to request Chromium to honor autocomplete="off" attribute. -->
+            <span class="form-label">Name for order*</span>
+            <input id="name" required="true" autocomplete="on" placeholder="Name" data-com.bitwarden.browser.user-edited="yes">
+        </label>
+        <label class="full-field">
+            <span class="form-label">Email*</span><span class="note">required for receipt</span>
+            <input type="email" id="email" required="" autocomplete="on" placeholder="Email" data-com.bitwarden.browser.user-edited="yes">
+        </label>
+        <label class="full-field">
             <span class="form-label">Deliver to*</span>
             <input id="ship-address" name="ship-address" required="" autocomplete="off" class="pac-target-input" placeholder="Enter a location" data-com.bitwarden.browser.user-edited="yes">
         </label>
@@ -30,14 +38,15 @@
             <span class="form-label">Country/Region*</span>
             <input id="country" name="country" required="" data-com.bitwarden.browser.user-edited="yes">
         </label>
+        <label class="full-field">
+            <span class="form-label">Additional notes</span>
+            <input id="deliveryNote" autocomplete="off" placeholder="additional notes" data-com.bitwarden.browser.user-edited="yes">
+        </label>
         <button @click="validateAddress" type="submit" class="my-button">Checkout</button>
-
         <!-- Reset button provided for development testing convenience.
     Not recommended for user-facing forms due to risk of mis-click when aiming for Submit button. -->
         <!--<input type="reset" value="Clear form">-->
-        
     </form>
-    
 </template>
 
 <script>
@@ -64,12 +73,15 @@ export default defineComponent ({
 
         return {
             autocomplete: null,
+            name: null,
+            email: null,
             address1Field: null,
             address2Field: null,
             postalField: null,
             country: null,
             state: null,
-            locality: null
+            locality: null,
+            deliveryNote: null
         }
     },
     mounted() {
@@ -96,9 +108,15 @@ export default defineComponent ({
             // console.log(process.env)
             // console.log(process.env.VUE_APP_GOOGLE_MAP_API)
             
-            this.address1Field = document.querySelector("#ship-address");
-            this.address2Field = document.querySelector("#address2");
-            this.postalField = document.querySelector("#postcode");
+            this.address1Field = document.querySelector('#ship-address');
+            this.address2Field = document.querySelector('#address2');
+            this.postalField = document.querySelector('#postcode');
+            this.state = document.querySelector("#state");
+            this.country = document.querySelector("#country");
+            this.locality = document.querySelector("#locality");
+            this.name = document.querySelector('#name');
+            this.email = document.querySelector('#email');
+            this.deliveryNote = document.querySelector('#deliveryNote');
             // Create the autocomplete object
             this.autocomplete = new google.maps.places.Autocomplete(this.address1Field, {
 
@@ -119,9 +137,9 @@ export default defineComponent ({
             const place = this.autocomplete.getPlace();
             let address1 = "";
             let postcode = "";
-            this.state = document.querySelector("#state");
-            this.country = document.querySelector("#country");
-            this.locality = document.querySelector("#locality");
+            // this.state = document.querySelector("#state");
+            // this.country = document.querySelector("#country");
+            // this.locality = document.querySelector("#locality");
 
             // Get each component of the address from the place details,
             // and then fill-in the corresponding field on the form.
@@ -131,35 +149,35 @@ export default defineComponent ({
                 const componentType = component.types[0];
 
                 switch (componentType) {
-                case "street_number": {
-                    address1 = `${component.long_name} ${address1}`;
-                    break;
-                }
+                    case "street_number": {
+                        address1 = `${component.long_name} ${address1}`;
+                        break;
+                    }
 
-                case "route": {
-                    address1 += component.short_name;
-                    break;
-                }
+                    case "route": {
+                        address1 += component.short_name;
+                        break;
+                    }
 
-                case "postal_code": {
-                    postcode = `${component.long_name}${postcode}`;
-                    break;
-                }
+                    case "postal_code": {
+                        postcode = `${component.long_name}${postcode}`;
+                        break;
+                    }
 
-                case "postal_code_suffix": {
-                    postcode = `${postcode}-${component.long_name}`;
-                    break;
-                }
-                case "locality":
-                    this.locality.value = component.long_name;
-                    break;
-                case "administrative_area_level_1": {
-                    this.state.value = component.short_name;
-                    break;
-                }
-                case "country":
-                    this.country.value = component.long_name;
-                    break;
+                    case "postal_code_suffix": {
+                        postcode = `${postcode}-${component.long_name}`;
+                        break;
+                    }
+                    case "locality":
+                        this.locality.value = component.long_name;
+                        break;
+                    case "administrative_area_level_1": {
+                        this.state.value = component.short_name;
+                        break;
+                    }
+                    case "country":
+                        this.country.value = component.long_name;
+                        break;
                 }
             }
 
@@ -173,7 +191,7 @@ export default defineComponent ({
 
         async validateAddress(event) {
 
-            console.log(event)
+            
             event.preventDefault()
             const axios = require('axios');
             let deliveryInfo = {};
@@ -183,18 +201,23 @@ export default defineComponent ({
 
                 deliveryInfo = {
 
+                    name: this.name.value,
+                    email: this.email.value,
                     add1Field: this.address1Field.value,
                     add2Field: this.address2Field.value,
                     posField: this.postalField.value,
                     countryField: this.country.value,
                     stateField: this.state.value,
-                    cityField: this.locality.value
+                    cityField: this.locality.value,
+                   // deliveryNote: this.deliveryNote.value
                 };
                 
             }
 
             catch {
+                console.log("am i here?")
                 return
+                
             };
             
             // validate address is local (salem, mo, usa)
