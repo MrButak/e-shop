@@ -3,7 +3,7 @@
 <template>
     
     <form id="address-form" action="" method="" autocomplete="off">
-        <p class="title">Delivery Address</p>
+        <p class="AddressFormTitle">Delivery Address</p>
         <p class="note"><em>* = required field</em></p>
         <label class="full-field">
             <!-- Avoid the word "address" in id, name, or label text to avoid browser autofill from conflicting with Place Autocomplete. Star or comment bug https://crbug.com/587466 to request Chromium to honor autocomplete="off" attribute. -->
@@ -246,11 +246,12 @@ export default defineComponent ({
     max-width: 400px;
     padding: 60px 20px 20px 20px;
 }
-.title {
+.AddressFormTitle {
 
-    text-align: center;
+    text-align: left;
     font-weight: 800;
     width: 100%;
+    
 }
 .note {
 

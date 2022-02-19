@@ -18,8 +18,6 @@
     <div v-else>
         <p>No Items in shopping cart</p>
     </div>
-    
-
 
     <Footer />
  
@@ -61,7 +59,8 @@ export default {
 
         return {
 
-            addressFormWrapper: null
+            addressFormWrapper: null,
+            payProcessBtn: null
         }
     },
 
@@ -75,12 +74,13 @@ export default {
         initDom() {
 
             this.addressFormWrapper = document.querySelector('.addressFormWrapper');
+            this.payProcessBtn = document.querySelector('.payProcessBtn');
         },
 
         toggleAddressForm() {
 
             this.addressFormWrapper.classList.toggle("show");
-            // this.addressFormShowBtn.classList.toggle("hide");
+            this.payProcessBtn.classList.toggle("hide");
         }
         
     }
@@ -100,14 +100,6 @@ export default {
     width: 100%;
     margin-left: 5%;
 }
-/*.checkoutBtn {
-
-    background-color: #1980b6;
-    border-radius: 6px;
-    color: #fff;
-    padding: 6px 24px;
-    text-decoration: none;
-}*/
 .addressFormWrapper {
 
     display: none;
