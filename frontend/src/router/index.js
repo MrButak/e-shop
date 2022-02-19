@@ -2,7 +2,6 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import Checkout from '../views/Checkout.vue'
 import Ordersuccess from '../views/Ordersuccess.vue'
-import Address from '../views/Address'
 import Uservalidation from '../views/Uservalidation'
 const routes = [
   {
@@ -19,7 +18,7 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
   },
   {
-    path: '/Shoppingcart',
+    path: '/shoppingcart',
     name: 'Shoppingcart',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
@@ -35,11 +34,6 @@ const routes = [
     path: '/ordersuccess',
     name: 'Ordersuccess',
     component: Ordersuccess
-  },
-  {
-    path: '/address',
-    name: 'Address',
-    component: Address
   },
   {
     path: '/uservalidation',

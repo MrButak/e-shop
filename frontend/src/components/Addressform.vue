@@ -2,7 +2,7 @@
 
 <template>
     
-    <form id="address-form" action="" method="get" autocomplete="off">
+    <form id="address-form" action="" method="" autocomplete="off">
         <p class="title">Delivery Address</p>
         <p class="note"><em>* = required field</em></p>
         <label class="full-field">
@@ -30,7 +30,7 @@
             <span class="form-label">Country/Region*</span>
             <input id="country" name="country" required="" data-com.bitwarden.browser.user-edited="yes">
         </label>
-        <button @click="validateAddress" type="submit" class="my-button">Save address</button>
+        <button @click="validateAddress" type="submit" class="my-button">Checkout</button>
 
         <!-- Reset button provided for development testing convenience.
     Not recommended for user-facing forms due to risk of mis-click when aiming for Submit button. -->
@@ -171,10 +171,10 @@ export default defineComponent ({
             this.address2Field.focus();
         },
 
-        async validateAddress(e) {
+        async validateAddress(event) {
 
-            console.log(e)
-            e.preventDefault()
+            console.log(event)
+            event.preventDefault()
             const axios = require('axios');
             let deliveryInfo = {};
 
@@ -290,7 +290,7 @@ input {
     margin: 15px 0px 15px 15px;
 }
 .my-button {
-    background-color: #000;
+    background-color: #1980b6;
     border-radius: 6px;
     color: #fff;
     padding: 6px 24px;

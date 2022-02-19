@@ -1,43 +1,33 @@
 // this component works together with and imports Addressform.vue component
 <template>
 
-<div class="shoppingCartDisplayWrapper">
-    <h2 class="shoppingCartTitle">Shopping Cart</h2>
-    <div v-for="item in this.shoppingCart" class="shoppingCartItems" :data-item="item['id']">
-        
-        <!-- only show cart items with positive quantity -->
-        <div v-if="item['buyQuantity'] > 0" class="cartItem"> 
-            <p class="cartItemName">{{ item.name }}</p>
-            <form action="">
-                <div class="qtyAdjustWrapper">
-                    <p>order quantity: {{ item.buyQuantity }}</p>
-                    
-                    <div class="buyQtyBtnWrapper">
-                        <button type="button" @click="decreaseItemQty">-</button>
-                        <input id="buyQtyTxtInput" :value="item['buyQuantity']" pattern="[0-9]*">
-                        <button type="button" @click="increaseItemQty">+</button>
-                    </div>
+<div v-for="item in this.shoppingCart" class="shoppingCartItems" :data-item="item['id']">
+    
+    <!-- only show cart items with positive quantity -->
+    <div v-if="item['buyQuantity'] > 0" class="cartItem"> 
+        <p class="cartItemName">{{ item.name }}</p>
+        <form action="">
+            <div class="qtyAdjustWrapper">
+                <p>order quantity: {{ item.buyQuantity }}</p>
+                
+                <div class="buyQtyBtnWrapper">
+                    <button type="button" @click="decreaseItemQty">-</button>
+                    <input id="buyQtyTxtInput" :value="item['buyQuantity']" pattern="[0-9]*">
+                    <button type="button" @click="increaseItemQty">+</button>
                 </div>
-            <p>left in stock: {{ item.quantity }}</p>
-            <p>total price: ${{ item.price * item.buyQuantity }}</p>
-            </form>
-        </div>
-    </div>
-    <div class="subTotal">
-        <div class="subTotalText">
-            <p>Subtotal: ${{ subTotal }}</p>
-        </div>
+            </div>
+        <p>left in stock: {{ item.quantity }}</p>
+        <p>total price: ${{ item.price * item.buyQuantity }}</p>
+        </form>
     </div>
 </div>
 
-
-<button class="addressFormShowBtn" @click="toggleAddressForm()">Delivery address</button>
-
-<div class="addressFormWrapperMain">    
-    <Addressform ref="addressForm" />
+<div class="subTotal">
+    <div class="subTotalText">
+        <p>Subtotal: ${{ subTotal }}</p>
+    </div>
 </div>
 
-<!-- <router-link to="/address">Checkout</router-link> -->
 </template>
 
 <script>
@@ -45,58 +35,40 @@
 // import axios from 'axios';
 import { defineComponent } from 'vue';
 import { globalState } from '../statestore/composition';
-import Addressform from '../components/Addressform';
 
 export default defineComponent({
 
     setup() {
-        const { cartItemCnt, menuItems, shoppingCart } = globalState();
+        const { cartItemCnt, menuItems, shoppingCart, subTotal } = globalState();
 
         return { // make it available in <template>
             cartItemCnt,
             menuItems,
-            shoppingCart
+            shoppingCart,
+            subTotal
         }
     },
 
     components: {
 
-        Addressform
     },
     
-
     data() {
 
         return{
 
-            subTotal: 0,
-            addressFormShowBtn: null,
-            addressFormWrapperMain: null
+            
         }
     },
 
     mounted() {
+        
         this.calculateTotalCost();
-        this.initDom();
     },
 
     methods: {
 
-        initDom() {
-
-            this.addressFormShowBtn = document.querySelector('.addressFormShowBtn');
-            this.addressFormWrapperMain = document.querySelector('.addressFormWrapperMain');
-        },
-
-        toggleAddressForm() {
-
-            console.log(this.addressFormWrapperMain);
-            console.log(this.addressFormShowBtn);
-            this.addressFormWrapperMain.classList.toggle("show");
-            this.addressFormShowBtn.classList.toggle("hide");
-        },
-
-       
+        
         calculateTotalCost() {
 
             // TODO validate ammount, set a .env(?) variable for ammount and validate again
@@ -180,23 +152,13 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.shoppingCartTitle {
-
-    text-align: center;
-    font-weight: 800;
-
-}
-.shoppingCartDisplayWrapper {
-
-   /* display: flex;*/
-    flex-direction: column;
-    gap: 11px;
-}
-
+/*
 .shoppingCartItems {
 
     display: flex;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
     width: 100%;
 }
 .cartItem {
@@ -208,7 +170,7 @@ export default defineComponent({
 .cartItemName {
     text-align: left;
     font-weight: 600;
-}
+} */
 .buyQtyBtnWrapper {
 
     display: flex;
@@ -223,6 +185,7 @@ export default defineComponent({
     text-align: center;
     width: 35px;
 }
+/*
 .subTotal {
     display: flex;
     flex-direction: column;
@@ -236,28 +199,8 @@ export default defineComponent({
     padding: 10px 0;
     font-weight: 600;
     border-bottom: 1px solid #ccbdae;
-}
-.addressFormShowBtn {
-    display: flex;
-}
-.addressFormWrapperMain {
-    display: none;
-    align-items: center;
-    justify-content: center;
-}
-.show {
-
-    display: flex;
-}
-
-.hide {
-
-    display: none;
-}
-/*.addressFormShowBtn {
-    display: flex;
-}*/
-/* .addressFormWrapper {
-    
 } */
+
+
+
 </style>
