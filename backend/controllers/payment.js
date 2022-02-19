@@ -7,6 +7,11 @@ const sk_test = process.env.STRIPE_SK;
 
 async function paymentIntent(req, res, next) {
     
+    
+    let data = Object.keys(req.body)
+    data = JSON.parse(data)
+    
+
     const stripe = require("stripe")(sk_test);
     
     // TODO: receive shopping cart object (req) and total ammount here
@@ -21,15 +26,16 @@ async function paymentIntent(req, res, next) {
 
     // Create a PaymentIntent with the order amount and currency
     const paymentIntent = await stripe.paymentIntents.create({
-        amount: 23 * 1000,// calculateOrderAmount(items),
+        amount: data.subTotal * 100,// calculateOrderAmount(items),
         currency: "usd",
-        receipt_email: 'mspence5555@gmail.com'
-        // automatic_payment_methods: {
-        // enabled: true,
-        // },
+        receipt_email: data.email,
+        description: "Smoothie order",
+        automatic_payment_methods: {
+        enabled: true,
+        },
     });
-    console.log(paymentIntent)
-    console.log("payment intent")
+    // console.log(paymentIntent)
+    // console.log("payment intent")
     res.send({
         clientSecret: paymentIntent.client_secret,
     });

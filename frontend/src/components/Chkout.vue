@@ -51,40 +51,53 @@ export default defineComponent ({
 
     methods: {
 
-        // deliveryInfo = {
-
-        //             name: this.name.value,
-        //             email: this.email.value,
-        //             add1Field: this.address1Field.value,
-        //             add2Field: this.address2Field.value,
-        //             posField: this.postalField.value,
-        //             countryField: this.country.value,
-        //             stateField: this.state.value,
-        //             cityField: this.locality.value,
-        //             deliveryNote: this.deliveryNote.value
-        // }
+        
 
         
         // function requests backend to send payment information to stripe (called onMount())
+
         async createPaymentIntent() {
-            console.log(this.customerDetails)
+
+            // should I pass the global object properties as I am now, or assign them to paymentInfo
+            // before I send the info to the backend
+         
+            // TODO: also add item names from this.shoppingCart for a more detailed receipt          
+
+            // let paymentInfo = {
+            //     name: this.customerDetails.user.name,
+            //     email: this.customerDetails.user.email,
+            //     add1Field: this.customerDetails.user.add1Field,
+            //     add2Field: this.customerDetails.user.add2Field,
+            //     posField: this.customerDetails.user.posField,
+            //     countryField: this.customerDetails.user.countryField,
+            //     stateField: this.customerDetails.user.stateField,
+            //     cityField: this.customerDetails.user.cityField,
+            //     deliveryNote: this.customerDetails.user.deliveryNote,
+            //     subTotal: this.subTotal
+            // }
             let response = await axios({
+
                 method: 'post',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 url: 'http://127.0.0.1:3000/create-payment-intent',
-                // TODO: send shopping cart items along with the request
                 data: {
-                    streetAddress: deliveryInfo.add1Field,
-                    addressDetails: deliveryInfo.add2Field,
-                    city: deliveryInfo.cityField,
-                    state: deliveryInfo.stateField,
-                    postalCode: deliveryInfo.posField,
-                    country: deliveryInfo.countryField
+                    name: this.customerDetails.user.name,
+                    email: this.customerDetails.user.email,
+                    add1Field: this.customerDetails.user.add1Field,
+                    add2Field: this.customerDetails.user.add2Field,
+                    posField: this.customerDetails.user.posField,
+                    countryField: this.customerDetails.user.countryField,
+                    stateField: this.customerDetails.user.stateField,
+                    cityField: this.customerDetails.user.cityField,
+                    deliveryNote: this.customerDetails.user.deliveryNote,
+                    subTotal: this.subTotal
                 }
+           
             })
-            
+            // change .then I am using async
             .then((response) => {
                 
+                console.log(response)
                 this.client_secret = response.data.clientSecret
                 // directly after I receive the client_secret as a response I can render the stripe form with it
                 this.renderStripeForm(this.client_secret)
@@ -113,10 +126,10 @@ export default defineComponent ({
                 paymentElement.mount('#payment-element');
         },
 
-        async handleSubmit(e) {
+        async handleSubmit(event) {
 
             
-            e.preventDefault();
+            event.preventDefault();
 
             // turn loading spinner on
             this.setLoading(true);
@@ -222,9 +235,6 @@ export default defineComponent ({
 
 <style scoped>
 
-* {
-  box-sizing: border-box;
-}
 
 body {
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;

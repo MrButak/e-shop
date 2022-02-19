@@ -73,16 +73,12 @@ export default defineComponent({
     
     mounted() {
         
-        this.testy();
+  
     },
 
     methods: {
 
-       testy() {
 
-           console.log(this.customerDetails)
-           
-       }
     },
 
 })
