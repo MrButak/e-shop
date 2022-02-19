@@ -79,16 +79,15 @@ export default defineComponent({
             modal: null,
             trigger: null,
             closeButton: null
-    
         }
     },
 
     // call database to set global menu item and display
     // set variables for the view item popup modal
     mounted() {
+
         this.checkForMenuItems();
         this.setViewModal();
-
     },
 
     methods: {

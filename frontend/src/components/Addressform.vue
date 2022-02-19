@@ -3,7 +3,7 @@
 <template>
     
     <form id="address-form" action="" method="get" autocomplete="off">
-        <p class="title">Where do we deliver to?</p>
+        <p class="title">Delivery Address</p>
         <p class="note"><em>* = required field</em></p>
         <label class="full-field">
             <!-- Avoid the word "address" in id, name, or label text to avoid browser autofill from conflicting with Place Autocomplete. Star or comment bug https://crbug.com/587466 to request Chromium to honor autocomplete="off" attribute. -->
@@ -244,19 +244,19 @@ export default defineComponent ({
     flex-wrap: wrap;
     align-items: center;
     max-width: 400px;
-    padding: 20px;
+    padding: 60px 20px 20px 20px;
 }
 .title {
 
+    text-align: center;
+    font-weight: 800;
     width: 100%;
-    margin-block-end: 0;
-    font-weight: 500;
 }
 .note {
 
     width: 100%;
     margin-block-start: 0;
-    font-size: 12px;
+    font-size: 8px;
 }
 .full-field {
 
@@ -273,13 +273,13 @@ export default defineComponent ({
 }
 input {
     width: 100%;
-    height: 1.2rem;
+    height: 2.0rem;
     margin-top: 0;
     padding: 0.5em;
     border: 0;
-    border-bottom: 2px solid gray;
-    font-family: "Roboto", sans-serif;
-    font-size: 18px;
+    border-bottom: 1px solid #ccbdae;
+  /*  font-family: "Roboto", sans-serif; */
+  /*  font-size: 18px; */
 }
 .slim-field-left {
     flex: 1 150px;
@@ -293,7 +293,6 @@ input {
     background-color: #000;
     border-radius: 6px;
     color: #fff;
-    margin: 10px;
     padding: 6px 24px;
     text-decoration: none;
 }
@@ -303,6 +302,6 @@ input[type="reset"] {
     border-bottom: 0;
     background-color: transparent;
     color: #686868;
-    font-size: 14px;
+   /* font-size: 14px; */
 }
 </style>

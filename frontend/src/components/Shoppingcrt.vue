@@ -30,12 +30,14 @@
     </div>
 </div>
 
-<button class="addressFormShowBtn">Delivery address</button>
-<div class="addressFormWrapper">    
+
+<button class="addressFormShowBtn" @click="toggleAddressForm()">Delivery address</button>
+
+<div class="addressFormWrapperMain">    
     <Addressform ref="addressForm" />
 </div>
 
-<router-link to="/address">Checkout</router-link>
+<!-- <router-link to="/address">Checkout</router-link> -->
 </template>
 
 <script>
@@ -61,31 +63,40 @@ export default defineComponent({
 
         Addressform
     },
-    toggleModal() {
-
-        this.modal.classList.toggle("show-modal");
-    },
+    
 
     data() {
 
         return{
 
             subTotal: 0,
+            addressFormShowBtn: null,
+            addressFormWrapperMain: null
         }
     },
 
     mounted() {
         this.calculateTotalCost();
-        // this.initDom();
+        this.initDom();
     },
 
     methods: {
 
         initDom() {
 
-            
+            this.addressFormShowBtn = document.querySelector('.addressFormShowBtn');
+            this.addressFormWrapperMain = document.querySelector('.addressFormWrapperMain');
         },
 
+        toggleAddressForm() {
+
+            console.log(this.addressFormWrapperMain);
+            console.log(this.addressFormShowBtn);
+            this.addressFormWrapperMain.classList.toggle("show");
+            this.addressFormShowBtn.classList.toggle("hide");
+        },
+
+       
         calculateTotalCost() {
 
             // TODO validate ammount, set a .env(?) variable for ammount and validate again
@@ -190,7 +201,7 @@ export default defineComponent({
 }
 .cartItem {
     
-    width: 80%;
+    width: 90%;
     padding: 10px 0 10px;
     border-bottom: 1px solid #ccbdae;
 }
@@ -221,9 +232,32 @@ export default defineComponent({
     
 }
 .subTotalText {
-    width: 80%;
-    padding-top: 10px;
+    width: 90%;
+    padding: 10px 0;
+    font-weight: 600;
+    border-bottom: 1px solid #ccbdae;
+}
+.addressFormShowBtn {
+    display: flex;
+}
+.addressFormWrapperMain {
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+.show {
+
+    display: flex;
 }
 
+.hide {
 
+    display: none;
+}
+/*.addressFormShowBtn {
+    display: flex;
+}*/
+/* .addressFormWrapper {
+    
+} */
 </style>
