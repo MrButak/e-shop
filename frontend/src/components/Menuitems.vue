@@ -97,6 +97,7 @@ export default defineComponent({
 
             if(this.menuItems === 0) {
 
+                // I initially set the global state of menuItems to 0
                 this.getMenuItems();
                 return;
             };

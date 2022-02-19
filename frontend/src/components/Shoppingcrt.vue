@@ -1,7 +1,7 @@
-
+// this component works together with and imports Addressform.vue component
 <template>
 
-<div class="shoppingCartWrapper">
+<div class="shoppingCartDisplayWrapper">
     <h2 class="shoppingCartTitle">Shopping Cart</h2>
     <div v-for="item in this.shoppingCart" class="shoppingCartItems" :data-item="item['id']">
         
@@ -19,7 +19,7 @@
                     </div>
                 </div>
             <p>left in stock: {{ item.quantity }}</p>
-            <p>total price :{{ item.price * item.buyQuantity }}</p>
+            <p>total price: ${{ item.price * item.buyQuantity }}</p>
             </form>
         </div>
     </div>
@@ -28,8 +28,14 @@
             <p>Subtotal: ${{ subTotal }}</p>
         </div>
     </div>
-</div>    
-    <router-link to="/address">Checkout</router-link>
+</div>
+
+<button class="addressFormShowBtn">Delivery address</button>
+<div class="addressFormWrapper">    
+    <Addressform ref="addressForm" />
+</div>
+
+<router-link to="/address">Checkout</router-link>
 </template>
 
 <script>
@@ -37,6 +43,7 @@
 // import axios from 'axios';
 import { defineComponent } from 'vue';
 import { globalState } from '../statestore/composition';
+import Addressform from '../components/Addressform';
 
 export default defineComponent({
 
@@ -50,20 +57,34 @@ export default defineComponent({
         }
     },
 
+    components: {
+
+        Addressform
+    },
+    toggleModal() {
+
+        this.modal.classList.toggle("show-modal");
+    },
+
     data() {
 
         return{
-            subTotal: 0
+
+            subTotal: 0,
         }
     },
 
-
     mounted() {
         this.calculateTotalCost();
-   
+        // this.initDom();
     },
 
     methods: {
+
+        initDom() {
+
+            
+        },
 
         calculateTotalCost() {
 
@@ -86,11 +107,6 @@ export default defineComponent({
 
         decreaseItemQty(event) {
 
-            
-            // current item in shopping cart
-            // let shoppingCrtObj = this.shoppingCart[`item-${event.path[5].dataset.item}`];
-            // let shoppingCrtDataNum = event.path[5].dataset.item
-
             let keyDataNum = event.path[5].dataset.item;
             let curntShoppingCrtItem = this.shoppingCart[`item-${keyDataNum}`];
             // let curntMenuItem = this.menuItems[`item-${keyDataNum}`];
@@ -110,12 +126,7 @@ export default defineComponent({
                 console.log("ok, empty now")
                 return
             }
-            
-            // else if(this.shoppingCart[`item-${event.path[3].dataset.item}`].quantity < 2) {
-
-            //     this.shoppingCart[`item-${event.path[2].dataset.item}`] = this.menuItems[`item-${event.path[2].dataset.item}`];
-            //     this.shoppingCart[`item-${event.path[2].dataset.item}`].buyQuantity = 1;
-            // };
+          
         },
 
         increaseItemQty(event) {
@@ -130,20 +141,14 @@ export default defineComponent({
             // if(curntShoppingCrtItem.buyQuantity < curntMenuItem.quantity) {
             if(curntMenuItem.quantity > 0) {
 
-                // console.log(menuObj);
-                
-
                 // decrease item quantity
                 this.menuItems[`item-${keyDataNum}`].quantity--;
 
                 // increase client buy quantity
                 this.shoppingCart[`item-${keyDataNum}`].buyQuantity++;
                 
-            
                 this.cartItemCnt++;
 
-                console.log(curntShoppingCrtItem.buyQuantity)
-                console.log(curntMenuItem.quantity)
                 this.calculateTotalCost()
                 return;
             }
@@ -153,7 +158,8 @@ export default defineComponent({
                 return
             }
 
-        }
+        },
+
     },
 
 })
@@ -169,9 +175,9 @@ export default defineComponent({
     font-weight: 800;
 
 }
-.shoppingCartWrapper {
+.shoppingCartDisplayWrapper {
 
-    display: flex;
+   /* display: flex;*/
     flex-direction: column;
     gap: 11px;
 }
@@ -218,5 +224,6 @@ export default defineComponent({
     width: 80%;
     padding-top: 10px;
 }
+
 
 </style>
