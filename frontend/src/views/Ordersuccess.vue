@@ -1,20 +1,25 @@
 <template>
-    
-   <Orderconfirm/>
+    <Header />
+   <Orderconfirm />
+   <Footer />
  
 </template>
 
 <script>
 // @ is an alias to /src
-import Orderconfirm from '@/components/Orderconfirm.vue'
+import Orderconfirm from '@/components/Orderconfirm.vue';
+import Header from '@/components/Header.vue';
+import Footer from '@/components/Footer.vue';
 
 
 
 
 export default {
-  name: 'Ordersuccess',
-  components: {
-    Orderconfirm
-  }
+    name: 'Ordersuccess',
+    components: {
+        Header,
+        Orderconfirm,
+        Footer
+    }
 }
 </script>

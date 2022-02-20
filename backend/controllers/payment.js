@@ -30,12 +30,32 @@ async function paymentIntent(req, res, next) {
         currency: "usd",
         receipt_email: data.email,
         description: "Smoothie order",
-        automatic_payment_methods: {
-        enabled: true,
+        metadata: {
+            "key_name": "Can put menu items ordered here",
+            "key_2_name": "Item ordered # 2"
         },
+        // shipping: {
+        //     address: "123 testy street. salem, mo",
+        //     name: "put name here"
+        // },
+        automatic_payment_methods: {
+            enabled: true,
+        },
+
+        // stripe.charges.create({
+        //   amount: 2000,
+        //   currency: "usd",
+        //   source: "tok_visa", // obtained with Stripe.js
+        //   description: "My First Test Charge (created for API docs)"
+        // }, {
+        //   idempotencyKey: "Hr02ZzvIyJhcG2rL"
+        // }, function(err, charge) {
+        //  
+        // });
+
     });
-    // console.log(paymentIntent)
-    // console.log("payment intent")
+    console.log(paymentIntent)
+    console.log("payment intent ^^^^^^^^^^^^^^^^^^^^^^^^")
     res.send({
         clientSecret: paymentIntent.client_secret,
     });
