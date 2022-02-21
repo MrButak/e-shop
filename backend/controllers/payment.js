@@ -26,13 +26,14 @@ async function paymentIntent(req, res, next) {
 
     // Create a PaymentIntent with the order amount and currency
     const paymentIntent = await stripe.paymentIntents.create({
+
         amount: data.subTotal * 100,// calculateOrderAmount(items),
         currency: "usd",
         receipt_email: data.email,
         description: "Smoothie order",
         metadata: {
-            "key_name": "Can put menu items ordered here",
-            "key_2_name": "Item ordered # 2"
+            'item_1': "Can put menu items ordered here",
+            'item_2': "Item ordered # 2"
         },
         // shipping: {
         //     address: "123 testy street. salem, mo",
@@ -42,16 +43,7 @@ async function paymentIntent(req, res, next) {
             enabled: true,
         },
 
-        // stripe.charges.create({
-        //   amount: 2000,
-        //   currency: "usd",
-        //   source: "tok_visa", // obtained with Stripe.js
-        //   description: "My First Test Charge (created for API docs)"
-        // }, {
-        //   idempotencyKey: "Hr02ZzvIyJhcG2rL"
-        // }, function(err, charge) {
-        //  
-        // });
+        
 
     });
     console.log(paymentIntent)

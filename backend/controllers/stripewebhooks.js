@@ -23,8 +23,24 @@ exports.paymentSuccess = (req, res, next) => {
     }
     
     // Successfully constructed event
-    console.log('✅ Success:', event.id);
-    console.log(event)
+    // console.log('✅ Success:', event.id);
+    // console.log(event)
+
+    switch (event.type) {
+        case 'payment_intent.succeeded':
+          const paymentIntent = event.data.object;
+          // I need to get to this data (meta data and shipping info) so I can display on
+          // frontend component/Ordercomfirm
+          console.log(paymentIntent);
+          console.log("here ************************")
+          // Then define and call a function to handle the event payment_intent.succeeded
+          // should send api call to send email
+          break;
+        // ... handle other event types
+        default:
+          console.log(`Unhandled event type ${event.type}`);
+      }
+
     // Return a response to acknowledge receipt of the event
     res.json({received: true});
 };

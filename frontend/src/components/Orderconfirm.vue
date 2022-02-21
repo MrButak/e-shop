@@ -64,8 +64,8 @@ export default defineComponent({
                 .then((result) => {
 
                     console.log(result)
-                    console.log(this.customerDetails)
-                    this.paymentMessage.amount = result.paymentIntent.amount;
+                    
+                    this.paymentMessage.amount = result.paymentIntent.amount * 100;
                     this.paymentMessage.status = result.paymentIntent.status;
                     this.paymentMessage.receipt_email = result.paymentIntent.receipt_email;
                     
