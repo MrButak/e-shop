@@ -215,7 +215,7 @@ export default defineComponent ({
             }
 
             catch {
-                console.log("am i here?")
+        
                 return
                 
             };

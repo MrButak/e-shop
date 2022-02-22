@@ -3,10 +3,6 @@
         <p class="summarySubTitleText">Items ordered</p>
         <a @click="this.$router.push('shoppingcart')"><p>edit cart</p></a>
     </div>
-    
-
-
-
 
     <div class="orderSummaryWrapper">
         <div class="orderSummaryItems" v-for="item in this.shoppingCart">
@@ -83,16 +79,12 @@ export default defineComponent({
 
 })
 
-
-
 </script>
 
 <style>
 .summarySubTitleText {
 
     font-weight: 600;
-   
-   
 
 }
 .orderSummaryWrapper {

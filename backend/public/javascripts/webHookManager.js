@@ -1,8 +1,23 @@
 require('dotenv').config()
 const email_sk = process.env.EMAIL_SK;
 
-exports.sendPaymentSuccessEmail = () => {
+exports.sendPaymentSuccessEmail = (paymentIntent) => {
 
+    let customerName = paymentIntent.shipping.name;
+    let streetAddress = paymentIntent.shipping.address.line1;
+    let streetAddress2 = paymentIntent.shipping.address.line2;
+    let city = paymentIntent.shipping.address.city;
+    let state = paymentIntent.shipping.address.state;
+    let postalCode = paymentIntent.shipping.address.postal_code;
+    let country = paymentIntent.shipping.address.country;
+    // TODO: would like to have items ordered in the metadata object when creating payment intent controllers/payment.js
+    let paymentAmount = paymentIntent.amount;
+    let paymentStatus = paymentIntent.status;
+    let email = paymentIntent.receipt_email;
+    
+    console.log(customerName, streetAddress, streetAddress2, city, state, postalCode, country, paymentAmount, email)
+    console.log("all this here ^^^^^^^^^^^^^^^^^^^^6")
+   
     var SibApiV3Sdk = require('sib-api-v3-sdk');
     var defaultClient = SibApiV3Sdk.ApiClient.instance;
     
@@ -20,14 +35,23 @@ exports.sendPaymentSuccessEmail = () => {
     
     sendSmtpEmail = {
         to: [{
-            email: 'mspence5555@gmail.com',
-            name: 'Matt'
+            email: email,
+            name: customerName
         }],
         templateId: 15,
-        // params: {
-        //     name: 'John',
-        //     surname: 'Doe'
-        // },
+        params: {
+
+            testy: "hey hey hey"
+            
+            // customerName: customerName,
+            // streetAddress: streetAddress,
+            // streetAddress2: streetAddress2,
+            // city: city,
+            // state: state,
+            // postalCode: postalCode,
+            // country: country,
+            // paymentAmount: paymentAmount
+        },
         headers: {
             'X-Mailin-custom': 'api-key: email_sk|content-type: application/json|accept: application/json'
         }
