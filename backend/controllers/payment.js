@@ -11,7 +11,8 @@ async function paymentIntent(req, res, next) {
     let data = Object.keys(req.body)
     data = JSON.parse(data)
     
-
+    // console.log(data)
+    // console.log("here ********%%%%%%%%%%%%%%%%%%%%")
     const stripe = require("stripe")(sk_test);
     
     // TODO: receive shopping cart object (req) and total ammount here
@@ -32,13 +33,20 @@ async function paymentIntent(req, res, next) {
         receipt_email: data.email,
         description: "Smoothie order",
         metadata: {
-            'item_1': "Can put menu items ordered here",
-            'item_2': "Item ordered # 2"
+          
         },
-        // shipping: {
-        //     address: "123 testy street. salem, mo",
-        //     name: "put name here"
-        // },
+        shipping: {
+            address: {
+                city: data.cityField,
+                country: data.countryField,
+                line1: data.add1Field,
+                line2: data.add2Field,
+                postal_code: data.posField,
+                state: data.stateField
+            },
+            name: data.name,
+            phone: null
+        },
         automatic_payment_methods: {
             enabled: true,
         },
@@ -46,8 +54,8 @@ async function paymentIntent(req, res, next) {
         
 
     });
-    console.log(paymentIntent)
-    console.log("payment intent ^^^^^^^^^^^^^^^^^^^^^^^^")
+    // console.log(paymentIntent)
+    // console.log("payment intent ^^^^^^^^^^^^^^^^^^^^^^^^")
     res.send({
         clientSecret: paymentIntent.client_secret,
     });

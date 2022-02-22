@@ -8,7 +8,7 @@ exports.getMenu = () => {
 		let statement = db.prepare('SELECT * FROM items');
 		let menuItems = statement.all();
 		db.close();
-        console.log(menuItems)
+        // console.log(menuItems)
 		return menuItems;
 	}
     catch (e) {

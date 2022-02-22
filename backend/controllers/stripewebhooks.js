@@ -1,3 +1,4 @@
+const webHookManager = require('../public/javascripts/webHookManager');
 
 require('dotenv').config()
 const sk_test = process.env.STRIPE_SK;
@@ -23,8 +24,8 @@ exports.paymentSuccess = (req, res, next) => {
     }
     
     // Successfully constructed event
-    // console.log('✅ Success:', event.id);
-    // console.log(event)
+    console.log('✅ Success:', event.id);
+    console.log(event)
 
     switch (event.type) {
         case 'payment_intent.succeeded':
@@ -33,6 +34,7 @@ exports.paymentSuccess = (req, res, next) => {
           // frontend component/Ordercomfirm
           console.log(paymentIntent);
           console.log("here ************************")
+          webHookManager.sendPaymentSuccessEmail()
           // Then define and call a function to handle the event payment_intent.succeeded
           // should send api call to send email
           break;
