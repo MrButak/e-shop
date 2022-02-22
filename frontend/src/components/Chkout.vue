@@ -58,23 +58,7 @@ export default defineComponent ({
 
         async createPaymentIntent() {
 
-            // should I pass the global object properties as I am now, or assign them to paymentInfo
-            // before I send the info to the backend
-         
-            // TODO: also add item names from this.shoppingCart for a more detailed receipt          
-
-            // let paymentInfo = {
-            //     name: this.customerDetails.user.name,
-            //     email: this.customerDetails.user.email,
-            //     add1Field: this.customerDetails.user.add1Field,
-            //     add2Field: this.customerDetails.user.add2Field,
-            //     posField: this.customerDetails.user.posField,
-            //     countryField: this.customerDetails.user.countryField,
-            //     stateField: this.customerDetails.user.stateField,
-            //     cityField: this.customerDetails.user.cityField,
-            //     deliveryNote: this.customerDetails.user.deliveryNote,
-            //     subTotal: this.subTotal
-            // }
+           
             let response = await axios({
 
                 method: 'post',
@@ -90,14 +74,15 @@ export default defineComponent ({
                     stateField: this.customerDetails.user.stateField,
                     cityField: this.customerDetails.user.cityField,
                     deliveryNote: this.customerDetails.user.deliveryNote,
-                    subTotal: this.subTotal
+                    subTotal: this.subTotal,
+                    shoppingCart: this.shoppingCart
                 }
            
             })
             // change .then I am using async
             .then((response) => {
                 
-                console.log(response)
+                // console.log(response)
                 this.client_secret = response.data.clientSecret
                 // directly after I receive the client_secret as a response I can render the stripe form with it
                 this.renderStripeForm(this.client_secret)
