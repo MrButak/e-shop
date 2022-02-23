@@ -3,23 +3,19 @@ const email_sk = process.env.EMAIL_SK;
 
 exports.sendPaymentSuccessEmail = (paymentIntent) => {
 
-    // should I just pass these in directly to the params object?
-    let customerName = paymentIntent.shipping.name;
-    let streetAddress = paymentIntent.shipping.address.line1;
-    let streetAddress2 = paymentIntent.shipping.address.line2;
-    let city = paymentIntent.shipping.address.city;
-    let state = paymentIntent.shipping.address.state;
-    let postalCode = paymentIntent.shipping.address.postal_code;
-    let country = paymentIntent.shipping.address.country;
-    // TODO: would like to have items ordered in the metadata object when creating payment intent controllers/payment.js
-    let paymentAmount = paymentIntent.amount / 100; // amount in cents
-    let paymentStatus = paymentIntent.status;
-    let email = paymentIntent.receipt_email;
+    // create array I can pass to email api
+    let shoppingCart = []
+    let itemKeys = Object.keys(paymentIntent.metadata)
+    itemKeys.forEach((item) => {
 
-   
+        shoppingCart.push(paymentIntent.metadata[item])
+    })
+
+
+
+
     var SibApiV3Sdk = require('sib-api-v3-sdk');
     var defaultClient = SibApiV3Sdk.ApiClient.instance;
-    
     // Configure API key authorization: api-key
     var apiKey = defaultClient.authentications['api-key'];
     apiKey.apiKey = email_sk;
@@ -33,29 +29,35 @@ exports.sendPaymentSuccessEmail = (paymentIntent) => {
     var sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail(); // SendSmtpEmail | Values to send a transactional email
     
     sendSmtpEmail = {
+
         to: [{
-            email: email,
-            name: customerName
+            email: paymentIntent.receipt_email,
+            name: paymentIntent.shipping.name
         }],
-        templateId: 17,
+        templateId: 19,
         params: {
             
-            customerName: customerName,
-            streetAddress: streetAddress,
-            streetAddress2: streetAddress2,
-            city: city,
-            state: state,
-            postalCode: postalCode,
-            country: country,
-            paymentAmount: paymentAmount
+            customerName: paymentIntent.shipping.name,
+            streetAddress: paymentIntent.shipping.address.line1,
+            streetAddress2: paymentIntent.shipping.address.line2,
+            city: paymentIntent.shipping.address.city,
+            state: paymentIntent.shipping.address.state,
+            postalCode: paymentIntent.shipping.address.postal_code,
+            country: paymentIntent.shipping.address.country,
+            paymentAmount: paymentIntent.amount / 100, // amount in cents,
+            shoppingcart: shoppingCart
+            
         },
+        
+        
         headers: {
             'X-Mailin-custom': 'api-key: email_sk|content-type: application/json|accept: application/json'
         }
     };
     
     apiInstance.sendTransacEmail(sendSmtpEmail).then(function(data) {
-      console.log('email API called successfully.'); //data
+      console.log('email API called successfully.');
+      console.log(data);
     }, function(error) {
       console.error(error);
     });

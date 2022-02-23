@@ -36,7 +36,7 @@ export default defineComponent ({
 
     mounted() {
 
-        createPaymentIntent();
+        this.createPaymentIntent();
     },
 
     data() {
@@ -50,8 +50,6 @@ export default defineComponent ({
     },
 
     methods: {
-
-        
 
         
         // function requests backend to send payment information to stripe (called onMount())
@@ -126,7 +124,7 @@ export default defineComponent ({
                 
                 elements,
                 confirmParams: {
-                // Make sure to change this to your payment completion page
+                // redirect to payment completion page
                 return_url: 'http://localhost:8080/ordersuccess',
                 },
             });
@@ -208,12 +206,7 @@ export default defineComponent ({
         } 
 
     },
-    
-    mounted() {
 
-        this.createPaymentIntent()
-        
-    }
     
 })
 </script>
@@ -238,13 +231,13 @@ body {
     width: 100%;
 }
 form {
-  width: 30vw;
-  min-width: 500px;
-  align-self: center;
-  box-shadow: 0px 0px 0px 0.5px rgba(50, 50, 93, 0.1),
+    width: 30vw;
+    min-width: 500px;
+    align-self: center;
+    box-shadow: 0px 0px 0px 0.5px rgba(50, 50, 93, 0.1),
     0px 2px 5px 0px rgba(50, 50, 93, 0.1), 0px 1px 1.5px 0px rgba(0, 0, 0, 0.07);
-  border-radius: 7px;
-  padding: 40px;
+    border-radius: 7px;
+    padding: 40px;
 }
 
 .hidden {

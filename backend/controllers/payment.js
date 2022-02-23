@@ -10,31 +10,32 @@ async function paymentIntent(req, res, next) {
     
     let data = Object.keys(req.body)
     data = JSON.parse(data)
+    let shoppingCart = data.shoppingCart
+    console.log(shoppingCart)
     
-    // console.log(data)
-    // console.log("here ********%%%%%%%%%%%%%%%%%%%%")
     const stripe = require("stripe")(sk_test);
     
-    // TODO: receive shopping cart object (req) and total ammount here
-    // const calculateOrderAmount = (items) => {
-    //     // Replace this constant with a calculation of the order's amount
-    //     // Calculate the order total on the server to prevent
-    //     // people from directly manipulating the amount on the client
-    //     // return 1400;
-    //   };
+    // create an object which holds the items purchased, which I pass to the metadata paymentIntent property below
+    let itemsPurchased = {};
+    let itemKeys = Object.keys(shoppingCart)
+    
+    itemKeys.forEach((item) => {
 
-    //   const { items } = req.body;
+        itemsPurchased[`${item}`] = shoppingCart[`${item}`].name + " Qty:" + shoppingCart[`${item}`].buyQuantity + " Price: $" + shoppingCart[`${item}`].price;
+        // itemsPurchased[`${item}-name`] = shoppingCart[`${item}`].name;
+        // itemsPurchased[`${item}-qty`] = shoppingCart[`${item}`].buyQuantity;
+        // itemsPurchased[`${item}-price`] = shoppingCart[`${item}`].price;
+    })
+    
 
     // Create a PaymentIntent with the order amount and currency
     const paymentIntent = await stripe.paymentIntents.create({
 
-        amount: data.subTotal * 100,// calculateOrderAmount(items),
+        amount: data.subTotal * 100,// in cents
         currency: "usd",
         receipt_email: data.email,
         description: "Smoothie order",
-        metadata: {
-          
-        },
+        metadata: itemsPurchased,
         shipping: {
             address: {
                 city: data.cityField,
