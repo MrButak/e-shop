@@ -1,7 +1,3 @@
-// TODO:
-// 1. store shipping address, name, and items ordered in metadata obj during my payment intent request to stripe
-// retrieve that information and display it here.
-
 <template>
 
     <p>payment: {{ paymentMessage.status }}</p>
@@ -9,8 +5,6 @@
     <p>receipt email: {{ paymentMessage.receipt_email }}</p>
     
 </template>
-
-
 
 
 <script>
@@ -63,14 +57,13 @@ export default defineComponent({
 
                 .then((result) => {
 
-                    // console.log(result)
+                    console.log(result)
                     
-                    this.paymentMessage.amount = result.paymentIntent.amount * 100;
+                    this.paymentMessage.amount = result.paymentIntent.amount / 100;
                     this.paymentMessage.status = result.paymentIntent.status;
                     this.paymentMessage.receipt_email = result.paymentIntent.receipt_email;
                     
                 });
-
             
         }
     }
