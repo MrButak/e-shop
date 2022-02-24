@@ -6,7 +6,9 @@
     </div> -->
     <router-view/>
 </template>
-
+<script>
+// set local storage here if exist (mounted)
+</script>
 <style>
 /*global style.css*/
 

@@ -1,5 +1,5 @@
 import { ref } from 'vue';
-
+// vuex
 const cartItemCnt = ref(0);
 const subTotal = ref(0);
 const menuItems = ref(0);

@@ -6,8 +6,8 @@
     
 </template>
 
-
 <script>
+// clear ls here
 import { defineComponent } from 'vue'
 import { globalState } from '../statestore/composition'
 
@@ -37,7 +37,6 @@ export default defineComponent({
 
     mounted() {
 
-        
         this.getPaymentMessage()
     },
 
@@ -64,12 +63,10 @@ export default defineComponent({
                     this.paymentMessage.receipt_email = result.paymentIntent.receipt_email;
                     
                 });
-            
         }
     }
 
 
 })
-
 
 </script>

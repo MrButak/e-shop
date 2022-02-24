@@ -73,6 +73,7 @@ export default defineComponent ({
                     cityField: this.customerDetails.user.cityField,
                     deliveryNote: this.customerDetails.user.deliveryNote,
                     subTotal: this.subTotal,
+                    // just send item ids
                     shoppingCart: this.shoppingCart
                 }
            

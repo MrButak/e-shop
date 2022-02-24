@@ -3,7 +3,7 @@ const email_sk = process.env.EMAIL_SK;
 
 exports.sendPaymentSuccessEmail = (paymentIntent) => {
 
-    // create array I can pass to email api
+    // create array of items ordered I can pass to email api
     let shoppingCart = []
     let itemKeys = Object.keys(paymentIntent.metadata)
     itemKeys.forEach((item) => {
@@ -56,10 +56,11 @@ exports.sendPaymentSuccessEmail = (paymentIntent) => {
     };
     
     apiInstance.sendTransacEmail(sendSmtpEmail).then(function(data) {
-      console.log('email API called successfully.');
-      console.log(data);
+        console.log('email API called successfully.');
+        console.log(data);
+        
     }, function(error) {
-      console.error(error);
+        console.error(error);
     });
 
 

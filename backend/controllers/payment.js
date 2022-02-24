@@ -18,7 +18,6 @@ async function paymentIntent(req, res, next) {
     // create an object which holds the items purchased, which I pass to the metadata paymentIntent property below
     let itemsPurchased = {};
     let itemKeys = Object.keys(shoppingCart)
-    
     itemKeys.forEach((item) => {
 
         itemsPurchased[`${item}`] = shoppingCart[`${item}`].name + " Qty:" + shoppingCart[`${item}`].buyQuantity + " Price: $" + shoppingCart[`${item}`].price;
@@ -26,15 +25,17 @@ async function paymentIntent(req, res, next) {
         // itemsPurchased[`${item}-qty`] = shoppingCart[`${item}`].buyQuantity;
         // itemsPurchased[`${item}-price`] = shoppingCart[`${item}`].price;
     })
-    
 
     // Create a PaymentIntent with the order amount and currency
     const paymentIntent = await stripe.paymentIntents.create({
+
+        // send ids of item in db then just pull from db
 
         amount: data.subTotal * 100,// in cents
         currency: "usd",
         receipt_email: data.email,
         description: "Smoothie order",
+        // email list of item ids
         metadata: itemsPurchased,
         shipping: {
             address: {
