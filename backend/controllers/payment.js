@@ -10,21 +10,21 @@ async function paymentIntent(req, res, next) {
     
     let data = Object.keys(req.body)
     data = JSON.parse(data)
-    let shoppingCart = data.shoppingCart
-    console.log(shoppingCart)
+    let purchasedItems = JSON.stringify(data.shoppingCart)
     
     const stripe = require("stripe")(sk_test);
     
-    // create an object which holds the items purchased, which I pass to the metadata paymentIntent property below
-    let itemsPurchased = {};
-    let itemKeys = Object.keys(shoppingCart)
-    itemKeys.forEach((item) => {
 
-        itemsPurchased[`${item}`] = shoppingCart[`${item}`].name + " Qty:" + shoppingCart[`${item}`].buyQuantity + " Price: $" + shoppingCart[`${item}`].price;
-        // itemsPurchased[`${item}-name`] = shoppingCart[`${item}`].name;
-        // itemsPurchased[`${item}-qty`] = shoppingCart[`${item}`].buyQuantity;
-        // itemsPurchased[`${item}-price`] = shoppingCart[`${item}`].price;
-    })
+    // let deliveryAddress = {
+    //     city: data.cityField,
+    //     country: data.countryField,
+    //     addLine1: data.add1Field,
+    //     addLine2: data.add2Field,
+    //     postalCode: data.posField,
+    //     state: data.stateField
+    // };
+    // deliveryAddress = JSON.stringify(deliveryAddress)
+    
 
     // Create a PaymentIntent with the order amount and currency
     const paymentIntent = await stripe.paymentIntents.create({
@@ -36,7 +36,12 @@ async function paymentIntent(req, res, next) {
         receipt_email: data.email,
         description: "Smoothie order",
         // email list of item ids
-        metadata: itemsPurchased,
+        metadata: {
+            
+            'purchasedItems': purchasedItems
+            // 'deliveryAddress': deliveryAddress
+
+        },
         shipping: {
             address: {
                 city: data.cityField,

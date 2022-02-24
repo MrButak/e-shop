@@ -1,4 +1,5 @@
 const webHookManager = require('../public/javascripts/webHookManager');
+const dbManager = require('../public/javascripts/dbManager')
 
 require('dotenv').config()
 const sk_test = process.env.STRIPE_SK;
@@ -30,13 +31,11 @@ exports.paymentSuccess = (req, res, next) => {
     switch (event.type) {
         case 'payment_intent.succeeded':
             const paymentIntent = event.data.object;
-        
-          
-        //   console.log(paymentIntent);
-        //   console.log("here ************************")
-          webHookManager.sendPaymentSuccessEmail(paymentIntent)
+
+        //   webHookManager.sendPaymentSuccessEmail(paymentIntent)
+          dbManager.storePurchase(paymentIntent)
           // Then define and call a function to handle the event payment_intent.succeeded
-          // should send api call to send email
+          
           break;
         // ... handle other event types
         default:
