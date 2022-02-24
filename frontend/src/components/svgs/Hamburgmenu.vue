@@ -12,6 +12,7 @@ export default {
 
 <style scoped>
 .hamburgMenuIcon {
+    
     width: 34px;
     height: 34px;
     color: #ADCF3C;   

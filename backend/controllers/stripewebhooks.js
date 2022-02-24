@@ -29,11 +29,11 @@ exports.paymentSuccess = (req, res, next) => {
 
     switch (event.type) {
         case 'payment_intent.succeeded':
-          const paymentIntent = event.data.object;
+            const paymentIntent = event.data.object;
         
           
-          console.log(paymentIntent);
-          console.log("here ************************")
+        //   console.log(paymentIntent);
+        //   console.log("here ************************")
           webHookManager.sendPaymentSuccessEmail(paymentIntent)
           // Then define and call a function to handle the event payment_intent.succeeded
           // should send api call to send email
