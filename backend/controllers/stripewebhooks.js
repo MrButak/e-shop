@@ -19,7 +19,6 @@ exports.paymentSuccess = (req, res, next) => {
         event = stripe.webhooks.constructEvent(req.body, sig, webhookSecret);
     }
     catch (err) {
-        // On error, log and return the error message
         console.log(`❌ Error message: ${err.message}`);
         return res.status(400).send(`Webhook Error: ${err.message}`);
     }
@@ -34,8 +33,9 @@ exports.paymentSuccess = (req, res, next) => {
 
         
             dbManager.storePurchase(paymentIntent);
-            emailManager.sendPaymentSuccessEmail(paymentIntent);
-          // Then define and call a function to handle the event payment_intent.succeeded
+            //emailManager.sendPaymentSuccessEmail(paymentIntent);
+
+          
           
           break;
         // ... handle other event types

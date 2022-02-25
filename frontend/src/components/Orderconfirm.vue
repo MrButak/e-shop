@@ -1,8 +1,18 @@
 <template>
 
-    <p>payment: {{ paymentMessage.status }}</p>
-    <p>ammount: {{ paymentMessage.amount }}</p>
-    <p>receipt email: {{ paymentMessage.receipt_email }}</p>
+    <p>Payment: {{ stripePaymentMessage.status }}</p>
+    <p>Receipt email: {{ this.receiptEmail }}</p>
+
+    <p> Items Ordered:</p>
+    <div v-for="item in this.itemsPurchased">
+        <p>{{ item.name }} x {{ item.qty }}</p>
+        <p>price per item: {{ item.price }}</p>
+    </div>
+    <p>Total ammount: ${{ this.totalPrice }}</p>
+    <p> Delivery address:</p>
+    <p>{{ this.shippingAddress.line1 }} {{ this.shippingAddress.line2 }}</p>
+    <p>{{ this.shippingAddress.city }} {{ this.shippingAddress.state }} {{ this.shippingAddress.postal_code }}</p>
+    
     
 </template>
 
@@ -31,7 +41,11 @@ export default defineComponent({
 
         return {
 
-            paymentMessage: {}
+            stripePaymentMessage: {},
+            itemsPurchased: {},
+            shippingAddress: {},
+            receiptEmail: "",
+            totalPrice: 0
         }
         
     },
@@ -57,9 +71,9 @@ export default defineComponent({
                 .then((result) => {
 
                     
-                    
+                    console.log(result)
                     // this.paymentMessage.amount = result.paymentIntent.amount / 100;
-                    // this.paymentMessage.status = result.paymentIntent.status;
+                    this.stripePaymentMessage.status = result.paymentIntent.status;
                     // this.paymentMessage.receipt_email = result.paymentIntent.receipt_email;
 
                     // make a db call and get more order details
@@ -67,9 +81,11 @@ export default defineComponent({
                 });
         },
 
+        // Function retrieves purchase from database
         async getOrderInfo(email, stripePiId) {
-            
+        
             let response = await axios({
+
                 method: 'post',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 url: 'http://127.0.0.1:3000/orderdetails',
@@ -86,11 +102,12 @@ export default defineComponent({
                 // if valid address
                 if(response.data) {
 
-                    console.log(response.data)
-                    console.log("the is the purchase data back on the frontend")
-                    response.data.items_purchased
-                    response.data.shipping_address
-                    // this.$router.push('Uservalidation');
+                    this.itemsPurchased = JSON.parse(response.data[0].items_purchased);
+                    this.shippingAddress = JSON.parse(response.data[0].shipping_address);
+                    this.receiptEmail = response.data[0].email;
+                    this.totalPrice = response.data[0].total_price;
+                    
+
                 }
                 // TODO: display error message(order not found)
                 else {
