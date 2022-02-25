@@ -8,8 +8,9 @@
 
 <script>
 // clear ls here
-import { defineComponent } from 'vue'
-import { globalState } from '../statestore/composition'
+const axios = require('axios');
+import { defineComponent } from 'vue';
+import { globalState } from '../statestore/composition';
 
 export default defineComponent({
     
@@ -51,18 +52,53 @@ export default defineComponent({
             const urlParams = new URLSearchParams(queryString);
             const paymentIntentClientSecret = urlParams.get('payment_intent_client_secret');
 
-            stripe
-                .retrievePaymentIntent(paymentIntentClientSecret)
+            stripe.retrievePaymentIntent(paymentIntentClientSecret)
 
                 .then((result) => {
 
-                    console.log(result)
                     
-                    this.paymentMessage.amount = result.paymentIntent.amount / 100;
-                    this.paymentMessage.status = result.paymentIntent.status;
-                    this.paymentMessage.receipt_email = result.paymentIntent.receipt_email;
                     
+                    // this.paymentMessage.amount = result.paymentIntent.amount / 100;
+                    // this.paymentMessage.status = result.paymentIntent.status;
+                    // this.paymentMessage.receipt_email = result.paymentIntent.receipt_email;
+
+                    // make a db call and get more order details
+                    this.getOrderInfo(result.paymentIntent.receipt_email, result.paymentIntent.id)
                 });
+        },
+
+        async getOrderInfo(email, stripePiId) {
+            
+            let response = await axios({
+                method: 'post',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                url: 'http://127.0.0.1:3000/orderdetails',
+                data: {
+                    stripePiId: stripePiId,
+                    email: email,
+                    
+                }
+                 
+            })
+            
+            .then((response) => {
+                
+                // if valid address
+                if(response.data) {
+
+                    console.log(response.data)
+                    console.log("the is the purchase data back on the frontend")
+                    response.data.items_purchased
+                    response.data.shipping_address
+                    // this.$router.push('Uservalidation');
+                }
+                // TODO: display error message(order not found)
+                else {
+                    console.log("order not in database");
+                    return;
+                };
+                
+            });
         }
     }
 
