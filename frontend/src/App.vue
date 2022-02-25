@@ -6,12 +6,85 @@
     </div> -->
     <router-view/>
 </template>
+
+
 <script>
-// set local storage here if exist (mounted)
+
+    import { defineComponent } from 'vue';
+    import { globalState } from './statestore/composition';
+
+    export default defineComponent({
+
+        setup() {
+            const { lsInUse, cartItemCnt, menuItems, shoppingCart, currentItemView } = globalState();
+
+            return { // make it available in <template>
+                cartItemCnt,
+                menuItems,
+                shoppingCart,
+                currentItemView,
+                lsInUse
+            }
+        },
+    
+        data() {
+
+            return {
+
+            
+            }
+        },
+
+        mounted() {
+            
+            this.handleLs();
+        
+        },
+
+        methods: {
+
+            handleLs() {
+                
+                if(this.checkLsAvailable) {
+                    
+                    if(localStorage.shoppingCart) {
+
+                        this.restoreLs();
+                        return;
+                    };
+                //
+                    
+                }
+            },
+
+            // Function checks if local storage is available for use on browser
+            checkLsAvailable() {
+
+                let tmpStr = "is local storage available?"
+                try {
+                    localStorage.setItem("test", tmpStr);
+                    localStorage.removeItem(test);
+                    this.lsInUse = true; // set global state
+                    return true;
+                } 
+                catch (error) {
+                    this.lsInUse = false; // set global state
+                    // console.log(error)
+                    return false;
+                };
+            },
+
+            restoreLs() {
+
+                // this.shoppingCart = localStorage.get()
+            }
+        
+        }
+    })
 </script>
+
 <style>
 /*global style.css*/
-
 * {
     box-sizing: border-box;
     margin: 0px;
@@ -30,7 +103,6 @@
    
 }
 .payProcessBtn {
-
     background-color: #1980b6;
     border-radius: 6px;
     color: #fff;
@@ -38,7 +110,6 @@
     text-decoration: none;
 }
 .shoppingCartItems {
-
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -63,7 +134,6 @@
     width: 100%;
     
 }
-
 .subTotalText {
     width: 90%;
     padding: 10px 0;

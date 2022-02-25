@@ -6,6 +6,7 @@ const menuItems = ref(0);
 const shoppingCart = ref({});
 const customerDetails = ref({});
 const currentItemView = ref({});
+const lsInUse = ref(false);
 
 export const globalState = function() {
 
@@ -18,6 +19,7 @@ export const globalState = function() {
     menuItems,
     shoppingCart,
     customerDetails,
-    currentItemView
+    currentItemView,
+    lsInUse,
   };
 };
