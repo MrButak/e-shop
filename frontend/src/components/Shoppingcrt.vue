@@ -39,13 +39,14 @@ import { globalState } from '../statestore/composition';
 export default defineComponent({
 
     setup() {
-        const { cartItemCnt, menuItems, shoppingCart, subTotal } = globalState();
+        const { lsInUse, cartItemCnt, menuItems, shoppingCart, subTotal } = globalState();
 
         return { // make it available in <template>
             cartItemCnt,
             menuItems,
             shoppingCart,
-            subTotal
+            subTotal,
+            lsInUse
         }
     },
 
@@ -90,6 +91,7 @@ export default defineComponent({
 
         decreaseItemQty(event) {
 
+            // using click event path to find item id. Item id is a data-item attribute on the html element
             let keyDataNum = event.path[5].dataset.item;
             let curntShoppingCrtItem = this.shoppingCart[`item-${keyDataNum}`];
             // let curntMenuItem = this.menuItems[`item-${keyDataNum}`];
@@ -101,6 +103,12 @@ export default defineComponent({
                 // increase item quantity
                 this.menuItems[`item-${keyDataNum}`].quantity++;
                 this.cartItemCnt--;
+
+                // local storage
+                if(this.lsInUse) {
+                    localStorage.setItem("shoppingCart", this.shoppingCart)
+                };
+                
                 this.calculateTotalCost()
                 return;
             }

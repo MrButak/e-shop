@@ -1,9 +1,4 @@
 <template>
- <!--   <div id="nav">
-        <router-link to="/">Home</router-link> |
-        <router-link to="/about">About</router-link> |
-        <router-link to="/Shoppingcart">Shopping Cart</router-link> |
-    </div> -->
     <router-view/>
 </template>
 
@@ -31,20 +26,18 @@
 
             return {
 
-            
             }
         },
 
         mounted() {
             
             this.handleLs();
-        
         },
 
         methods: {
 
             handleLs() {
-                
+                this.lsInUse = true;
                 if(this.checkLsAvailable) {
                     
                     if(localStorage.shoppingCart) {
@@ -52,9 +45,13 @@
                         this.restoreLs();
                         return;
                     };
-                //
+
+                    // set local storage variables if doesn't exist
+                    this.lsInUse = true; // set global state
+                    localStorage.setItem("shoppingCart", "");
+                    localStorage.setItem("cartItemCnt", "");
                     
-                }
+                };
             },
 
             // Function checks if local storage is available for use on browser
@@ -64,7 +61,6 @@
                 try {
                     localStorage.setItem("test", tmpStr);
                     localStorage.removeItem(test);
-                    this.lsInUse = true; // set global state
                     return true;
                 } 
                 catch (error) {
@@ -74,9 +70,18 @@
                 };
             },
 
+            // Function restores global state variables from local storage variables
             restoreLs() {
 
-                // this.shoppingCart = localStorage.get()
+                this.lsInUse = true; // set global state
+
+                let lsShpCrt = localStorage.getItem("shoppingCart");
+                lsShpCrt = JSON.parse(lsShpCrt);
+
+                // set global state variables
+                this.shoppingCart = lsShpCrt;
+                this.cartItemCnt = localStorage.getItem("cartItemCnt");
+                return;
             }
         
         }
@@ -84,7 +89,8 @@
 </script>
 
 <style>
-/*global style.css*/
+
+/*global styles*/
 * {
     box-sizing: border-box;
     margin: 0px;
