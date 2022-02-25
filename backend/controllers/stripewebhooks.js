@@ -1,4 +1,4 @@
-const webHookManager = require('../public/javascripts/webHookManager');
+const emailManager = require('../public/javascripts/emailManager');
 const dbManager = require('../public/javascripts/dbManager')
 
 require('dotenv').config()
@@ -32,8 +32,9 @@ exports.paymentSuccess = (req, res, next) => {
         case 'payment_intent.succeeded':
             const paymentIntent = event.data.object;
 
-        //   webHookManager.sendPaymentSuccessEmail(paymentIntent)
-          dbManager.storePurchase(paymentIntent)
+        
+            dbManager.storePurchase(paymentIntent);
+            emailManager.sendPaymentSuccessEmail(paymentIntent);
           // Then define and call a function to handle the event payment_intent.succeeded
           
           break;

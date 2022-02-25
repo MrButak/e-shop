@@ -59,15 +59,18 @@ export default defineComponent ({
 
             // create purchased items obj which will be passed to stripe.paymentIntent.metadat
             let tmpShpCrt = this.shoppingCart;
+            let tmpCnt = 1;
             let purchasedItemsObj = {};
             Object.keys(tmpShpCrt).forEach((key) => {
 
-                purchasedItemsObj[this.shoppingCart[key].id] = {
+                
+                purchasedItemsObj[tmpCnt] = {
 
                     "name": this.shoppingCart[key].name,
                     "price": this.shoppingCart[key].price,
                     "qty": this.shoppingCart[key].buyQuantity
-                }
+                };
+                tmpCnt++;
                 
             });
             console.log(purchasedItemsObj)

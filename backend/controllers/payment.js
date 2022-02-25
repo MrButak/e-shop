@@ -15,15 +15,6 @@ async function paymentIntent(req, res, next) {
     const stripe = require("stripe")(sk_test);
     
 
-    // let deliveryAddress = {
-    //     city: data.cityField,
-    //     country: data.countryField,
-    //     addLine1: data.add1Field,
-    //     addLine2: data.add2Field,
-    //     postalCode: data.posField,
-    //     state: data.stateField
-    // };
-    // deliveryAddress = JSON.stringify(deliveryAddress)
     
 
     // Create a PaymentIntent with the order amount and currency
@@ -39,7 +30,6 @@ async function paymentIntent(req, res, next) {
         metadata: {
             
             'purchasedItems': purchasedItems
-            // 'deliveryAddress': deliveryAddress
 
         },
         shipping: {

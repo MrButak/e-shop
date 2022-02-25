@@ -3,13 +3,17 @@ const email_sk = process.env.EMAIL_SK;
 
 exports.sendPaymentSuccessEmail = (paymentIntent) => {
 
+    let purchasedItems = paymentIntent.metadata.purchasedItems
+    purchasedItems = JSON.parse(purchasedItems)
+    console.log(purchasedItems)
+    console.log("email sending here ^^^^^^^^^^^^^^^^^^^^^^^^^^^")
     // create array of items ordered I can pass to email api
-    let shoppingCart = []
-    let itemKeys = Object.keys(paymentIntent.metadata)
-    itemKeys.forEach((item) => {
+    // let shoppingCart = []
+    // let itemKeys = Object.keys(paymentIntent.metadata)
+    // itemKeys.forEach((item) => {
 
-        shoppingCart.push(paymentIntent.metadata[item])
-    })
+    //     shoppingCart.push(paymentIntent.metadata[item])
+    // })
 
 
     
@@ -45,10 +49,9 @@ exports.sendPaymentSuccessEmail = (paymentIntent) => {
             postalCode: paymentIntent.shipping.address.postal_code,
             country: paymentIntent.shipping.address.country,
             paymentAmount: paymentIntent.amount / 100, // amount in cents,
-            shoppingcart: shoppingCart
-            
+            // shoppingcart: shoppingCart,
+            purchasedItems: purchasedItems
         },
-        
         
         headers: {
             'X-Mailin-custom': 'api-key: email_sk|content-type: application/json|accept: application/json'
