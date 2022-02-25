@@ -1,4 +1,5 @@
-const webHookManager = require('../public/javascripts/webHookManager');
+const emailManager = require('../public/javascripts/emailManager');
+const dbManager = require('../public/javascripts/dbManager')
 
 require('dotenv').config()
 const sk_test = process.env.STRIPE_SK;
@@ -18,7 +19,6 @@ exports.paymentSuccess = (req, res, next) => {
         event = stripe.webhooks.constructEvent(req.body, sig, webhookSecret);
     }
     catch (err) {
-        // On error, log and return the error message
         console.log(`❌ Error message: ${err.message}`);
         return res.status(400).send(`Webhook Error: ${err.message}`);
     }
@@ -30,13 +30,13 @@ exports.paymentSuccess = (req, res, next) => {
     switch (event.type) {
         case 'payment_intent.succeeded':
             const paymentIntent = event.data.object;
+
         
+            dbManager.storePurchase(paymentIntent);
+            //emailManager.sendPaymentSuccessEmail(paymentIntent);
+
           
-        //   console.log(paymentIntent);
-        //   console.log("here ************************")
-          webHookManager.sendPaymentSuccessEmail(paymentIntent)
-          // Then define and call a function to handle the event payment_intent.succeeded
-          // should send api call to send email
+          
           break;
         // ... handle other event types
         default:

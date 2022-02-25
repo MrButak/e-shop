@@ -56,6 +56,26 @@ export default defineComponent ({
 
         async createPaymentIntent() {
 
+
+            // create purchased items obj which will be passed to stripe.paymentIntent.metadat
+            let tmpShpCrt = this.shoppingCart;
+            let tmpCnt = 1;
+            let purchasedItemsObj = {};
+            Object.keys(tmpShpCrt).forEach((key) => {
+
+                
+                purchasedItemsObj[tmpCnt] = {
+
+                    "name": this.shoppingCart[key].name,
+                    "price": this.shoppingCart[key].price,
+                    "qty": this.shoppingCart[key].buyQuantity
+                };
+                tmpCnt++;
+                
+            });
+            console.log(purchasedItemsObj)
+            
+            console.log("items object to pass to stripe metadata")
            
             let response = await axios({
 
@@ -74,7 +94,7 @@ export default defineComponent ({
                     deliveryNote: this.customerDetails.user.deliveryNote,
                     subTotal: this.subTotal,
                     // just send item ids
-                    shoppingCart: this.shoppingCart
+                    shoppingCart: purchasedItemsObj
                 }
            
             })

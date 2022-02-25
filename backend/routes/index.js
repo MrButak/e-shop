@@ -23,4 +23,7 @@ router.post('/webhook', stripeWebHooks.paymentSuccess);
 
 router.post('/validatedeliveryaddress', allowRequest, validateForms.validateDeliveryAddress);
 
+// db lookup on "purchases" TABLE (need pi_stripe_key and email)
+router.post('/orderdetails', allowRequest, index.getOrderDetails)
+
 module.exports = router;

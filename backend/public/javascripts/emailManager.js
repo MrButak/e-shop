@@ -2,17 +2,15 @@ require('dotenv').config()
 const email_sk = process.env.EMAIL_SK;
 
 exports.sendPaymentSuccessEmail = (paymentIntent) => {
+    
 
-    // create array of items ordered I can pass to email api
-    let shoppingCart = []
-    let itemKeys = Object.keys(paymentIntent.metadata)
-    itemKeys.forEach((item) => {
-
-        shoppingCart.push(paymentIntent.metadata[item])
-    })
-
-
-
+    // create an array of purchased item objects (send in blue template only allows looping through an array of objects)
+    let shoppingCart = [];
+    let tmpItemObj = JSON.parse(paymentIntent.metadata.purchasedItems)
+    Object.keys(tmpItemObj).forEach((key) => {
+        shoppingCart.push(tmpItemObj[key])
+        
+    });
 
     var SibApiV3Sdk = require('sib-api-v3-sdk');
     var defaultClient = SibApiV3Sdk.ApiClient.instance;
@@ -34,7 +32,7 @@ exports.sendPaymentSuccessEmail = (paymentIntent) => {
             email: paymentIntent.receipt_email,
             name: paymentIntent.shipping.name
         }],
-        templateId: 19,
+        templateId: 17,
         params: {
             
             customerName: paymentIntent.shipping.name,
@@ -45,11 +43,10 @@ exports.sendPaymentSuccessEmail = (paymentIntent) => {
             postalCode: paymentIntent.shipping.address.postal_code,
             country: paymentIntent.shipping.address.country,
             paymentAmount: paymentIntent.amount / 100, // amount in cents,
-            shoppingcart: shoppingCart
-            
+            // must be an array of objects for email template to loop through items
+            products: shoppingCart
         },
-        
-        
+    
         headers: {
             'X-Mailin-custom': 'api-key: email_sk|content-type: application/json|accept: application/json'
         }
@@ -63,5 +60,4 @@ exports.sendPaymentSuccessEmail = (paymentIntent) => {
         console.error(error);
     });
 
-
-}
+};
