@@ -57,13 +57,14 @@ export default defineComponent({
 
     name: "Menuitems",
     setup() {
-        const { cartItemCnt, menuItems, shoppingCart, currentItemView } = globalState();
+        const { lsInUse, cartItemCnt, menuItems, shoppingCart, currentItemView } = globalState();
 
         return { // make it available in <template>
             cartItemCnt,
             menuItems,
             shoppingCart,
-            currentItemView
+            currentItemView,
+            lsInUse
         }
     },
 

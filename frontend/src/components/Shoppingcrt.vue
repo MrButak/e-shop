@@ -39,13 +39,14 @@ import { globalState } from '../statestore/composition';
 export default defineComponent({
 
     setup() {
-        const { cartItemCnt, menuItems, shoppingCart, subTotal } = globalState();
+        const { lsInUse, cartItemCnt, menuItems, shoppingCart, subTotal } = globalState();
 
         return { // make it available in <template>
             cartItemCnt,
             menuItems,
             shoppingCart,
-            subTotal
+            subTotal,
+            lsInUse
         }
     },
 
@@ -73,7 +74,7 @@ export default defineComponent({
 
             // TODO validate ammount, set a .env(?) variable for ammount and validate again
             // right before payment
-            // console.log(this.shoppingCart)
+            
             let ShoppingCartObj = this.shoppingCart
             
             // get subtotal
@@ -90,6 +91,7 @@ export default defineComponent({
 
         decreaseItemQty(event) {
 
+            // using click event path to find item id. Item id is a data-item attribute on the html element
             let keyDataNum = event.path[5].dataset.item;
             let curntShoppingCrtItem = this.shoppingCart[`item-${keyDataNum}`];
             // let curntMenuItem = this.menuItems[`item-${keyDataNum}`];
@@ -101,6 +103,13 @@ export default defineComponent({
                 // increase item quantity
                 this.menuItems[`item-${keyDataNum}`].quantity++;
                 this.cartItemCnt--;
+
+                // local storage
+                if(this.lsInUse) {
+                    localStorage.setItem("shoppingCart", JSON.stringify(this.shoppingCart));
+                    localStorage.setItem("cartItemCnt", this.cartItemCnt);
+                };
+
                 this.calculateTotalCost()
                 return;
             }
@@ -114,14 +123,11 @@ export default defineComponent({
 
         increaseItemQty(event) {
 
-            // console.log
             let keyDataNum = event.path[5].dataset.item;
             let curntShoppingCrtItem = this.shoppingCart[`item-${keyDataNum}`];
             
             let curntMenuItem = this.menuItems[`item-${keyDataNum}`];
             
-            // console.log("shopping cart")
-            // if(curntShoppingCrtItem.buyQuantity < curntMenuItem.quantity) {
             if(curntMenuItem.quantity > 0) {
 
                 // decrease item quantity
@@ -131,6 +137,11 @@ export default defineComponent({
                 this.shoppingCart[`item-${keyDataNum}`].buyQuantity++;
                 
                 this.cartItemCnt++;
+                // local storage
+                if(this.lsInUse) {
+                    localStorage.setItem("shoppingCart", JSON.stringify(this.shoppingCart));
+                    localStorage.setItem("cartItemCnt", this.cartItemCnt);
+                };
 
                 this.calculateTotalCost()
                 return;

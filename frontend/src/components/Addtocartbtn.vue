@@ -25,13 +25,15 @@ export default defineComponent({
 
     name: "Addtocartbtn",
     setup() {
-        const { cartItemCnt, menuItems, shoppingCart, currentItemView } = globalState();
+        const { lsInUse, cartItemCnt, menuItems, shoppingCart, currentItemView } = globalState();
 
         return { // make it available in <template>
+
             cartItemCnt,
             menuItems,
             shoppingCart,
-            currentItemView
+            currentItemView,
+            lsInUse
         }
     },
    
@@ -68,12 +70,15 @@ export default defineComponent({
 
                 return
             }
-            // increase buy quantity number
+            // increase buy quantity input number
             this.currentItemView['buyQtyInput']++;
+            
         },
 
         decreaseItemQty() {
 
+            
+            // TODO: display pop-up to confirm user wants to remove item from cart
             // make sure number can't go below 1
             if(this.currentItemView['buyQtyInput'] < 2) {
                 return;
@@ -85,25 +90,47 @@ export default defineComponent({
         addToCart() {
             
             //TODO: make a backend validation check on the input number
-
+            
             // prevent adding to cart if quantity is 0
             if(this.menuItems[`item-${this.currentItemView['id']}`].quantity < 1) {
 
-                // TODO: make 'out of stock' message more assertive; possibly using animation'
+                // TODO: make 'out of stock' message more assertive; possibly using animation
                 return;
             };
 
             // increase shopping cart items
             this.cartItemCnt += this.currentItemView['buyQtyInput'];
+            // local storage
+            if(this.lsInUse) {
+                localStorage.setItem("cartItemCnt", this.cartItemCnt);
+                console.log(localStorage.cartItemCnt);
+                console.log("local storage updated");
+            };
 
             // if item already exists in shopping cart, increase order quantity
             if(this.shoppingCart[`item-${this.currentItemView['id']}`]) {
+
                 this.shoppingCart[`item-${this.currentItemView['id']}`].buyQuantity += this.currentItemView['buyQtyInput'];
+
+                // local storage
+                if(this.lsInUse) {
+                    localStorage.setItem("shoppingCart", JSON.stringify(this.shoppingCart));
+                    console.log(localStorage.shoppingCart);
+                    console.log("local storage updated");
+                };
+                
             }
             // else add item to shopping cart
             else {
+                
                 this.shoppingCart[`item-${this.currentItemView['id']}`] = this.menuItems[`item-${this.currentItemView['id']}`];
                 this.shoppingCart[`item-${this.currentItemView['id']}`].buyQuantity = this.currentItemView['buyQtyInput'];
+                // local storage
+                if(this.lsInUse) {
+                    localStorage.setItem("shoppingCart", JSON.stringify(this.shoppingCart));
+                    console.log(localStorage.shoppingCart);
+                    console.log("local storage updated");
+                };
             };
 
             // decrease qantity from menu item, later if payment successful then decrease quantity from database

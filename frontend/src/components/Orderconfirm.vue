@@ -26,14 +26,15 @@ export default defineComponent({
     
     setup() {
 
-        const { customerDetails, cartItemCnt, menuItems, shoppingCart, subTotal } = globalState();
+        const { lsInUse, customerDetails, cartItemCnt, menuItems, shoppingCart, subTotal } = globalState();
 
         return { // make it available in <template>
             cartItemCnt,
             menuItems,
             shoppingCart,
             subTotal,
-            customerDetails
+            customerDetails,
+            lsInUse
         }
     },
 
@@ -52,7 +53,9 @@ export default defineComponent({
 
     mounted() {
 
-        this.getPaymentMessage()
+        this.getPaymentMessage();
+        this.clearShoppingCart();
+        // this.updateDatabaseMenuItems();
     },
 
     methods: {
@@ -116,7 +119,27 @@ export default defineComponent({
                 };
                 
             });
-        }
+        },
+        // Function completely clears local storage
+        clearShoppingCart() {
+            
+            // local storage
+            if(this.lsInUse) {
+                localStorage.clear()
+            };
+            this.shoppingCart = {};
+            this.cartItemCnt = 0;
+        },
+        // async updateDatabaseMenuItems() {
+
+        //     let response = await axios({
+                
+        //         method: 'post',
+        //         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        //         url: 'http://127.0.0.1:3000/getmenu',
+        //         data: null
+        //     })
+        // }
     }
 
 

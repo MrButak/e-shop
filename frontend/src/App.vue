@@ -1,17 +1,96 @@
 <template>
- <!--   <div id="nav">
-        <router-link to="/">Home</router-link> |
-        <router-link to="/about">About</router-link> |
-        <router-link to="/Shoppingcart">Shopping Cart</router-link> |
-    </div> -->
     <router-view/>
 </template>
-<script>
-// set local storage here if exist (mounted)
-</script>
-<style>
-/*global style.css*/
 
+
+<script>
+
+    import { defineComponent } from 'vue';
+    import { globalState } from './statestore/composition';
+
+    export default defineComponent({
+
+        setup() {
+            const { lsInUse, cartItemCnt, menuItems, shoppingCart, currentItemView } = globalState();
+
+            return { // make it available in <template>
+                cartItemCnt,
+                menuItems,
+                shoppingCart,
+                currentItemView,
+                lsInUse
+            }
+        },
+    
+        data() {
+
+            return {
+
+            }
+        },
+
+        mounted() {
+            
+            this.handleLs();
+        },
+
+        methods: {
+
+            handleLs() {
+                this.lsInUse = true;
+                if(this.checkLsAvailable) {
+                    
+                    if(localStorage.shoppingCart) {
+
+                        this.restoreLs();
+                        return;
+                    };
+
+                    // set local storage variables if doesn't exist
+                    this.lsInUse = true; // set global state
+                    localStorage.setItem("shoppingCart", "");
+                    localStorage.setItem("cartItemCnt", "");
+                    
+                };
+            },
+
+            // Function checks if local storage is available for use on browser
+            checkLsAvailable() {
+
+                let tmpStr = "is local storage available?"
+                try {
+                    localStorage.setItem("test", tmpStr);
+                    localStorage.removeItem(test);
+                    return true;
+                } 
+                catch (error) {
+                    this.lsInUse = false; // set global state
+                    // console.log(error)
+                    return false;
+                };
+            },
+
+            // Function restores global state variables from local storage variables
+            restoreLs() {
+
+                this.lsInUse = true; // set global state
+
+                let lsShpCrt = localStorage.getItem("shoppingCart");
+                lsShpCrt = JSON.parse(lsShpCrt);
+
+                // set global state variables
+                this.shoppingCart = lsShpCrt;
+                this.cartItemCnt = localStorage.getItem("cartItemCnt");
+                return;
+            }
+        
+        }
+    })
+</script>
+
+<style>
+
+/*global styles*/
 * {
     box-sizing: border-box;
     margin: 0px;
@@ -30,7 +109,6 @@
    
 }
 .payProcessBtn {
-
     background-color: #1980b6;
     border-radius: 6px;
     color: #fff;
@@ -38,7 +116,6 @@
     text-decoration: none;
 }
 .shoppingCartItems {
-
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -63,7 +140,6 @@
     width: 100%;
     
 }
-
 .subTotalText {
     width: 90%;
     padding: 10px 0;
