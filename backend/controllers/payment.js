@@ -16,17 +16,13 @@ async function paymentIntent(req, res, next) {
     // Create a PaymentIntent with the order amount and currency
     const paymentIntent = await stripe.paymentIntents.create({
 
-        // send ids of item in db then just pull from db
-
-        amount: data.subTotal * 100,// in cents
+        amount: data.subTotal * 100, // in cents
         currency: "usd",
         receipt_email: data.email,
         description: "Smoothie order",
-        // email list of item ids
         metadata: {
             
             'purchasedItems': purchasedItems
-
         },
         shipping: {
             address: {
@@ -47,8 +43,7 @@ async function paymentIntent(req, res, next) {
         
 
     });
-    // console.log(paymentIntent)
-    // console.log("payment intent ^^^^^^^^^^^^^^^^^^^^^^^^")
+    
     res.send({
         clientSecret: paymentIntent.client_secret,
     });

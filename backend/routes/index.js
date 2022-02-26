@@ -19,7 +19,7 @@ router.post('/getmenu', allowRequest, index.getMenu);
 router.post('/create-payment-intent', allowRequest, payment.paymentIntent)
 
 
-router.post('/webhook', stripeWebHooks.paymentSuccess);
+router.post('/webhook', stripeWebHooks.stripeWebHooks);
 
 router.post('/validatedeliveryaddress', allowRequest, validateForms.validateDeliveryAddress);
 

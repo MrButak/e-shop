@@ -7,7 +7,7 @@ const webhookSecret = process.env.WEBHOOK_SK;
 
 
 
-exports.paymentSuccess = (req, res, next) => {
+exports.stripeWebHooks = (req, res, next) => {
 
     const stripe = require('stripe')(sk_test);
    
