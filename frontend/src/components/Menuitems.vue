@@ -8,15 +8,16 @@
             
             <img class="menuItemImg" :src="item['imageUrl']"/> 
             <h3 class="menuItemName">{{ item['name'] }}</h3>
-            <p class="menuPrice"> price: ${{ item['price'] }}</p>
+            
             <!-- show message if out of stock -->
             <!-- TODO: add a class list to out of stock items which will dim the backgound color and make 'out of stock' more obvious -->
             <p v-if="item['quantity'] < 1">Out of stock</p>
 
             <div class="menuItemBtnWrapper">
+                <p class="menuPrice"> price: ${{ item['price'] }}</p>
                 <!-- click function will set global view item (this.currentItemView) and trigger modal popup -->
                 <span @click="this.setViewItem">
-                    <button @click="this.toggleModal" class="trigger">View Item</button>
+                    <button @click="this.toggleModal" class="trigger viewItemBtn">View Item</button>
                 </span>
             </div>
         </div>
@@ -189,32 +190,51 @@ export default defineComponent({
     flex-direction: column;
     border: 1px solid black;
     flex: .8 1 40%; /*grow | shrink | basis */
-    gap: 10px;
+   /* gap: 10px;*/
     min-height: 100%;
     border-radius: 7px;
+   /* padding-bottom: 1rem;*/
+    
     -webkit-box-shadow: 5px 5px 15px 5px rgba(0,0,0,0.36); 
     box-shadow: 5px 5px 15px 5px rgba(0,0,0,0.20);
 }
 .menuItemImg {
-    border-radius: 7px 7px 0 0;
+    border-radius: 0 0 0 30px;
+    margin-bottom: -1rem;
+    z-index: 1;
 }
 .menuItemName {
     text-align: center;
     font-weight: 600;
+    background-color: #feecea;
+    border-bottom: .3px solid #f8cdc9;
+    padding: 2rem 0 1rem;
 }
 .menuPrice {
     text-align: center;
 }
 .menuItemBtnWrapper {
     display: flex;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
+    background-color: white;
     margin-top: auto;
     width: 100%;
+    padding: .7rem 0;
+    gap: 1.2rem
+}
+.viewItemBtn {
+    background-color: #1980b6;
+    color: #ffffff;
+    border-color: #1980b6;
+    padding: .2rem;
 }
 /*end menu items*/
 
 /*start view item popup modal*/
 .modal {
+    z-index: 2;
     position: fixed;
     left: 0;
     top: 0;
@@ -231,6 +251,7 @@ export default defineComponent({
     flex-direction: column;
     width: 100%;
     gap: 12px;
+    
 
     
 }
@@ -275,7 +296,15 @@ export default defineComponent({
 }
 }
 
+/* 900 height*/
+@media (max-height: 900px) {
 
+    .modalContent {
+
+        height: 90%;
+        overflow: auto;
+    }
+}
 /*Desktop sizes*-----------------------------------------------------*/
 
 @media (min-width: 1023px) {
@@ -303,22 +332,13 @@ export default defineComponent({
 
     .modalContentWrapper {
 
-    /*  display: flex;
-        flex-direction: row;
-        width: 100%; */
-
+        /* remove this for screens over 900~ px*/
+        
     
     }
     .modal-content {
-   /*   position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background-color: white;
-        padding: 1rem 1.5rem;
-        border-radius: 0.5rem; */
-        max-width: 35%;
-        
+        height: 90%;
+        overflow: auto;
     }
     .close-button {
         display: block;
