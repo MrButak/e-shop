@@ -57,3 +57,18 @@ exports.getOrderDetails = (stripePiId, email) => {
 	};
 
 };
+
+exports.updateMenuItmQty = () => {
+
+    let db = new Database('menu.db');
+
+    // try {
+	// 	let dbStmt = db.prepare('SELECT * FROM purchases WHERE stripe_pi = (?) AND email = (?)');
+	// 	let orderDetails = dbStmt.all(stripePiId, email);
+	// 	db.close();
+	// 	return orderDetails
+	// }
+    // catch (e) {
+	// 	console.log(e);
+	// };
+};
