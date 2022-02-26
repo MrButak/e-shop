@@ -28,24 +28,21 @@ exports.paymentSuccess = (req, res, next) => {
     console.log(event)
 
     switch (event.type) {
+
         case 'payment_intent.succeeded':
             const paymentIntent = event.data.object;
 
             // this function and front end function (axios post req) are hitting db close to the same time. Is there something I can do for this? is this a cause for concern?
             dbManager.storePurchase(paymentIntent);
-            // write function to update menu item qty
-            //emailManager.sendPaymentSuccessEmail(paymentIntent);
+            dbManager.updateMenuItmQty(paymentIntent);
+            emailManager.sendPaymentSuccessEmail(paymentIntent);
 
-          
-          
-          break;
+            break;
         // ... handle other event types
         default:
-          console.log(`Unhandled event type ${event.type}`);
-      }
+            console.log(`Unhandled event type ${event.type}`);
+    }
 
     // Return a response to acknowledge receipt of the event
     res.json({received: true});
 };
-    
-    
