@@ -34,9 +34,8 @@ exports.paymentSuccess = (req, res, next) => {
 
             // this function and front end function (axios post req) are hitting db close to the same time. Is there something I can do for this? is this a cause for concern?
             dbManager.storePurchase(paymentIntent);
-
             dbManager.updateMenuItmQty(paymentIntent);
-            //emailManager.sendPaymentSuccessEmail(paymentIntent);
+            emailManager.sendPaymentSuccessEmail(paymentIntent);
 
             break;
         // ... handle other event types

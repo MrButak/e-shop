@@ -58,17 +58,28 @@ exports.getOrderDetails = (stripePiId, email) => {
 
 };
 
-exports.updateMenuItmQty = () => {
+// Function updates item quantity in database after purchase
+exports.updateMenuItmQty = (paymentIntent) => {
 
     let db = new Database('menu.db');
 
-    // try {
-	// 	let dbStmt = db.prepare('SELECT * FROM purchases WHERE stripe_pi = (?) AND email = (?)');
-	// 	let orderDetails = dbStmt.all(stripePiId, email);
-	// 	db.close();
-	// 	return orderDetails
-	// }
-    // catch (e) {
-	// 	console.log(e);
-	// };
+    let purchasedItems = JSON.parse(paymentIntent.metadata.purchasedItems);
+    Object.keys(purchasedItems).forEach((key) => {
+
+        try {
+            db.prepare('UPDATE items SET quantity = quantity - (?) WHERE id = (?)').run(purchasedItems[key].qty, key);
+            // if quantity is 0 set inStock to 0 (i can probably remove this row from the table and just use quantity to determine if item is in stock)
+            if(db.prepare('SELECT quantity FROM items WHERE id = (?)').get(key).quantity < 1) {
+                db.prepare('UPDATE items SET inStock = (?) WHERE id = (?)').run(0, key)
+            }
+        }
+        
+        catch(error) {
+
+            console.log(error)
+        }
+    });
+    
+    console.log("ok I update db here")
+    
 };
