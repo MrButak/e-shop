@@ -6,7 +6,7 @@
         
         <div v-for="item in this.menuItems" id="menuCardWrapper" :data-item="item['id']">
             
-            <img :src="item['imageUrl']"/> 
+            <img class="menuItemImg" :src="item['imageUrl']"/> 
             <h3 class="menuItemName">{{ item['name'] }}</h3>
             <p class="menuPrice"> price: ${{ item['price'] }}</p>
             <!-- show message if out of stock -->
@@ -190,7 +190,13 @@ export default defineComponent({
     border: 1px solid black;
     flex: .8 1 40%; /*grow | shrink | basis */
     gap: 10px;
-    min-height: 100%
+    min-height: 100%;
+    border-radius: 7px;
+    -webkit-box-shadow: 5px 5px 15px 5px rgba(0,0,0,0.36); 
+    box-shadow: 5px 5px 15px 5px rgba(0,0,0,0.20);
+}
+.menuItemImg {
+    border-radius: 7px 7px 0 0;
 }
 .menuItemName {
     text-align: center;
