@@ -7,16 +7,12 @@ const sk_test = process.env.STRIPE_SK;
 
 async function paymentIntent(req, res, next) {
     
-    
     let data = Object.keys(req.body)
     data = JSON.parse(data)
     let purchasedItems = JSON.stringify(data.shoppingCart)
     
     const stripe = require("stripe")(sk_test);
     
-
-    
-
     // Create a PaymentIntent with the order amount and currency
     const paymentIntent = await stripe.paymentIntents.create({
 

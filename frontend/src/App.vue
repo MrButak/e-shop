@@ -1,91 +1,94 @@
 <template>
-    <router-view/>
+
+<router-view/>
+
 </template>
 
 
 <script>
 
-    import { defineComponent } from 'vue';
-    import { globalState } from './statestore/composition';
+import { defineComponent } from 'vue';
+import { globalState } from './statestore/composition';
 
-    export default defineComponent({
+export default defineComponent({
 
-        setup() {
-            const { lsInUse, cartItemCnt, menuItems, shoppingCart, currentItemView } = globalState();
+    setup() {
+        const { lsInUse, cartItemCnt, menuItems, shoppingCart, currentItemView } = globalState();
 
-            return { // make it available in <template>
-                cartItemCnt,
-                menuItems,
-                shoppingCart,
-                currentItemView,
-                lsInUse
-            }
-        },
-    
-        data() {
-
-            return {
-
-            }
-        },
-
-        mounted() {
-            
-            this.handleLs();
-        },
-
-        methods: {
-
-            handleLs() {
-                this.lsInUse = true;
-                if(this.checkLsAvailable) {
-                    
-                    if(localStorage.shoppingCart) {
-
-                        this.restoreLs();
-                        return;
-                    };
-
-                    // set local storage variables if doesn't exist
-                    this.lsInUse = true; // set global state
-                    localStorage.setItem("shoppingCart", "");
-                    localStorage.setItem("cartItemCnt", "");
-                    
-                };
-            },
-
-            // Function checks if local storage is available for use on browser
-            checkLsAvailable() {
-
-                let tmpStr = "is local storage available?"
-                try {
-                    localStorage.setItem("test", tmpStr);
-                    localStorage.removeItem(test);
-                    return true;
-                } 
-                catch (error) {
-                    this.lsInUse = false; // set global state
-                    // console.log(error)
-                    return false;
-                };
-            },
-
-            // Function restores global state variables from local storage variables
-            restoreLs() {
-
-                this.lsInUse = true; // set global state
-
-                let lsShpCrt = localStorage.getItem("shoppingCart");
-                lsShpCrt = JSON.parse(lsShpCrt);
-
-                // set global state variables
-                this.shoppingCart = lsShpCrt;
-                this.cartItemCnt = localStorage.getItem("cartItemCnt");
-                return;
-            }
-        
+        return { // make it available in <template>
+            cartItemCnt,
+            menuItems,
+            shoppingCart,
+            currentItemView,
+            lsInUse
         }
-    })
+    },
+
+    data() {
+
+        return {
+
+        }
+    },
+
+    mounted() {
+        
+        this.handleLs();
+    },
+
+    methods: {
+
+        handleLs() {
+            this.lsInUse = true;
+            if(this.checkLsAvailable) {
+                
+                if(localStorage.shoppingCart) {
+
+                    this.restoreLs();
+                    return;
+                };
+
+                // set local storage variables if doesn't exist
+                this.lsInUse = true; // set global state
+                localStorage.setItem("shoppingCart", "");
+                localStorage.setItem("cartItemCnt", "");
+                
+            };
+        },
+
+        // Function checks if local storage is available for use on browser
+        checkLsAvailable() {
+
+            let tmpStr = "is local storage available?"
+            try {
+                localStorage.setItem("test", tmpStr);
+                localStorage.removeItem(test);
+                return true;
+            } 
+            catch (error) {
+                this.lsInUse = false; // set global state
+                // console.log(error)
+                return false;
+            };
+        },
+
+        // Function restores global state variables from local storage variables
+        restoreLs() {
+
+            this.lsInUse = true; // set global state
+
+            let lsShpCrt = localStorage.getItem("shoppingCart");
+            lsShpCrt = JSON.parse(lsShpCrt);
+
+            // set global state variables
+            this.shoppingCart = lsShpCrt;
+            this.cartItemCnt = localStorage.getItem("cartItemCnt");
+            return;
+        }
+    
+    }
+})
+
 </script>
 
 <style>

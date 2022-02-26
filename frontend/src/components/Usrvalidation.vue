@@ -1,51 +1,52 @@
 <template>
-    <div class="editCrtWrapper">
-        <p class="summarySubTitleText">Items ordered</p>
-        <a @click="this.$router.push('shoppingcart')"><p>edit cart</p></a>
-    </div>
 
-    <div class="orderSummaryWrapper">
-        <div class="orderSummaryItems" v-for="item in this.shoppingCart">
+<div class="editCrtWrapper">
+    <p class="summarySubTitleText">Items ordered</p>
+    <a @click="this.$router.push('shoppingcart')"><p>edit cart</p></a>
+</div>
 
-            <div>
-                <p>{{ item.name }}</p>
-                <p>quantity: {{ item.buyQuantity }}</p>
-                <p>price: ${{ item.price * item.buyQuantity }}</p>
-            </div>
-        </div>
-        
-    </div>
-    <div class="editCrtWrapper">
-        <p class="summarySubTitleText">Delivery address</p>
-        <!-- TODO: (maybe) send user to a seperate view for address form -->
-        <a @click="this.$router.push('shoppingcart')"><p>edit address</p></a>
-    </div>
+<div class="orderSummaryWrapper">
+    <div class="orderSummaryItems" v-for="item in this.shoppingCart">
 
-    <div class="deliveryWrapperMain">
-        <p>{{ this.customerDetails.user['name'] }}</p>
-        <p>{{ this.customerDetails.user['email'] }}</p>
-        <p>{{ this.customerDetails.user['add1Field'] }}</p>
-        <p v-if="this.customerDetails.user['add2Field']">{{ add2Field }}</p>
-        <p>{{ this.customerDetails.user['cityField'] }}, {{ this.customerDetails.user['stateField'] }} {{ this.customerDetails.user['posField'] }}</p>
-        <p>{{ this.customerDetails.user['countryField'] }}</p>
-        <p v-if="this.customerDetails.user['deliveryNote']">{{ this.deliveryNote }}</p>
-        
-    </div>
-
-    <div class="summarySubTotalWrapper">
-        <div class="summarySubTotalText">
-            <p>Subtotal: ${{ subTotal }}</p>
+        <div>
+            <p>{{ item.name }}</p>
+            <p>quantity: {{ item.buyQuantity }}</p>
+            <p>price: ${{ item.price * item.buyQuantity }}</p>
         </div>
     </div>
+    
+</div>
+<div class="editCrtWrapper">
+    <p class="summarySubTitleText">Delivery address</p>
+    <!-- TODO: (maybe) send user to a seperate view for address form -->
+    <a @click="this.$router.push('shoppingcart')"><p>edit address</p></a>
+</div>
 
-    <div class="payBtnWrapper">
-        <router-link tag="button" class="payProcessBtn" to="/checkout">Pay</router-link>
+<div class="deliveryWrapperMain">
+    <p>{{ this.customerDetails.user['name'] }}</p>
+    <p>{{ this.customerDetails.user['email'] }}</p>
+    <p>{{ this.customerDetails.user['add1Field'] }}</p>
+    <p v-if="this.customerDetails.user['add2Field']">{{ add2Field }}</p>
+    <p>{{ this.customerDetails.user['cityField'] }}, {{ this.customerDetails.user['stateField'] }} {{ this.customerDetails.user['posField'] }}</p>
+    <p>{{ this.customerDetails.user['countryField'] }}</p>
+    <p v-if="this.customerDetails.user['deliveryNote']">{{ this.deliveryNote }}</p>
+    
+</div>
+
+<div class="summarySubTotalWrapper">
+    <div class="summarySubTotalText">
+        <p>Subtotal: ${{ subTotal }}</p>
     </div>
+</div>
+
+<div class="payBtnWrapper">
+    <router-link tag="button" class="payProcessBtn" to="/checkout">Pay</router-link>
+</div>
 
 </template>
 
-<script>
 
+<script>
 
 import { defineComponent } from 'vue';
 import { globalState } from '../statestore/composition';
@@ -66,7 +67,6 @@ export default defineComponent({
         }
     },
 
-    
     mounted() {
         
   
@@ -81,7 +81,8 @@ export default defineComponent({
 
 </script>
 
-<style>
+<style scoped>
+
 .summarySubTitleText {
 
     font-weight: 600;
@@ -130,7 +131,6 @@ export default defineComponent({
     justify-content: space-between;
     width: 90%;
     margin: 0 0 0 5%;
-    
     
 }
 

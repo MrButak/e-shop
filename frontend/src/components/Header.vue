@@ -1,3 +1,36 @@
+<template>
+
+<header class="menu">
+    <div class="menu-wrap">
+        
+        <input type="checkbox" id="checkbox">
+        <label class="hamburg-menu-icon" for="checkbox">
+            <HamburgMenu />
+        </label>
+        <!-- <img src="" class="mobile-logo-img" alt="Logo"> -->
+        <router-link style="text-decoration: none;" to="/"><h1>Smoothie Shop</h1></router-link>
+        <nav>
+            <ul>
+                <li><router-link to="/">Menu</router-link></li>
+                <li class="shoppingCartLink"><router-link to="/shoppingcart">Shopping cart</router-link></li>
+                <li><router-link to="/about">About</router-link></li>
+            </ul>
+        </nav>
+        <router-link style="text-decoration: none;" to="/Shoppingcart">
+            <div class="shoppingCartWrapper">
+                <span class = shopping-cart-icon>
+                    <ShoppingCartIcon />
+                </span>
+                <span class="cartCount">({{ this.cartItemCnt }})</span>
+            </div>
+        </router-link>
+        <!-- <img src="" class="logo-img" alt="Logo"> -->
+        
+    </div>
+</header>
+
+</template>
+
 <script>
 import HamburgMenu from '@/components/svgs/Hamburgmenu.vue'
 import ShoppingCartIcon from '@/components/svgs/Shoppingcart.vue'
@@ -5,59 +38,27 @@ import { defineComponent } from 'vue'
 import { globalState } from '../statestore/composition'
 
 export default defineComponent({
-  setup() {
-    const { cartItemCnt } = globalState();
-    
-    return { // make it available in <template>
-      cartItemCnt,
-      
-    }
-  },
-  // svg icons
-  components: {
-    HamburgMenu,
-    ShoppingCartIcon
+
+    setup() {
+        const { cartItemCnt } = globalState();
+
+        return { // make it available in <template>
+            cartItemCnt,
+            
+        }
+    },
+
+    // svg icons
+    components: {
+
+        HamburgMenu,
+        ShoppingCartIcon
   },
 })
+
 </script>
 
-
-<template>
-
-    <header class="menu">
-        <div class="menu-wrap">
-           
-            <input type="checkbox" id="checkbox">
-            <label class="hamburg-menu-icon" for="checkbox">
-                <HamburgMenu />
-            </label>
-           <!-- <img src="" class="mobile-logo-img" alt="Logo"> -->
-           <router-link style="text-decoration: none;" to="/"><h1>Smoothie Shop</h1></router-link>
-            <nav>
-                <ul>
-                    <li><router-link to="/">Menu</router-link></li>
-                    <li class="shoppingCartLink"><router-link to="/shoppingcart">Shopping cart</router-link></li>
-                    <li><router-link to="/about">About</router-link></li>
-                </ul>
-            </nav>
-            <router-link style="text-decoration: none;" to="/Shoppingcart">
-                <div class="shoppingCartWrapper">
-                    <span class = shopping-cart-icon>
-                        <ShoppingCartIcon />
-                    </span>
-                    <span class="cartCount">({{ cartItemCnt }})</span>
-                </div>
-            </router-link>
-           <!-- <img src="" class="logo-img" alt="Logo"> -->
-           
-        </div>
-    </header>
-   
-    
-</template>
-
 <style scoped>
-
 
 header {
     background-color: #feecea;
