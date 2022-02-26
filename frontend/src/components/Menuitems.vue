@@ -1,25 +1,27 @@
 <template>
 
 <h2 class="menuTitle">Menu</h2>
-<div id="menuCardWrapperMain">
-    
-    <div v-for="item in this.menuItems" id="menuCardWrapper" :data-item="item['id']">
+<div class="menuCardWrapperDesktop">
+    <div id="menuCardWrapperMain">
         
-        <img :src="item['imageUrl']"/> 
-        <h3 class="menuItemName">{{ item['name'] }}</h3>
-        <p class="menuPrice"> price: ${{ item['price'] }}</p>
-        <!-- show message if out of stock -->
-        <!-- TODO: add a class list to out of stock items which will dim the backgound color and make 'out of stock' more obvious -->
-        <p v-if="item['quantity'] < 1">Out of stock</p>
+        <div v-for="item in this.menuItems" id="menuCardWrapper" :data-item="item['id']">
+            
+            <img :src="item['imageUrl']"/> 
+            <h3 class="menuItemName">{{ item['name'] }}</h3>
+            <p class="menuPrice"> price: ${{ item['price'] }}</p>
+            <!-- show message if out of stock -->
+            <!-- TODO: add a class list to out of stock items which will dim the backgound color and make 'out of stock' more obvious -->
+            <p v-if="item['quantity'] < 1">Out of stock</p>
 
-        <div class="menuItemBtnWrapper">
-            <!-- click function will set global view item (this.currentItemView) and trigger modal popup -->
-            <span @click="this.setViewItem">
-                <button @click="this.toggleModal" class="trigger">View Item</button>
-            </span>
+            <div class="menuItemBtnWrapper">
+                <!-- click function will set global view item (this.currentItemView) and trigger modal popup -->
+                <span @click="this.setViewItem">
+                    <button @click="this.toggleModal" class="trigger">View Item</button>
+                </span>
+            </div>
         </div>
+        
     </div>
-    
 </div>
 
 <div class="modal">
@@ -172,6 +174,7 @@ export default defineComponent({
 .menuTitle {
     text-align: center;
     font-weight: 800;
+    padding: 50px 0 0 0;
 }
 #menuCardWrapperMain {
     display: flex;
@@ -179,13 +182,13 @@ export default defineComponent({
     justify-content: center;
     width: 100%;
     padding: 10px;
-    gap: 10px; 
+    gap: 30px; 
 }
 #menuCardWrapper {
     display: flex;
     flex-direction: column;
     border: 1px solid black;
-    flex: 1 1 40%; /*grow | shrink | basis */
+    flex: .8 1 40%; /*grow | shrink | basis */
     gap: 10px;
     min-height: 100%
 }
@@ -271,9 +274,25 @@ export default defineComponent({
 
 @media (min-width: 1023px) {
 
+    .menuCardWrapperDesktop {
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+
+    }
+    #menuCardWrapperMain {
+        gap: 50px;
+        width: 80%;
+    }
     #menuCardWrapper {
-    
-        flex: 1 1 30%; /*grow | shrink | basis */
+        
+       
+        flex: 1 1 30%;/*grow | shrink | basis */
+     
+        
     }
 
     .modalContentWrapper {
