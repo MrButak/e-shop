@@ -1,5 +1,4 @@
 // This component works together with and is imported into Menuitems.vue component
-
 <template>
 
 <form action="">
@@ -14,13 +13,12 @@
 <button @click="addToCart">Add to cart</button>
 <button @click="toggleModal">Continue shopping</button>
 
-
 </template>
+
 <script>
 
 import { defineComponent } from 'vue';
 import { globalState } from '../statestore/composition';
-import Menuitemscomponent from '../components/Menuitems';
 export default defineComponent({
 
     name: "Addtocartbtn",
@@ -41,7 +39,7 @@ export default defineComponent({
 
         return {
 
-            modal: null
+            modal: {}
         }
     },
 
@@ -77,7 +75,6 @@ export default defineComponent({
 
         decreaseItemQty() {
 
-            
             // TODO: display pop-up to confirm user wants to remove item from cart
             // make sure number can't go below 1
             if(this.currentItemView['buyQtyInput'] < 2) {

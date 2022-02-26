@@ -1,51 +1,46 @@
 <template>
 
-    <h2 class="menuTitle">Menu</h2>
-    <div id="menuCardWrapperMain">
+<h2 class="menuTitle">Menu</h2>
+<div id="menuCardWrapperMain">
+    
+    <div v-for="item in this.menuItems" id="menuCardWrapper" :data-item="item['id']">
         
-        <div v-for="item in this.menuItems" id="menuCardWrapper" :data-item="item['id']">
-            
-            <img :src="item['imageUrl']"/> 
+        <img :src="item['imageUrl']"/> 
+        <h3 class="menuItemName">{{ item['name'] }}</h3>
+        <p class="menuPrice"> price: ${{ item['price'] }}</p>
+        <!-- show message if out of stock -->
+        <!-- TODO: add a class list to out of stock items which will dim the backgound color and make 'out of stock' more obvious -->
+        <p v-if="item['quantity'] < 1">Out of stock</p>
 
-         <!--   <text>{{ item['description'] }}</text>
-            <text>stock  {{ item['quantity'] }}</text>
-            <text v-if="item['inStock'] === 1">available - in stock</text>
-            <text v-else>out of stock</text>  -->
-            <h3 class="menuItemName">{{ item['name'] }}</h3>
-            <p class="menuPrice"> price: ${{ item['price'] }}</p>
+        <div class="menuItemBtnWrapper">
+            <!-- click function will set global view item (this.currentItemView) and trigger modal popup -->
+            <span @click="this.setViewItem">
+                <button @click="this.toggleModal" class="trigger">View Item</button>
+            </span>
+        </div>
+    </div>
+    
+</div>
+
+<div class="modal">
+    
+    <div class="modal-content">
+        <div class="modalContentWrapper">
+            <span @click="this.toggleModal" class="close-button">&times;</span>
+            <img :src="this.currentItemView['imageUrl']"/>
+            <h3 class="menuItemName">{{ this.currentItemView['name'] }}</h3>
+            <p>{{ this.currentItemView['description'] }}</p>
+            <p>Price: ${{ this.currentItemView['price'] }}</p>
             <!-- show message if out of stock -->
-
-            <!-- TODO: add a class list to out of stock items which will dim the backgound color and make 'out of stock' more obvious -->
-            <p v-if="item['quantity'] < 1">Out of stock</p>
-            <div class="menuItemBtnWrapper">
-                <!-- click function will set global view item (this.currentItemView) and trigger modal popup -->
-                <span @click="this.setViewItem">
-                    <button @click="this.toggleModal" class="trigger">View Item</button>
-                </span>
-
-                <!-- Have decided (for now) to remove the add to cart button from menu. Adding something to cart can be done in view item popup modal-->
-                <!-- <button @click="addToCart">Add to cart</button> -->
-            </div>
+            <p v-if="this.currentItemView['quantity'] > 0">in stock: {{ this.currentItemView['quantity'] }}</p>
+            <p v-else>Out of stock</p>
+            <Addtocartbtn ref="addToCartBtn" />
         </div>
     </div>
-  
-    <div class="modal">
-        
-        <div class="modal-content">
-            <div class="modalContentWrapper">
-               <!-- <span @click="this.toggleModal" class="close-button">&times;</span> -->
-                <img :src="this.currentItemView['imageUrl']"/>
-                <h3 class="menuItemName">{{ this.currentItemView['name'] }}</h3>
-                <p>{{ this.currentItemView['description'] }}</p>
-                <p>Price: ${{ this.currentItemView['price'] }}</p>
-                <!-- show message if out of stock -->
-                <p v-if="this.currentItemView['quantity'] > 0">in stock: {{ this.currentItemView['quantity'] }}</p>
-                <p v-else>Out of stock</p>
-                <Addtocartbtn ref="addToCartBtn" />
-            </div>
-        </div>
-        
-    </div>
+    
+</div>
+
+
 </template>
 <script>
 
@@ -53,9 +48,9 @@ import axios from 'axios';
 import { defineComponent } from 'vue';
 import { globalState } from '../statestore/composition';
 import Addtocartbtn from '../components/Addtocartbtn';
+
 export default defineComponent({
 
-    name: "Menuitems",
     setup() {
         const { lsInUse, cartItemCnt, menuItems, shoppingCart, currentItemView } = globalState();
 
@@ -83,8 +78,6 @@ export default defineComponent({
         }
     },
 
-    // call database to set global menu item and display
-    // set variables for the view item popup modal
     mounted() {
 
         this.checkForMenuItems();
@@ -93,11 +86,12 @@ export default defineComponent({
 
     methods: {
 
+        // Function checks if global state object menuItems has been assigned variables from the database yet
         checkForMenuItems() {
 
             if(this.menuItems === 0) {
 
-                // I initially set the global state of menuItems to 0
+                // I initially set the global state of menuItems to 0 (statestore/composition.js) because setting to null was causing an issue
                 this.getMenuItems();
                 return;
             };
@@ -105,40 +99,8 @@ export default defineComponent({
             return;
         },
 
-        toggleModal() {
-
-            this.modal.classList.toggle("show-modal");
-        },
-
-        // function will set the global state currentItemView and make it available to the popup view item modal
-        setViewItem(e) {
-
-            let menuItemNum = e.path[3].dataset.item;
-            this.currentItemView = this.menuItems[`item-${menuItemNum}`];
-            // set the text input for buy quantity
-            this.currentItemView['buyQtyInput'] = 1;
-        },
-
-        // function will hide modal if area outside of modal is clicked
-        windowOnClick(event) {
-
-            if (event.target === this.modal) {
-                this.toggleModal();
-            }
-        },
-
-        setViewModal() {
-
-            this.modal = document.querySelector(".modal");
-            this.trigger = document.querySelector(".trigger");
-            this.closeButton = document.querySelector(".close-button");
-
-            // click outside of modal to hide
-            window.addEventListener("click", this.windowOnClick);
-            
-        },
-
-        // function queries database to get menu items if global state object this.menuItems hasn't been assigned yet
+        // function queries database for menu items if the global state object this.menuItems hasn't been assigned yet
+        //      that way there is only 1 db call per page load
         async getMenuItems() {
 
             let response = await axios({
@@ -147,45 +109,56 @@ export default defineComponent({
                 url: 'http://127.0.0.1:3000/getmenu',
                 data: null
             })
-            
-            .then((response) => {
                 
-                // set global state of menuItems object if it hasn't already been set
-                this.menuItems = {};
-                let tmpItemCnt = 1;
-
-                response.data.forEach((item) => {
-                    this.menuItems[`item-${tmpItemCnt}`] = item;
-                    // add a buyQuantity property to the object
-                    this.menuItems[`item-${tmpItemCnt}`].buyQuantity = 0;
-                    tmpItemCnt++;
-                });
+            // set global state of menuItems object if it hasn't already been set
+            this.menuItems = {};
+            let tmpCounter = 1;
+            response.data.forEach((item) => {
+                this.menuItems[`item-${tmpCounter}`] = item;
+                // add a buyQuantity property to the object
+                this.menuItems[`item-${tmpCounter}`].buyQuantity = 0;
+                tmpCounter++;
             });
-
-            
+        
             return;
         },
 
-        addToCart(event) {
-            
-            //TODO: make a backend validation check on the input number
+        // Function will set the global state currentItemView and make it available to the popup view item modal
+        setViewItem(event) {
 
-            // menu item clicked
-            this.cartItemCnt++
-            // if item already exists in shopping cart, increase order quantity
-            if(this.shoppingCart[`item-${event.path[2].dataset.item}`]) {
-                this.shoppingCart[`item-${event.path[2].dataset.item}`].buyQuantity++
+            // I get the item id from a data-set attribute added to the html element
+            let menuItemNum = event.path[3].dataset.item;
+            this.currentItemView = this.menuItems[`item-${menuItemNum}`];
+            // set the text input for buy quantity
+            this.currentItemView['buyQtyInput'] = 1;
+        },
+
+        //
+        // Functions handle the 'view item' popup modal
+        //
+        setViewModal() {
+
+            this.modal = document.querySelector(".modal");
+            this.trigger = document.querySelector(".trigger");
+            this.closeButton = document.querySelector(".close-button");
+
+            // click outside of modal to hide
+            window.addEventListener("click", this.windowOnClick); 
+        },
+
+        toggleModal() {
+
+            this.modal.classList.toggle("show-modal");
+        },
+
+        // Function will hide modal if area outside of modal is clicked
+        windowOnClick(event) {
+
+            if (event.target === this.modal) {
+                this.toggleModal();
             }
-            // else add item to shopping cart
-            else {
-                this.shoppingCart[`item-${event.path[2].dataset.item}`] = this.menuItems[`item-${event.path[2].dataset.item}`];
-                this.shoppingCart[`item-${event.path[2].dataset.item}`].buyQuantity = 1;
-            }
+        },
    
-            
-            
-        }
-        
     },
 })
 
@@ -217,7 +190,6 @@ export default defineComponent({
     min-height: 100%
 }
 .menuItemName {
-
     text-align: center;
     font-weight: 600;
 }
@@ -246,7 +218,6 @@ export default defineComponent({
     transition: visibility 0s linear 0.25s, opacity 0.25s 0s, transform 0.25s;
 }
 .modalContentWrapper {
-
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -266,18 +237,9 @@ export default defineComponent({
 }
 
 .close-button {
-    float: right;
-    width: 1.5rem;
-    line-height: 1.5rem;
-    text-align: center;
-    cursor: pointer;
-    border-radius: 0.25rem;
-    background-color: lightgray;
+    display: none;
 }
 
-.close-button:hover {
-    background-color: darkgray;
-}
 
 .show-modal {
     opacity: 1;
@@ -332,6 +294,20 @@ export default defineComponent({
         border-radius: 0.5rem; */
         max-width: 35%;
         
+    }
+    .close-button {
+        display: block;
+        float: right;
+        width: 1.5rem;
+        line-height: 1.5rem;
+        text-align: center;
+        cursor: pointer;
+        border-radius: 0.25rem;
+        background-color: lightgray;
+    }
+
+    .close-button:hover {
+        background-color: darkgray;
     }
 
 }

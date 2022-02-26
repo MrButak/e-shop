@@ -27,14 +27,13 @@ exports.storePurchase = (paymentIntent) => {
         shippingAddress[key] = paymentIntent.shipping.address[key];
     });
     shippingAddress = JSON.stringify(shippingAddress);
-    console.log(paymentIntent.id)
-    console.log("this is the id I need to be using")
+    
     let stripePiId = paymentIntent.id;
     let email = paymentIntent.receipt_email;
     let itemsPurchased = paymentIntent.metadata['purchasedItems'];
     let totalPrice = paymentIntent.amount / 100; // in cents
+
     let db = new Database('menu.db');
-    
     let dbStmt = db.prepare('INSERT INTO purchases (stripe_pi, email, items_purchased, total_price, shipping_address, account_id) VALUES (?, ?, ?, ?, ?, ?)');
     dbStmt.run(stripePiId, email, itemsPurchased, totalPrice, shippingAddress, null);
     db.close();
