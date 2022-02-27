@@ -30,14 +30,21 @@
     <div class="modal-content">
         <div class="modalContentWrapper">
             <span @click="this.toggleModal" class="close-button">&times;</span>
-            <img :src="this.currentItemView['imageUrl']"/>
-            <h3 class="menuItemName">{{ this.currentItemView['name'] }}</h3>
+            <div class="desktopModalImgTitle">
+                <img :src="this.currentItemView['imageUrl']"/>
+                <h3 class="modalMenuItemName">{{ this.currentItemView['name'] }}</h3>
+            </div>
             <p>{{ this.currentItemView['description'] }}</p>
-            <p>Price: ${{ this.currentItemView['price'] }}</p>
-            <!-- show message if out of stock -->
-            <p v-if="this.currentItemView['quantity'] > 0">in stock: {{ this.currentItemView['quantity'] }}</p>
-            <p v-else>Out of stock</p>
-            <Addtocartbtn ref="addToCartBtn" />
+            
+            <div class="desktopModalBtnsWrapper">
+                <div class="modalPriceQtyWrapper">
+                    <p>Price: ${{ this.currentItemView['price'] }}</p>
+                    <!-- show message if out of stock -->
+                    <p v-if="this.currentItemView['quantity'] > 0">in stock: {{ this.currentItemView['quantity'] }}</p>
+                    <p v-else>Out of stock</p>
+                </div>
+                <Addtocartbtn ref="addToCartBtn" />
+            </div>
         </div>
     </div>
     
@@ -251,9 +258,11 @@ export default defineComponent({
     flex-direction: column;
     width: 100%;
     gap: 12px;
-    
-
-    
+}
+.modalMenuItemName {
+    text-align: center;
+    font-weight: 600;
+   
 }
 .modal-content {
     position: absolute;
@@ -261,9 +270,12 @@ export default defineComponent({
     left: 50%;
     transform: translate(-50%, -50%);
     background-color: white;
-    padding: 1rem 1.5rem;
-    max-width: 90%;
+    padding: 1rem;
+    max-width: 93%;
     border-radius: 0.5rem;
+    border: 1px solid black;
+   /* height: inherit; */
+    overflow: scroll;
 }
 
 .close-button {
@@ -277,34 +289,33 @@ export default defineComponent({
     transform: scale(1.0);
     transition: visibility 0s linear 0s, opacity 0.25s 0s, transform 0.25s;
 }
+.desktopModalBtnsWrapper {
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
 /*end view item popup modal*/
 
 
+/*Tablet sizes*-----------------------------------------------------*/
 @media (min-width: 723px) {
 
 
     .modal-content {
- /*   position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: white;
-    padding: 1rem 1.5rem;
-    border-radius: 0.5rem; */
-    width: auto;
+    /*   position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: white;
+        padding: 1rem 1.5rem;
+        border-radius: 0.5rem; */
+        
     
-}
-}
-
-/* 900 height*/
-@media (min-height: 900px) {
-
-    .modalContent {
-
-        height: 90%;
-        overflow: auto;
     }
 }
+
+
 /*Desktop sizes*-----------------------------------------------------*/
 
 @media (min-width: 1023px) {
@@ -330,31 +341,73 @@ export default defineComponent({
         
     }
 
+        /*start view item popup modal*/
+    .modal {
+        z-index: 2;
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        opacity: 0;
+        visibility: hidden;
+        transform: scale(1.1);
+        transition: visibility 0s linear 0.25s, opacity 0.25s 0s, transform 0.25s;
+    }
     .modalContentWrapper {
-
-        /* remove this for screens over 900~ px*/
-        
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        gap: 12px;
+    }
+    .ModalMenuItemName {
+        text-align: center;
+        font-weight: 600;
     
     }
     .modal-content {
-        height: 90%;
-        overflow: auto;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: white;
+        padding: 1rem;
+        width: 80%;
+        border-radius: 0.5rem;
+        border: 1px solid black;
+        
+        
     }
+
     .close-button {
         display: block;
-        float: right;
-        width: 1.5rem;
-        line-height: 1.5rem;
-        text-align: center;
-        cursor: pointer;
-        border-radius: 0.25rem;
-        background-color: lightgray;
     }
 
-    .close-button:hover {
-        background-color: darkgray;
-    }
 
+    .show-modal {
+        opacity: 1;
+        visibility: visible;
+        transform: scale(1.0);
+        transition: visibility 0s linear 0s, opacity 0.25s 0s, transform 0.25s;
+    }
+    .desktopModalImgTitle {
+        
+    }
+    .desktopModalBtnsWrapper {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 60%;
+    
+    }
+    .modalPriceQtyWrapper {
+
+        display: flex;
+        justify-content: space-around;
+        
+    }
+    /*end view item popup modal*/
 }
 
 </style>
