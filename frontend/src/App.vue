@@ -149,4 +149,30 @@ export default defineComponent({
     font-weight: 600;
     border-bottom: 1px solid #ccbdae;
 }
+
+
+.pageTitle {
+
+    text-align: center;
+    font-weight: bolder;
+    color: #666;
+    
+    padding: 28px 0 20px 0;
+   /* font-family: 'Dancing Script', cursive;*/
+    font-family: 'Philosopher', sans-serif;
+    font-size: 1.75rem;
+    font-size: clamp(1.75rem, 1.575rem + 0.8750000000000001vw, 2.625rem);
+    
+}
+.menuItemName {
+
+    font-family: 'Philosopher', sans-serif;
+    text-align: center;
+    font-weight: 600;
+    color: #666;
+    background-color: #feecea;
+    border-bottom: .3px solid #f8cdc9;
+    padding: 2rem 0 1rem;
+    
+}
 </style>

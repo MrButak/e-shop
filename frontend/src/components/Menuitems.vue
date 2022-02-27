@@ -1,6 +1,6 @@
 <template>
 
-<h2 class="menuTitle">Menu</h2>
+<h2 class="pageTitle">Menu</h2>
 <div class="menuCardWrapperDesktop">
     <div id="menuCardWrapperMain">
         
@@ -179,11 +179,7 @@ export default defineComponent({
 <style scoped>
 
 /*start menu items display*/
-.menuTitle {
-    text-align: center;
-    font-weight: 800;
-    padding: 50px 0 0 0;
-}
+
 #menuCardWrapperMain {
     display: flex;
     flex-wrap: wrap;
@@ -210,13 +206,7 @@ export default defineComponent({
     margin-bottom: -1rem;
     z-index: 1;
 }
-.menuItemName {
-    text-align: center;
-    font-weight: 600;
-    background-color: #feecea;
-    border-bottom: .3px solid #f8cdc9;
-    padding: 2rem 0 1rem;
-}
+
 .menuPrice {
     text-align: center;
 }

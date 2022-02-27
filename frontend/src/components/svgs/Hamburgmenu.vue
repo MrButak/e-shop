@@ -17,4 +17,19 @@ export default {
     height: 34px;
     color: #ADCF3C;   
 }
+/*Tablet sizes*-----------------------------------------------------*/
+@media (min-width: 723px) {
+
+    .hamburgMenuIcon {
+    
+        width: 40px;
+        height: 40px;
+        color: #ADCF3C;   
+    }
+}
+/*Desktop sizes*-----------------------------------------------------*/
+/*
+@media (min-width: 1023px) {
+    
+}*/
 </style>
