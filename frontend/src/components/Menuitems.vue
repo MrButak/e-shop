@@ -297,7 +297,7 @@ export default defineComponent({
 }
 
 /* 900 height*/
-@media (max-height: 900px) {
+@media (min-height: 900px) {
 
     .modalContent {
 
