@@ -1,25 +1,28 @@
 <template>
 
 <h2 class="menuTitle">Menu</h2>
-<div id="menuCardWrapperMain">
-    
-    <div v-for="item in this.menuItems" id="menuCardWrapper" :data-item="item['id']">
+<div class="menuCardWrapperDesktop">
+    <div id="menuCardWrapperMain">
         
-        <img :src="item['imageUrl']"/> 
-        <h3 class="menuItemName">{{ item['name'] }}</h3>
-        <p class="menuPrice"> price: ${{ item['price'] }}</p>
-        <!-- show message if out of stock -->
-        <!-- TODO: add a class list to out of stock items which will dim the backgound color and make 'out of stock' more obvious -->
-        <p v-if="item['quantity'] < 1">Out of stock</p>
+        <div v-for="item in this.menuItems" id="menuCardWrapper" :data-item="item['id']">
+            
+            <img class="menuItemImg" :src="item['imageUrl']"/> 
+            <h3 class="menuItemName">{{ item['name'] }}</h3>
+            
+            <!-- show message if out of stock -->
+            <!-- TODO: add a class list to out of stock items which will dim the backgound color and make 'out of stock' more obvious -->
+            <p v-if="item['quantity'] < 1">Out of stock</p>
 
-        <div class="menuItemBtnWrapper">
-            <!-- click function will set global view item (this.currentItemView) and trigger modal popup -->
-            <span @click="this.setViewItem">
-                <button @click="this.toggleModal" class="trigger">View Item</button>
-            </span>
+            <div class="menuItemBtnWrapper">
+                <p class="menuPrice"> price: ${{ item['price'] }}</p>
+                <!-- click function will set global view item (this.currentItemView) and trigger modal popup -->
+                <span @click="this.setViewItem">
+                    <button @click="this.toggleModal" class="trigger viewItemBtn">View Item</button>
+                </span>
+            </div>
         </div>
+        
     </div>
-    
 </div>
 
 <div class="modal">
@@ -27,14 +30,21 @@
     <div class="modal-content">
         <div class="modalContentWrapper">
             <span @click="this.toggleModal" class="close-button">&times;</span>
-            <img :src="this.currentItemView['imageUrl']"/>
-            <h3 class="menuItemName">{{ this.currentItemView['name'] }}</h3>
+            <div class="desktopModalImgTitle">
+                <img :src="this.currentItemView['imageUrl']"/>
+                <h3 class="modalMenuItemName">{{ this.currentItemView['name'] }}</h3>
+            </div>
             <p>{{ this.currentItemView['description'] }}</p>
-            <p>Price: ${{ this.currentItemView['price'] }}</p>
-            <!-- show message if out of stock -->
-            <p v-if="this.currentItemView['quantity'] > 0">in stock: {{ this.currentItemView['quantity'] }}</p>
-            <p v-else>Out of stock</p>
-            <Addtocartbtn ref="addToCartBtn" />
+            
+            <div class="desktopModalBtnsWrapper">
+                <div class="modalPriceQtyWrapper">
+                    <p>Price: ${{ this.currentItemView['price'] }}</p>
+                    <!-- show message if out of stock -->
+                    <p v-if="this.currentItemView['quantity'] > 0">in stock: {{ this.currentItemView['quantity'] }}</p>
+                    <p v-else>Out of stock</p>
+                </div>
+                <Addtocartbtn ref="addToCartBtn" />
+            </div>
         </div>
     </div>
     
@@ -172,6 +182,7 @@ export default defineComponent({
 .menuTitle {
     text-align: center;
     font-weight: 800;
+    padding: 50px 0 0 0;
 }
 #menuCardWrapperMain {
     display: flex;
@@ -179,33 +190,58 @@ export default defineComponent({
     justify-content: center;
     width: 100%;
     padding: 10px;
-    gap: 10px; 
+    gap: 30px; 
 }
 #menuCardWrapper {
     display: flex;
     flex-direction: column;
     border: 1px solid black;
-    flex: 1 1 40%; /*grow | shrink | basis */
-    gap: 10px;
-    min-height: 100%
+    flex: .8 1 40%; /*grow | shrink | basis */
+   /* gap: 10px;*/
+    min-height: 100%;
+    border-radius: 7px;
+   /* padding-bottom: 1rem;*/
+    
+    -webkit-box-shadow: 5px 5px 15px 5px rgba(0,0,0,0.36); 
+    box-shadow: 5px 5px 15px 5px rgba(0,0,0,0.20);
+}
+.menuItemImg {
+    border-radius: 0 0 0 30px;
+    margin-bottom: -1rem;
+    z-index: 1;
 }
 .menuItemName {
     text-align: center;
     font-weight: 600;
+    background-color: #feecea;
+    border-bottom: .3px solid #f8cdc9;
+    padding: 2rem 0 1rem;
 }
 .menuPrice {
     text-align: center;
 }
 .menuItemBtnWrapper {
     display: flex;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
+    background-color: white;
     margin-top: auto;
     width: 100%;
+    padding: .7rem 0;
+    gap: 1.2rem
+}
+.viewItemBtn {
+    background-color: #1980b6;
+    color: #ffffff;
+    border-color: #1980b6;
+    padding: .2rem;
 }
 /*end menu items*/
 
 /*start view item popup modal*/
 .modal {
+    z-index: 2;
     position: fixed;
     left: 0;
     top: 0;
@@ -222,8 +258,11 @@ export default defineComponent({
     flex-direction: column;
     width: 100%;
     gap: 12px;
-
-    
+}
+.modalMenuItemName {
+    text-align: center;
+    font-weight: 600;
+   
 }
 .modal-content {
     position: absolute;
@@ -231,9 +270,12 @@ export default defineComponent({
     left: 50%;
     transform: translate(-50%, -50%);
     background-color: white;
-    padding: 1rem 1.5rem;
-    max-width: 90%;
+    padding: 1rem;
+    max-width: 93%;
     border-radius: 0.5rem;
+    border: 1px solid black;
+   /* height: inherit; */
+    overflow: scroll;
 }
 
 .close-button {
@@ -247,23 +289,30 @@ export default defineComponent({
     transform: scale(1.0);
     transition: visibility 0s linear 0s, opacity 0.25s 0s, transform 0.25s;
 }
+.desktopModalBtnsWrapper {
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
 /*end view item popup modal*/
 
 
+/*Tablet sizes*-----------------------------------------------------*/
 @media (min-width: 723px) {
 
 
     .modal-content {
- /*   position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: white;
-    padding: 1rem 1.5rem;
-    border-radius: 0.5rem; */
-    width: auto;
+    /*   position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: white;
+        padding: 1rem 1.5rem;
+        border-radius: 0.5rem; */
+        
     
-}
+    }
 }
 
 
@@ -271,45 +320,94 @@ export default defineComponent({
 
 @media (min-width: 1023px) {
 
+    .menuCardWrapperDesktop {
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+
+    }
+    #menuCardWrapperMain {
+        gap: 50px;
+        width: 80%;
+    }
     #menuCardWrapper {
-    
-        flex: 1 1 30%; /*grow | shrink | basis */
+        
+       
+        flex: 1 1 30%;/*grow | shrink | basis */
+     
+        
     }
 
+        /*start view item popup modal*/
+    .modal {
+        z-index: 2;
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        opacity: 0;
+        visibility: hidden;
+        transform: scale(1.1);
+        transition: visibility 0s linear 0.25s, opacity 0.25s 0s, transform 0.25s;
+    }
     .modalContentWrapper {
-
-    /*  display: flex;
+        display: flex;
         flex-direction: row;
-        width: 100%; */
-
+        width: 100%;
+        gap: 12px;
+    }
+    .ModalMenuItemName {
+        text-align: center;
+        font-weight: 600;
     
     }
     .modal-content {
-   /*   position: absolute;
+        position: absolute;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
         background-color: white;
-        padding: 1rem 1.5rem;
-        border-radius: 0.5rem; */
-        max-width: 35%;
+        padding: 1rem;
+        width: 80%;
+        border-radius: 0.5rem;
+        border: 1px solid black;
+        
         
     }
+
     .close-button {
         display: block;
-        float: right;
-        width: 1.5rem;
-        line-height: 1.5rem;
-        text-align: center;
-        cursor: pointer;
-        border-radius: 0.25rem;
-        background-color: lightgray;
     }
 
-    .close-button:hover {
-        background-color: darkgray;
-    }
 
+    .show-modal {
+        opacity: 1;
+        visibility: visible;
+        transform: scale(1.0);
+        transition: visibility 0s linear 0s, opacity 0.25s 0s, transform 0.25s;
+    }
+    .desktopModalImgTitle {
+        
+    }
+    .desktopModalBtnsWrapper {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 60%;
+    
+    }
+    .modalPriceQtyWrapper {
+
+        display: flex;
+        justify-content: space-around;
+        
+    }
+    /*end view item popup modal*/
 }
 
 </style>
