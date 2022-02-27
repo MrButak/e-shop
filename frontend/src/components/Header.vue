@@ -83,8 +83,14 @@ header {
 .shoppingCartWrapper {
 
     display: flex;
-    padding: 5px 18px 0 0;
- 
+    position: fixed;
+    top: 2%;
+    right: 0;
+    left: 83%;
+    background: #feecea;
+    padding: 9px;
+    border-radius: 22px 0px 0px 22px;
+    z-index: 3;
 }
 
 .shopping-cart-icon {
@@ -198,5 +204,16 @@ nav ul li a:hover, nav ul li a:focus {
         font-size: 22px;
         padding: 9px 0 0 1px;
     }
+    .shoppingCartWrapper {
+        text-decoration: none;
+        position: fixed;
+        top: 4%;
+        right: 0;
+        left: 92%;
+        background: #feecea;
+        padding: 10px;
+        border-radius: 25px 0px 0px 25px;
+    }
+    
 }
 </style>
