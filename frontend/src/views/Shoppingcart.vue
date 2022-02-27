@@ -1,7 +1,7 @@
 <template>
 <Header />
 
-<h2 class="shoppingCartTitle">Shopping Cart</h2>
+<h2 class="pageTitle">Shopping Cart</h2>
 
 <div v-if="this.cartItemCnt > 0">
     <Shoppingcrt />

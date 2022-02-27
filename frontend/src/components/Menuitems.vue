@@ -1,6 +1,6 @@
 <template>
 
-<h2 class="menuTitle">Menu</h2>
+<h2 class="pageTitle">Menu</h2>
 <div class="menuCardWrapperDesktop">
     <div id="menuCardWrapperMain">
         

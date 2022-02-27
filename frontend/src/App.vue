@@ -149,4 +149,12 @@ export default defineComponent({
     font-weight: 600;
     border-bottom: 1px solid #ccbdae;
 }
+
+
+.pageTitle {
+
+    text-align: center;
+    font-weight: 900;
+    color: #666;
+}
 </style>
