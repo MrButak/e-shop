@@ -16,4 +16,21 @@ export default {
     height: 34px;
     color: #ADCF3C;   
 }
+/*Tablet sizes*-----------------------------------------------------*/
+@media (min-width: 723px) {
+    .shoppingCartIcon {
+        width: 40px;
+        height: 40px;
+        color: #ADCF3C;   
+    }
+}
+/*Desktop sizes*-----------------------------------------------------*/
+
+@media (min-width: 1023px) { 
+    .shoppingCartIcon {
+        width: 46px;
+        height: 46px;
+        color: #ADCF3C;   
+    }
+}
 </style>

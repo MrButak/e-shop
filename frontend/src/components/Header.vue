@@ -2,13 +2,14 @@
 
 <header class="menu">
     <div class="menu-wrap">
-        
+        <img src="../../public/img/logo-desktop-300x145.png" class="desktopLogo" alt="Logo">
         <input type="checkbox" id="checkbox">
         <label class="hamburg-menu-icon" for="checkbox">
             <HamburgMenu />
         </label>
-        <!-- <img src="" class="mobile-logo-img" alt="Logo"> -->
-        <router-link style="text-decoration: none;" to="/"><h1>Smoothie Shop</h1></router-link>
+        
+        <img src="../../public/img/logo-mobile-180x86.png" class="mobileLogo" alt="Logo">
+        <!--<router-link style="text-decoration: none;" to="/">Salem Smoothies</router-link>-->
         <nav>
             <ul>
                 <li><router-link to="/">Menu</router-link></li>
@@ -24,7 +25,7 @@
                 <span class="cartCount">({{ this.cartItemCnt }})</span>
             </div>
         </router-link>
-        <!-- <img src="" class="logo-img" alt="Logo"> -->
+        
         
     </div>
 </header>
@@ -32,10 +33,10 @@
 </template>
 
 <script>
-import HamburgMenu from '@/components/svgs/Hamburgmenu.vue'
-import ShoppingCartIcon from '@/components/svgs/Shoppingcart.vue'
-import { defineComponent } from 'vue'
-import { globalState } from '../statestore/composition'
+import HamburgMenu from '@/components/svgs/Hamburgmenu.vue';
+import ShoppingCartIcon from '@/components/svgs/Shoppingcart.vue';
+import { defineComponent } from 'vue';
+import { globalState } from '../statestore/composition';
 
 export default defineComponent({
 
@@ -62,7 +63,7 @@ export default defineComponent({
 
 header {
     background-color: #feecea;
-    padding: 10px 0;
+    padding: 10px 0 10px 0;
     
     
 }
@@ -72,7 +73,13 @@ header {
     align-items: center;
     
 }
-
+.mobileLogo {
+        display: flex;
+        padding: 0 0 0 0;
+}
+.desktopLogo {
+    display: none;
+}
 .shoppingCartWrapper {
 
     display: flex;
@@ -94,16 +101,6 @@ header {
     position: absolute; */
 }
 
-.logo-img {
-    max-width: 100%;
-    height: auto;
-    display: none;
-}
-.mobile-logo-img {
-    max-width: 100%;
-    height: auto;
-   
-}
 .hamburg-menu-icon {
     padding: 0 0 0 18px;
 }
@@ -111,9 +108,10 @@ header {
 nav {
     position: absolute;
     background-color: white;
-    top: 68px;
+    top: 116px;
     left:0;
-    width: 100%; 
+    width: 100%;
+    z-index: 3; 
 }
 nav ul {
     list-style-type: none;
@@ -145,22 +143,28 @@ nav ul li a:hover, nav ul li a:focus {
     border: 1px solid black;
     background-color: white;
 }
+/*Tablet sizes*-----------------------------------------------------*/
+@media (min-width: 723px) {
 
+    .cartCount {
+        font-size: 19px;
+        padding: 9px 0 0 1px;
+        
+    }
+}
 /*Desktop sizes*-----------------------------------------------------*/
 
 @media (min-width: 1023px) { 
 
     /*Header start*/
-    .logo-img {
-        max-width: 100%;
-        height: auto;
+    .desktopLogo {
         display: block;
+        padding: 0 0 0 18px;
     }
-    .mobile-logo-img {
-        max-width: 100%;
-        height: auto;
+    .mobileLogo {
         display: none;
     }
+    
     .hamburg-menu-icon, .shoppingCartLink {
         display: none;
     }
@@ -170,8 +174,8 @@ nav ul li a:hover, nav ul li a:focus {
     }
     nav ul {
         /* set max height to header height*/
-        max-height: 60px;
-        padding: 17px 94px 0 0;
+        max-height: 160px;
+        padding: 7% 24% 0 0;
         text-align: right;
    
     }
@@ -189,6 +193,10 @@ nav ul li a:hover, nav ul li a:focus {
         padding-top: 55px;
         padding-right: 150px;
         border: none;
+    }
+    .cartCount {
+        font-size: 22px;
+        padding: 9px 0 0 1px;
     }
 }
 </style>
