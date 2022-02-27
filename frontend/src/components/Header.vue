@@ -75,7 +75,7 @@ header {
 }
 .mobileLogo {
         display: flex;
-        padding: 0 0 0 0;
+        padding: 0 1rem 0 0;
 }
 .desktopLogo {
     display: none;
@@ -84,12 +84,11 @@ header {
 
     display: flex;
     position: fixed;
-    top: 2%;
+    top: 22px;
     right: 0;
-    left: 83%;
     background: #feecea;
     padding: 9px;
-    border-radius: 22px 0px 0px 22px;
+    border-radius: 1.4rem 0px 0px 1.4rem;
     z-index: 3;
 }
 
@@ -165,7 +164,7 @@ nav ul li a:hover, nav ul li a:focus {
     /*Header start*/
     .desktopLogo {
         display: block;
-        padding: 0 0 0 18px;
+        padding: 0 0 0 1rem;
     }
     .mobileLogo {
         display: none;
@@ -207,12 +206,10 @@ nav ul li a:hover, nav ul li a:focus {
     .shoppingCartWrapper {
         text-decoration: none;
         position: fixed;
-        top: 4%;
-        right: 0;
-        left: 92%;
+        top: 43px;
         background: #feecea;
-        padding: 10px;
-        border-radius: 25px 0px 0px 25px;
+        padding: 16px;
+        border-radius: 1.4rem 0px 0px 1.4rem;
     }
     
 }

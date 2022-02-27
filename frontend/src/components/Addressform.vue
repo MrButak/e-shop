@@ -1,51 +1,50 @@
-<template>
-    
-<form id="address-form" action="" method="" autocomplete="on"> <!-- may have to toggleback on -->
-    <p class="AddressFormTitle">Delivery Address</p>
-    <p class="note"><em>* = required field</em></p>
-    <!-- Avoid the word "address" in id, name, or label text to avoid browser autofill from conflicting with Place Autocomplete. Star or comment bug https://crbug.com/587466 to request Chromium to honor autocomplete="off" attribute. -->
-    <label class="full-field">
-        <span class="form-label">Name for order*</span>
-        <input id="name" required="true" autocomplete="on" placeholder="Name">
-    </label>
-    <label class="full-field">
-        <span class="form-label">Email*</span><span class="note">required for receipt</span>
-        <input type="email" id="email" required="" autocomplete="on" placeholder="Email">
-    </label>
-    <label class="full-field">
-        <span class="form-label">Deliver to*</span>
-        <input id="ship-address" name="ship-address" required="" autocomplete="off" class="pac-target-input" placeholder="Enter a location">
-    </label>
-    <label class="full-field">
-        <span class="form-label">Apartment, unit, suite, or floor #</span>
-        <input id="address2" name="address2">
-    </label>
-    <label class="full-field">
-        <span class="form-label">City*</span>
-        <input id="locality" name="locality" required="">
-    </label>
-    <label class="slim-field-left">
-        <span class="form-label">State/Province*</span>
-        <input id="state" name="state" required="" >
-    </label>
-    <label class="slim-field-right" for="postal_code">
-        <span class="form-label">Postal code*</span>
-        <input id="postcode" name="postcode" required="">
-    </label>
-    <label class="full-field">
-        <span class="form-label">Country/Region*</span>
-        <input id="country" name="country" required="" >
-    </label>
-    <label class="full-field">
-        <span class="form-label">Additional notes</span>
-        <input id="deliveryNote" autocomplete="off" placeholder="additional notes" >
-    </label>
-    <button @click="validateAddress" type="submit" class="my-button">Checkout</button>
-    <!-- Reset button provided for development testing convenience.
-Not recommended for user-facing forms due to risk of mis-click when aiming for Submit button. -->
-    <!--<input type="reset" value="Clear form">-->
-</form>
-    
+<template>  
+    <form id="address-form" action="" method="" autocomplete="on"> <!-- may have to toggleback on -->
+        <p class="AddressFormTitle">Delivery Address</p>
+        <p class="note"><em>* = required field</em></p>
+        <!-- Avoid the word "address" in id, name, or label text to avoid browser autofill from conflicting with Place Autocomplete. Star or comment bug https://crbug.com/587466 to request Chromium to honor autocomplete="off" attribute. -->
+        <label class="full-field">
+            <span class="form-label">Name for order*</span>
+            <input id="name" required="true" autocomplete="on" placeholder="Name">
+        </label>
+        <label class="full-field">
+            <span class="form-label">Email*</span><span class="note">required for receipt</span>
+            <input type="email" id="email" required="" autocomplete="on" placeholder="Email">
+        </label>
+        <label class="full-field">
+            <span class="form-label">Deliver to*</span>
+            <input id="ship-address" name="ship-address" required="" autocomplete="off" class="pac-target-input" placeholder="Enter a location">
+        </label>
+        <label class="full-field">
+            <span class="form-label">Apartment, unit, suite, or floor #</span>
+            <input id="address2" name="address2">
+        </label>
+        <label class="full-field">
+            <span class="form-label">City*</span>
+            <input id="locality" name="locality" required="">
+        </label>
+        <label class="slim-field-left">
+            <span class="form-label">State/Province*</span>
+            <input id="state" name="state" required="" >
+        </label>
+        <label class="slim-field-right" for="postal_code">
+            <span class="form-label">Postal code*</span>
+            <input id="postcode" name="postcode" required="">
+        </label>
+        <label class="full-field">
+            <span class="form-label">Country/Region*</span>
+            <input id="country" name="country" required="" >
+        </label>
+        <label class="full-field">
+            <span class="form-label">Additional notes</span>
+            <input id="deliveryNote" autocomplete="off" placeholder="additional notes" >
+        </label>
+        <button @click="validateAddress" type="submit" class="my-button">Checkout</button>
+        <!-- Reset button provided for development testing convenience.
+    Not recommended for user-facing forms due to risk of mis-click when aiming for Submit button. -->
+        <!--<input type="reset" value="Clear form">-->
+    </form>
+
 </template>
 
 <script>
@@ -235,6 +234,10 @@ export default defineComponent ({
 </script>
 
 <style scoped>
+.addressFormWrapper {
+    width: 100%;
+    /*margin: 0 0 0 3%;*/
+}
 #address-form {
 
     display: flex;

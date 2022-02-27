@@ -1,25 +1,24 @@
 <template>
-    
-    <Header />
+<Header />
 
-    <h2 class="shoppingCartTitle">Shopping Cart</h2>
+<h2 class="shoppingCartTitle">Shopping Cart</h2>
 
-    <div v-if="this.cartItemCnt > 0">
-        <Shoppingcrt />
-        <div class="checkoutBtnWrapper">
-            <button @click="toggleAddressForm" class="payProcessBtn">Checkout</button>
-        </div>
-
-        <div class="addressFormWrapper">
-            <Addressform />
-        </div>
+<div v-if="this.cartItemCnt > 0">
+    <Shoppingcrt />
+    <div class="checkoutBtnWrapper">
+        <button @click="toggleAddressForm" class="payProcessBtn">Checkout</button>
     </div>
 
-    <div v-else>
-        <p>No Items in shopping cart</p>
+    <div class="addressFormWrapper">
+        <Addressform />
     </div>
+</div>
 
-    <Footer />
+<div v-else>
+    <p>No Items in shopping cart</p>
+</div>
+
+<!--<Footer />-->
  
 </template>
 
@@ -88,17 +87,24 @@ export default {
 </script>
 <style scoped>
 
-.shoppingCartTitle {
 
-    text-align: center;
-    font-weight: 800;
-}
 
+/*.shoppingCartWrapper {
+
+    display: flex;
+    
+    top: 22px;
+    right: 0;
+    background: #feecea;
+    padding: 9px;
+    border-radius: 1.4rem 0px 0px 1.4rem;
+    z-index: 3;
+}*/
 .checkoutBtnWrapper {
 
     display: flex;
     width: 100%;
-    margin-left: 5%;
+    padding: 0 0 0 10px;
 }
 .addressFormWrapper {
 
