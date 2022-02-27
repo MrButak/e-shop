@@ -75,7 +75,7 @@ header {
 }
 .mobileLogo {
         display: flex;
-        padding: 0 1rem 0 0;
+        padding: 0 1.2rem 0 0;
 }
 .desktopLogo {
     display: none;
@@ -113,7 +113,7 @@ header {
 nav {
     position: absolute;
     background-color: white;
-    top: 116px;
+    top: 107px;
     left:0;
     width: 100%;
     z-index: 3; 
