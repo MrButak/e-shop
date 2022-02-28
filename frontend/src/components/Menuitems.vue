@@ -1,3 +1,6 @@
+// TODO: 
+
+
 <template>
 
 <h2 class="pageTitle">Menu</h2>
@@ -5,7 +8,7 @@
     <div id="menuCardWrapperMain">
         
         <div v-for="item in this.menuItems" id="menuCardWrapper" :data-item="item['id']">
-            
+        
             <img class="menuItemImg" :src="item['imageUrl']"/> 
             <h3 class="menuItemName">{{ item['name'] }}</h3>
             
@@ -16,38 +19,51 @@
             <div class="menuItemBtnWrapper">
                 <p class="menuPrice"> price: ${{ item['price'] }}</p>
                 <!-- click function will set global view item (this.currentItemView) and trigger modal popup -->
-                <span @click="this.setViewItem">
+
+                <!-- the mobile button -->
+                <span class="mobileModalWrapper" @click="this.setViewItem">
                     <button @click="this.toggleModal" class="trigger viewItemBtn">View Item</button>
                 </span>
+
+                <!-- the desktop button  TODO: change the classes and functions for a seperate desktop modal-->
+                <span class="dsktopModalWrapper" @click="this.setViewItem">
+                    <button @click="this.dsktopToggleModal" class="trigger viewItemBtn">View Item</button>
+                </span>
+
             </div>
         </div>
         
     </div>
 </div>
 
-<div class="modal">
-    
-    <div class="modal-content">
-        <div class="modalContentWrapper">
-            <span @click="this.toggleModal" class="close-button">&times;</span>
-            <div class="desktopModalImgTitle">
-                <img :src="this.currentItemView['imageUrl']"/>
-                <h3 class="modalMenuItemName">{{ this.currentItemView['name'] }}</h3>
-            </div>
-            <p>{{ this.currentItemView['description'] }}</p>
-            
-            <div class="desktopModalBtnsWrapper">
-                <div class="modalPriceQtyWrapper">
-                    <p>Price: ${{ this.currentItemView['price'] }}</p>
-                    <!-- show message if out of stock -->
-                    <p v-if="this.currentItemView['quantity'] > 0">in stock: {{ this.currentItemView['quantity'] }}</p>
-                    <p v-else>Out of stock</p>
+<div class="mobileModalWrapper">
+    <div class="modal">
+        
+        <div class="modal-content">
+            <div class="modalContentWrapper">
+                <span @click="this.toggleModal" class="close-button">&times;</span>
+                <div class="desktopModalImgTitle">
+                    <img :src="this.currentItemView['imageUrl']"/>
+                    <h3 class="modalMenuItemName">{{ this.currentItemView['name'] }}</h3>
                 </div>
-                <Addtocartbtn ref="addToCartBtn" />
+                <p>{{ this.currentItemView['description'] }}</p>
+                
+                <div class="desktopModalBtnsWrapper">
+                    <div class="modalPriceQtyWrapper">
+                        <p>Price: ${{ this.currentItemView['price'] }}</p>
+                        <!-- show message if out of stock -->
+                        <p v-if="this.currentItemView['quantity'] > 0">in stock: {{ this.currentItemView['quantity'] }}</p>
+                        <p v-else>Out of stock</p>
+                    </div>
+                    <Addtocartbtn ref="addToCartBtn" />
+                </div>
             </div>
         </div>
+        
     </div>
-    
+</div>
+<div class="dsktopModalWrapper">
+    <Dsktopmodal ref="dsktopModal"/>
 </div>
 
 
@@ -58,6 +74,7 @@ import axios from 'axios';
 import { defineComponent } from 'vue';
 import { globalState } from '../statestore/composition';
 import Addtocartbtn from '../components/Addtocartbtn';
+import Dsktopmodal from '../components/Dsktopmodal';
 
 export default defineComponent({
 
@@ -75,7 +92,8 @@ export default defineComponent({
 
     components: {
 
-        Addtocartbtn
+        Addtocartbtn,
+        Dsktopmodal
     },
     
     data() {
@@ -92,10 +110,19 @@ export default defineComponent({
 
         this.checkForMenuItems();
         this.setViewModal();
+        this.setDsktopViewModal();
     },
 
     methods: {
 
+        dsktopToggleModal() {
+            this.$refs.dsktopModal.dsktopToggleModal()
+        },
+        // Desktop view modal
+        setDsktopViewModal() {
+
+            this.$refs.dsktopModal.setDsktopViewModal()
+        },
         // Function checks if global state object menuItems has been assigned variables from the database yet
         checkForMenuItems() {
 
@@ -179,7 +206,13 @@ export default defineComponent({
 <style scoped>
 
 /*start menu items display*/
+.mobileModalWrapper {
+    display: flex;
+}
+.dsktopModalWrapper {
 
+    display: none;
+}
 #menuCardWrapperMain {
     display: flex;
     flex-wrap: wrap;
@@ -279,6 +312,10 @@ export default defineComponent({
     transform: scale(1.0);
     transition: visibility 0s linear 0s, opacity 0.25s 0s, transform 0.25s;
 }
+.desktopModalImgTitle {
+    display: flex;
+    flex-direction: column;
+}
 .desktopModalBtnsWrapper {
     justify-content: center;
     display: flex;
@@ -288,28 +325,18 @@ export default defineComponent({
 /*end view item popup modal*/
 
 
-/*Tablet sizes*-----------------------------------------------------*/
-@media (min-width: 723px) {
-
-
-    .modal-content {
-    /*   position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background-color: white;
-        padding: 1rem 1.5rem;
-        border-radius: 0.5rem; */
-        
-    
-    }
-}
-
 
 /*Desktop sizes*-----------------------------------------------------*/
 
 @media (min-width: 1023px) {
 
+    .dsktopModalWrapper {
+
+        display: flex;
+    }
+    .mobileModalWrapper {
+        display: none;
+    }
     .menuCardWrapperDesktop {
 
         display: flex;
@@ -325,14 +352,12 @@ export default defineComponent({
     }
     #menuCardWrapper {
         
-       
         flex: 1 1 30%;/*grow | shrink | basis */
-     
-        
+
     }
 
-        /*start view item popup modal*/
-    .modal {
+    
+   /* .modal {
         z-index: 2;
         position: fixed;
         left: 0;
@@ -396,7 +421,7 @@ export default defineComponent({
         display: flex;
         justify-content: space-around;
         
-    }
+    }*/
     /*end view item popup modal*/
 }
 
