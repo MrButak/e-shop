@@ -48,7 +48,7 @@
                 </div>
                 <p>{{ this.currentItemView['description'] }}</p>
                 
-                <div class="desktopModalBtnsWrapper">
+              <!--  <div class="desktopModalBtnsWrapper"> -->
                     <div class="modalPriceQtyWrapper">
                         <p>Price: ${{ this.currentItemView['price'] }}</p>
                         <!-- show message if out of stock -->
@@ -56,7 +56,7 @@
                         <p v-else>Out of stock</p>
                     </div>
                     <Addtocartbtn ref="addToCartBtn" />
-                </div>
+                
             </div>
         </div>
         

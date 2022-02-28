@@ -6,7 +6,7 @@
         
         <div class="dsktopModal-content">
             <div class="modalContentWrapper">
-                <span @click="this.dsktopToggleModal" class="dsktopCloseBtn">&times;</span>
+             <!---   <span @click="this.dsktopToggleModal" class="dsktopCloseBtn">&times;</span> -->
                 <div class="desktopModalImgTitle">
                     <img :src="this.currentItemView['imageUrl']"/>
                     <h3 class="modalMenuItemName">{{ this.currentItemView['name'] }}</h3>
@@ -138,7 +138,7 @@ export default defineComponent({
         display: flex;
         flex-direction: row;
         width: 100%;
-        gap: 12px;
+        gap: 25px;
     }
     .ModalMenuItemName {
         text-align: center;
@@ -169,19 +169,25 @@ export default defineComponent({
         transition: visibility 0s linear 0s, opacity 0.25s 0s, transform 0.25s;
     }
     .desktopModalImgTitle {
-        
+        display: flex;
+        flex-direction: column;
+        text-align: center;
     }
     .desktopModalBtnsWrapper {
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        width: 60%;
+        width: 80%;
     
     }
     .dsktopModalPriceQtyWrapper {
 
         display: flex;
         justify-content: space-around;
+        text-align: center;
+        padding: 0px 0 10px 0;
+        gap: 23px;
+        flex-direction: column-reverse;
         
     }
     /*end view item popup dsktopModal*/

@@ -9,12 +9,13 @@
         
     </div>
 </form>
-
-<button @click="addToCart">Add to cart</button>
-<!-- can I set a @media query if/else? -->
-<span @click="dsktopToggleModal">
-    <button @click="toggleModal">Continue shopping</button>
-</span>
+<div class="addToCrtAndContShoppingBtnWrapper">
+    <button class="blueBtn" @click="addToCart">Add to cart</button>
+    <!-- can I set a @media query if/else? -->
+    <span @click="dsktopToggleModal">
+        <button class="blueBtn" @click="toggleModal">Continue shopping</button>
+    </span>
+</div>
 </template>
 
 <script>
