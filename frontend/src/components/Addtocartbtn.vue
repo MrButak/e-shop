@@ -1,4 +1,4 @@
-// This component works together with and is imported into Menuitems.vue component
+// This component works together with and is imported into Menuitems.vue and Dsktopmodal.vue component
 <template>
 
 <form action="">
@@ -11,8 +11,10 @@
 </form>
 
 <button @click="addToCart">Add to cart</button>
-<button @click="toggleModal">Continue shopping</button>
-
+<!-- can I set a @media query if/else? -->
+<span @click="dsktopToggleModal">
+    <button @click="toggleModal">Continue shopping</button>
+</span>
 </template>
 
 <script>
@@ -39,7 +41,8 @@ export default defineComponent({
 
         return {
 
-            modal: {}
+            modal: {},
+            dsktopModal: null,
         }
     },
 
@@ -54,11 +57,13 @@ export default defineComponent({
         setViewModal() {
 
             this.modal = document.querySelector(".modal");
+            this.dsktopModal = document.querySelector(".dsktopModal");
         },
 
         toggleModal() {
 
             this.modal.classList.toggle("show-modal");
+            this.dsktopModal.classList.toggle("show-dsktopModal");
         },
 
         increaseItemQty() {

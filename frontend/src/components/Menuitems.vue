@@ -27,7 +27,7 @@
 
                 <!-- the desktop button  TODO: change the classes and functions for a seperate desktop modal-->
                 <span class="dsktopModalWrapper" @click="this.setViewItem">
-                    <button @click="this.dsktopToggleModal" class="trigger viewItemBtn">View Item</button>
+                    <button @click="this.dsktopToggleModal" class="dsktopTrigger viewItemBtn">View Item</button>
                 </span>
 
             </div>

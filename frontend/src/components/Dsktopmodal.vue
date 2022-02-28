@@ -2,11 +2,11 @@
 
 
 
-    <div class="modal">
+    <div class="dsktopModal">
         
-        <div class="modal-content">
+        <div class="dsktopModal-content">
             <div class="modalContentWrapper">
-                <span @click="this.toggleModal" class="close-button">&times;</span>
+                <span @click="this.dsktopToggleModal" class="dsktopCloseBtn">&times;</span>
                 <div class="desktopModalImgTitle">
                     <img :src="this.currentItemView['imageUrl']"/>
                     <h3 class="modalMenuItemName">{{ this.currentItemView['name'] }}</h3>
@@ -14,7 +14,7 @@
                 <p>{{ this.currentItemView['description'] }}</p>
                 
                 <div class="desktopModalBtnsWrapper">
-                    <div class="modalPriceQtyWrapper">
+                    <div class="dsktopModalPriceQtyWrapper">
                         <p>Price: ${{ this.currentItemView['price'] }}</p>
                         <!-- show message if out of stock -->
                         <p v-if="this.currentItemView['quantity'] > 0">in stock: {{ this.currentItemView['quantity'] }}</p>
@@ -61,43 +61,43 @@ export default defineComponent({
 
         return {
 
-            modal: null,
-            trigger: null,
+            dsktopModal: null,
+            dsktopTrigger: null,
             closeButton: null
         }
     },
 
-    mounted() {
+    // mounted() {
 
-        this.setViewModal();
-    },
+    //     this.setDsktopViewModal();
+    // },
 
     methods: {
 
        
         //
-        // Functions handle the 'view item' popup modal
+        // Functions handle the 'view item' popup dsktopModal
         //
         setDsktopViewModal() {
 
-            this.modal = document.querySelector(".modal");
-            this.trigger = document.querySelector(".trigger");
-            this.closeButton = document.querySelector(".close-button");
+            this.dsktopModal = document.querySelector(".dsktopModal");
+            this.dsktopTrigger = document.querySelector(".dsktopTrigger");
+            this.closeButton = document.querySelector(".dsktopCloseBtn");
 
-            // click outside of modal to hide
-            window.addEventListener("click", this.windowOnClick); 
+            // click outside of dsktopModal to hide
+            window.addEventListener("click", this.dsktopWindowOnClick); 
         },
 
         dsktopToggleModal() {
 
-            this.modal.classList.toggle("show-modal");
+            this.dsktopModal.classList.toggle("show-dsktopModal");
         },
 
-        // Function will hide modal if area outside of modal is clicked
-        windowOnClick(event) {
+        // Function will hide dsktopModal if area outside of dsktopModal is clicked
+        dsktopWindowOnClick(event) {
 
-            if (event.target === this.modal) {
-                this.toggleModal();
+            if (event.target === this.dsktopModal) {
+                this.dsktopToggleModal();
             }
         },
    
@@ -121,7 +121,7 @@ export default defineComponent({
 
 
     
-    .modal {
+    .dsktopModal {
         z-index: 2;
         position: fixed;
         left: 0;
@@ -145,7 +145,7 @@ export default defineComponent({
         font-weight: 600;
     
     }
-    .modal-content {
+    .dsktopModal-content {
         position: absolute;
         top: 50%;
         left: 50%;
@@ -157,12 +157,12 @@ export default defineComponent({
         border: 1px solid black; 
     }
 
-    .close-button {
+    .dsktopCloseBtn {
         display: block;
     }
 
 
-    .show-modal {
+    .show-dsktopModal {
         opacity: 1;
         visibility: visible;
         transform: scale(1.0);
@@ -178,13 +178,13 @@ export default defineComponent({
         width: 60%;
     
     }
-    .modalPriceQtyWrapper {
+    .dsktopModalPriceQtyWrapper {
 
         display: flex;
         justify-content: space-around;
         
     }
-    /*end view item popup modal*/
+    /*end view item popup dsktopModal*/
 }
 
 </style>
