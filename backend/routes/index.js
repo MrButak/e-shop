@@ -21,7 +21,7 @@ router.post('/create-payment-intent', allowRequest, payment.paymentIntent)
 
 router.post('/webhook', stripeWebHooks.stripeWebHooks);
 
-router.post('/validatedeliveryaddress', allowRequest, validateForms.validateDeliveryAddress);
+router.post('/validatedeliveryaddress', allowRequest, validateForms.validateDeliveryForm);
 
 // db lookup on "purchases" TABLE (need pi_stripe_key and email)
 router.post('/orderdetails', allowRequest, index.getOrderDetails)

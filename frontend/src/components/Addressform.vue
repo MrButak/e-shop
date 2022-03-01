@@ -40,6 +40,7 @@
             <input id="deliveryNote" autocomplete="off" placeholder="additional notes" >
         </label>
         <button @click="validateAddress" type="submit" class="my-button">Checkout</button>
+        <p>{{ this.errorMessage }}</p>
         <!-- Reset button provided for development testing convenience.
     Not recommended for user-facing forms due to risk of mis-click when aiming for Submit button. -->
         <!--<input type="reset" value="Clear form">-->
@@ -73,6 +74,7 @@ export default defineComponent ({
         return {
 
             autocomplete: {},
+            errorMessage: "",
             name: "",
             email: "",
             address1Field: "",
@@ -192,6 +194,7 @@ export default defineComponent ({
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 url: 'http://127.0.0.1:3000/validatedeliveryaddress',
                 data: {
+                    email: this.email.value,
                     streetAddress: this.address1Field.value,
                     addressDetails: this.address2Field.value,
                     city: this.locality.value,
@@ -221,8 +224,9 @@ export default defineComponent ({
 
                 this.$router.push('Uservalidation');
             }
-            // TODO: display error message and clear form
+            
             else {
+                this.errorMessage = "Form Error. Please check that you have entered a valid email address and your delivery address is in Salem, MO.";
                 console.log("not salem, mo address");
                 return;
             };   
