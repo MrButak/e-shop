@@ -157,7 +157,12 @@ export default defineComponent({
                 this.menuItems[`item-${tmpCounter}`].buyQuantity = 0;
                 tmpCounter++;
             });
-        
+            // set local storage here for menuItems (BUG: when refreshing the page from /shoppingcart. /shoppingcart uses menuItems to display users shopping cart items. When a refresh happens there is no this.menuItems anymore, therefore an error occours. A fix would be to either set local storage to menuItems or make a db call to get the items using localStorage.get('shoppingCart') as the reference)
+            if(this.lsInUse) {
+                localStorage.setItem("menuItems", JSON.stringify(this.menuItems));
+                console.log(localStorage.cartItemCnt);
+                console.log("local storage updated");
+            };
             return;
         },
 

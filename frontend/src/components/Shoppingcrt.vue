@@ -63,13 +63,19 @@ export default defineComponent({
     },
 
     mounted() {
-        
+       // this.loadLs();
         this.calculateTotalCost();
     },
 
     methods: {
 
-        
+        // loadLs() {
+        //     console.log(this.lsInUse)
+        //     if(this.lsInUse) {
+        //         this.shoppingCart = localStorage.getItem("shoppingCart");
+        //         return;
+        //     }
+        // },
         calculateTotalCost() {
 
             // TODO validate ammount, set a .env(?) variable for ammount and validate again

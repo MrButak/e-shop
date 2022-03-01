@@ -52,6 +52,7 @@ export default defineComponent({
                 this.lsInUse = true; // set global state
                 localStorage.setItem("shoppingCart", "");
                 localStorage.setItem("cartItemCnt", "");
+                localStorage.setItem("menuItems", "");
                 
             };
         },
@@ -79,10 +80,13 @@ export default defineComponent({
 
             let lsShpCrt = localStorage.getItem("shoppingCart");
             lsShpCrt = JSON.parse(lsShpCrt);
+            let menuItems = localStorage.getItem("menuItems");
+            menuItems = JSON.parse(menuItems);
 
             // set global state variables
             this.shoppingCart = lsShpCrt;
-            this.cartItemCnt = localStorage.getItem("cartItemCnt");
+            this.cartItemCnt = parseInt(localStorage.getItem("cartItemCnt")); // ls items are stored as strings
+            this.menuItems = menuItems;
             return;
         }
     
