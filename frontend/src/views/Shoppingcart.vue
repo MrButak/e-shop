@@ -5,8 +5,10 @@
 
 <div v-if="this.cartItemCnt > 0">
     <Shoppingcrt />
-    <div class="checkoutBtnWrapper">
-        <button @click="toggleAddressForm" class="payProcessBtn">Checkout</button>
+   <div class="checkoutBtnWrapperMain">
+        <div class="checkoutBtnWrapper">
+            <button @click="toggleAddressForm" class="payProcessBtn">Checkout</button>
+        </div>
     </div>
 
     <div class="addressFormWrapper">
@@ -88,24 +90,26 @@ export default {
 <style scoped>
 
 
-
-/*.shoppingCartWrapper {
-
-    display: flex;
-    
-    top: 22px;
-    right: 0;
-    background: #feecea;
-    padding: 9px;
-    border-radius: 1.4rem 0px 0px 1.4rem;
-    z-index: 3;
-}*/
-.checkoutBtnWrapper {
+.checkoutBtnWrapperMain {
 
     display: flex;
+    justify-content: center;
     width: 100%;
-    padding: 0 0 0 10px;
+    padding: 10px 0 0 0;
+    
 }
+.checkoutBtnWrapper {
+    width: 90%
+}
+.payProcessBtn {
+    background-color: #1980b6;
+    border-radius: 6px;
+    color: #fff;
+    padding: 6px 24px;
+    text-decoration: none;
+}
+
+
 .addressFormWrapper {
 
     display: none;
@@ -116,5 +120,28 @@ export default {
 .show {
 
     display: flex;
+}
+/*Tablet sizes*------------------------------------------------------*/
+@media (min-width: 723px) {
+
+ 
+}
+
+/*Desktop sizes*-----------------------------------------------------*/
+@media (min-width: 1023px) {
+    .addressFormWrapper {
+
+        justify-content: center;
+    }
+    .checkoutBtnWrapperMain {
+
+        display: flex;
+        width: 100%;
+        padding: 10px 0 0 0;
+    }
+    .checkoutBtnWrapper {
+        width: 45rem;
+    }
+
 }
 </style>

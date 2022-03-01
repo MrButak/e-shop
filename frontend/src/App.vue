@@ -115,44 +115,8 @@ export default defineComponent({
     padding-bottom: 4rem;
    
 }
-.payProcessBtn {
-    background-color: #1980b6;
-    border-radius: 6px;
-    color: #fff;
-    padding: 6px 24px;
-    text-decoration: none;
-}
-.shoppingCartItems {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-}
-.cartItem {
-    
-    width: 90%;
-    padding: 10px 0 10px;
-    border-bottom: 1px solid #ccbdae;
-}
-.cartItemName {
-    text-align: left;
-    font-weight: 600;
-}
-.subTotal {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    
-}
-.subTotalText {
-    width: 90%;
-    padding: 10px 0;
-    font-weight: 600;
-    border-bottom: 1px solid #ccbdae;
-}
+
+
 
 
 .pageTitle {

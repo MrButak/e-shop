@@ -22,11 +22,12 @@
     </div>
 </div>
 
-<div class="subTotal">
+<div class="subTotalWrapper">
     <div class="subTotalText">
         <p>Subtotal: ${{ subTotal }}</p>
     </div>
 </div>
+
 
 </template>
 
@@ -69,13 +70,6 @@ export default defineComponent({
 
     methods: {
 
-        // loadLs() {
-        //     console.log(this.lsInUse)
-        //     if(this.lsInUse) {
-        //         this.shoppingCart = localStorage.getItem("shoppingCart");
-        //         return;
-        //     }
-        // },
         calculateTotalCost() {
 
             // TODO validate ammount, set a .env(?) variable for ammount and validate again
@@ -167,7 +161,37 @@ export default defineComponent({
 </script>
 
 <style scoped>
-
+.shoppingCartItems {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+.cartItem {
+    
+    width: 90%;
+    padding: 10px 0 10px;
+    border-bottom: 1px solid #ccbdae;
+}
+.cartItemName {
+    text-align: left;
+    font-weight: 600;
+}
+.subTotalWrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    
+}
+.subTotalText {
+    width: 90%;
+    padding: 10px 0;
+    font-weight: 600;
+    border-bottom: 1px solid #ccbdae;
+}
 .buyQtyBtnWrapper {
 
     display: flex;
@@ -183,6 +207,29 @@ export default defineComponent({
     width: 35px;
 }
 
+/*Tablet sizes*------------------------------------------------------*/
+@media (min-width: 723px) {
+
+ 
+}
+
+/*Desktop sizes*-----------------------------------------------------*/
+@media (min-width: 1023px) {
+    .cartItem {
+    
+        width: 45rem;
+        padding: 10px 0 10px;
+        border-bottom: 1px solid #ccbdae;
+    }
+    .subTotalText {
+        width: 45rem;
+        padding: 10px 0;
+        font-weight: 600;
+        border-bottom: 1px solid #ccbdae;
+    }
+    
+
+}
 
 
 

@@ -124,6 +124,7 @@ nav ul {
     overflow: hidden;
     transition: all .2s;
     
+    
 }
 nav ul li {
     padding: 0 15px;
@@ -180,10 +181,11 @@ nav ul li a:hover, nav ul li a:focus {
     nav ul {
         /* set max height to header height*/
         max-height: 160px;
-        padding: 7% 24% 0 0;
+        padding: 6rem 21rem 0 0;
         text-align: right;
-   
     }
+   
+    
     nav ul li {
         display: inline-flex;
         padding-left: 20px;
