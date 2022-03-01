@@ -7,11 +7,15 @@
         <div class="dsktopModal-content">
             <div class="modalContentWrapper">
              <!---   <span @click="this.dsktopToggleModal" class="dsktopCloseBtn">&times;</span> -->
-                <div class="desktopModalImgTitle">
+                <div class="dsktopModalImgWrapper">
                     <img :src="this.currentItemView['imageUrl']"/>
-                    <h3 class="modalMenuItemName">{{ this.currentItemView['name'] }}</h3>
                 </div>
-                <p>{{ this.currentItemView['description'] }}</p>
+                <div class="desktopModalTitleAndDes">
+                    <div class="modalMenuItemNameWrapper">
+                        <h3 class="modalMenuItemName">{{ this.currentItemView['name'] }}</h3>
+                    </div>
+                    <p>{{ this.currentItemView['description'] }}</p>
+                </div>
                 
                 <div class="desktopModalBtnsWrapper">
                     <div class="dsktopModalPriceQtyWrapper">
@@ -110,17 +114,10 @@ export default defineComponent({
 
 <style scoped>
 
-/*start menu items display*/
-
-
-
-
 /*Desktop sizes*-----------------------------------------------------*/
 
 @media (min-width: 1023px) {
 
-
-    
     .dsktopModal {
         z-index: 2;
         position: fixed;
@@ -140,7 +137,19 @@ export default defineComponent({
         width: 100%;
         gap: 25px;
     }
-    .ModalMenuItemName {
+    .dsktopModalImgWrapper {
+        display: flex;
+        
+        width: 33.3%;
+        max-height: auto;
+        height: auto;
+        justify-content: center;
+        align-items: center;
+    }
+    .modalMenuItemNameWrapper {
+        padding: 0 0 10px 0;
+    }
+    .modalMenuItemName {
         text-align: center;
         font-weight: 600;
     
@@ -168,16 +177,19 @@ export default defineComponent({
         transform: scale(1.0);
         transition: visibility 0s linear 0s, opacity 0.25s 0s, transform 0.25s;
     }
-    .desktopModalImgTitle {
+    .desktopModalTitleAndDes {
         display: flex;
         flex-direction: column;
-        text-align: center;
+        padding: 10px;
+        width: 33.3%;
+        
     }
     .desktopModalBtnsWrapper {
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
-        width: 80%;
+        justify-content: center;
+        width: 33.3%;
+        align-content: center;
     
     }
     .dsktopModalPriceQtyWrapper {
@@ -185,8 +197,8 @@ export default defineComponent({
         display: flex;
         justify-content: space-around;
         text-align: center;
-        padding: 0px 0 10px 0;
-        gap: 23px;
+        
+        
         flex-direction: column-reverse;
         
     }

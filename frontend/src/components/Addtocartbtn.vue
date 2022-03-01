@@ -1,21 +1,24 @@
 // This component works together with and is imported into Menuitems.vue and Dsktopmodal.vue component
 <template>
 
-<form action="">
-    <div class="buyQtyBtnWrapper">
-        <button type="button" @click="decreaseItemQty">-</button>
-        <input id="buyQtyTxtInput" name="qtyInput" :value="currentItemView['buyQtyInput']" min="1" pattern="[0-9]*">
-        <button type="button" @click="increaseItemQty">+</button>
-        
-    </div>
-</form>
+<div class="mobileModalWrapper">
+    <form action="">
+        <div class="buyQtyBtnWrapper">
+            <button type="button" @click="decreaseItemQty">-</button>
+            <input id="buyQtyTxtInput" name="qtyInput" :value="currentItemView['buyQtyInput']" min="1" pattern="[0-9]*">
+            <button type="button" @click="increaseItemQty">+</button>   
+        </div>
+    </form>
+</div>
 
 <div class="dsktopModalWrapper">
-    <div class="addToCrtAndContShoppingBtnWrapper">
-        <button @click="addToCart">Add to cart</button>
-        <button @click="dsktopToggleModal">Continue shopping</button>
-        
-    </div>
+    <form action="">
+        <div class="buyQtyBtnWrapper">
+            <button type="button" @click="decreaseItemQty">-</button>
+            <input id="buyQtyTxtInput" name="qtyInput" :value="currentItemView['buyQtyInput']" min="1" pattern="[0-9]*">
+            <button type="button" @click="increaseItemQty">+</button>   
+        </div>
+    </form>
 </div>
 
 <div class="mobileModalWrapper">
@@ -24,6 +27,14 @@
         <button @click="toggleModal">Continue shopping</button>
     </div>
 </div>
+
+<div class="dsktopModalWrapper">
+    <div class="addToCrtAndContShoppingBtnWrapper">
+        <button @click="addToCart">Add to cart</button>
+        <button @click="dsktopToggleModal">Continue shopping</button>
+    </div>
+</div>
+
 </template>
 
 <script>
