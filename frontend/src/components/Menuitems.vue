@@ -1,3 +1,6 @@
+// TODO: 
+
+
 <template>
 
 <h2 class="pageTitle">Menu</h2>
@@ -5,7 +8,7 @@
     <div id="menuCardWrapperMain">
         
         <div v-for="item in this.menuItems" id="menuCardWrapper" :data-item="item['id']">
-            
+        
             <img class="menuItemImg" :src="item['imageUrl']"/> 
             <h3 class="menuItemName">{{ item['name'] }}</h3>
             
@@ -16,27 +19,36 @@
             <div class="menuItemBtnWrapper">
                 <p class="menuPrice"> price: ${{ item['price'] }}</p>
                 <!-- click function will set global view item (this.currentItemView) and trigger modal popup -->
-                <span @click="this.setViewItem">
+
+                <!-- the mobile button -->
+                <span class="mobileModalWrapper" @click="this.setViewItem">
                     <button @click="this.toggleModal" class="trigger viewItemBtn">View Item</button>
                 </span>
+
+                <!-- the desktop button  TODO: change the classes and functions for a seperate desktop modal-->
+                <span class="dsktopModalWrapper" @click="this.setViewItem">
+                    <button @click="this.dsktopToggleModal" class="dsktopTrigger viewItemBtn">View Item</button>
+                </span>
+
             </div>
         </div>
         
     </div>
 </div>
 
-<div class="modal">
-    
-    <div class="modal-content">
-        <div class="modalContentWrapper">
-            <span @click="this.toggleModal" class="close-button">&times;</span>
-            <div class="desktopModalImgTitle">
+<div class="mobileModalWrapper">
+    <div class="modal">
+        
+        <div class="modal-content">
+            <div class="modalContentWrapper">
+                <span @click="this.toggleModal" class="close-button">&times;</span>
+                
                 <img :src="this.currentItemView['imageUrl']"/>
                 <h3 class="modalMenuItemName">{{ this.currentItemView['name'] }}</h3>
-            </div>
-            <p>{{ this.currentItemView['description'] }}</p>
-            
-            <div class="desktopModalBtnsWrapper">
+                
+                <p>{{ this.currentItemView['description'] }}</p>
+                
+            <div class="modalBtnsWrapper">
                 <div class="modalPriceQtyWrapper">
                     <p>Price: ${{ this.currentItemView['price'] }}</p>
                     <!-- show message if out of stock -->
@@ -45,9 +57,14 @@
                 </div>
                 <Addtocartbtn ref="addToCartBtn" />
             </div>
+                
+            </div>
         </div>
+        
     </div>
-    
+</div>
+<div class="dsktopModalWrapper">
+    <Dsktopmodal ref="dsktopModal"/>
 </div>
 
 
@@ -58,6 +75,7 @@ import axios from 'axios';
 import { defineComponent } from 'vue';
 import { globalState } from '../statestore/composition';
 import Addtocartbtn from '../components/Addtocartbtn';
+import Dsktopmodal from '../components/Dsktopmodal';
 
 export default defineComponent({
 
@@ -75,7 +93,8 @@ export default defineComponent({
 
     components: {
 
-        Addtocartbtn
+        Addtocartbtn,
+        Dsktopmodal
     },
     
     data() {
@@ -92,10 +111,19 @@ export default defineComponent({
 
         this.checkForMenuItems();
         this.setViewModal();
+        this.setDsktopViewModal();
     },
 
     methods: {
 
+        dsktopToggleModal() {
+            this.$refs.dsktopModal.dsktopToggleModal()
+        },
+        // Desktop view modal
+        setDsktopViewModal() {
+
+            this.$refs.dsktopModal.setDsktopViewModal()
+        },
         // Function checks if global state object menuItems has been assigned variables from the database yet
         checkForMenuItems() {
 
@@ -179,7 +207,13 @@ export default defineComponent({
 <style scoped>
 
 /*start menu items display*/
+.mobileModalWrapper {
+    display: flex;
+}
+.dsktopModalWrapper {
 
+    display: none;
+}
 #menuCardWrapperMain {
     display: flex;
     flex-wrap: wrap;
@@ -267,7 +301,18 @@ export default defineComponent({
    /* height: inherit; */
     overflow: scroll;
 }
-
+.modalBtnsWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .8rem;
+}
+.modalPriceQtyWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+}
 .close-button {
     display: none;
 }
@@ -279,37 +324,22 @@ export default defineComponent({
     transform: scale(1.0);
     transition: visibility 0s linear 0s, opacity 0.25s 0s, transform 0.25s;
 }
-.desktopModalBtnsWrapper {
-    justify-content: center;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
+
 /*end view item popup modal*/
 
-
-/*Tablet sizes*-----------------------------------------------------*/
-@media (min-width: 723px) {
-
-
-    .modal-content {
-    /*   position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background-color: white;
-        padding: 1rem 1.5rem;
-        border-radius: 0.5rem; */
-        
-    
-    }
-}
 
 
 /*Desktop sizes*-----------------------------------------------------*/
 
 @media (min-width: 1023px) {
 
+    .dsktopModalWrapper {
+
+        display: flex;
+    }
+    .mobileModalWrapper {
+        display: none;
+    }
     .menuCardWrapperDesktop {
 
         display: flex;
@@ -325,79 +355,11 @@ export default defineComponent({
     }
     #menuCardWrapper {
         
-       
         flex: 1 1 30%;/*grow | shrink | basis */
-     
-        
+
     }
 
-        /*start view item popup modal*/
-    .modal {
-        z-index: 2;
-        position: fixed;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
-        opacity: 0;
-        visibility: hidden;
-        transform: scale(1.1);
-        transition: visibility 0s linear 0.25s, opacity 0.25s 0s, transform 0.25s;
-    }
-    .modalContentWrapper {
-        display: flex;
-        flex-direction: row;
-        width: 100%;
-        gap: 12px;
-    }
-    .ModalMenuItemName {
-        text-align: center;
-        font-weight: 600;
-    
-    }
-    .modal-content {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background-color: white;
-        padding: 1rem;
-        width: 80%;
-        border-radius: 0.5rem;
-        border: 1px solid black;
-        
-        
-    }
-
-    .close-button {
-        display: block;
-    }
-
-
-    .show-modal {
-        opacity: 1;
-        visibility: visible;
-        transform: scale(1.0);
-        transition: visibility 0s linear 0s, opacity 0.25s 0s, transform 0.25s;
-    }
-    .desktopModalImgTitle {
-        
-    }
-    .desktopModalBtnsWrapper {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        width: 60%;
-    
-    }
-    .modalPriceQtyWrapper {
-
-        display: flex;
-        justify-content: space-around;
-        
-    }
-    /*end view item popup modal*/
+   
 }
 
 </style>

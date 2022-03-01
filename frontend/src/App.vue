@@ -175,4 +175,5 @@ export default defineComponent({
     padding: 2rem 0 1rem;
     
 }
+
 </style>
