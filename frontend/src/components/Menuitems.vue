@@ -42,10 +42,10 @@
         <div class="modal-content">
             <div class="modalContentWrapper">
                 <span @click="this.toggleModal" class="close-button">&times;</span>
-                <div class="desktopModalImgTitle">
-                    <img :src="this.currentItemView['imageUrl']"/>
-                    <h3 class="modalMenuItemName">{{ this.currentItemView['name'] }}</h3>
-                </div>
+                
+                <img :src="this.currentItemView['imageUrl']"/>
+                <h3 class="modalMenuItemName">{{ this.currentItemView['name'] }}</h3>
+                
                 <p>{{ this.currentItemView['description'] }}</p>
                 
               <!--  <div class="desktopModalBtnsWrapper"> -->
@@ -312,16 +312,7 @@ export default defineComponent({
     transform: scale(1.0);
     transition: visibility 0s linear 0s, opacity 0.25s 0s, transform 0.25s;
 }
-.desktopModalImgTitle {
-    display: flex;
-    flex-direction: column;
-}
-.desktopModalBtnsWrapper {
-    justify-content: center;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
+
 /*end view item popup modal*/
 
 
@@ -356,73 +347,7 @@ export default defineComponent({
 
     }
 
-    
-   /* .modal {
-        z-index: 2;
-        position: fixed;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
-        opacity: 0;
-        visibility: hidden;
-        transform: scale(1.1);
-        transition: visibility 0s linear 0.25s, opacity 0.25s 0s, transform 0.25s;
-    }
-    .modalContentWrapper {
-        display: flex;
-        flex-direction: row;
-        width: 100%;
-        gap: 12px;
-    }
-    .ModalMenuItemName {
-        text-align: center;
-        font-weight: 600;
-    
-    }
-    .modal-content {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background-color: white;
-        padding: 1rem;
-        width: 80%;
-        border-radius: 0.5rem;
-        border: 1px solid black;
-        
-        
-    }
-
-    .close-button {
-        display: block;
-    }
-
-
-    .show-modal {
-        opacity: 1;
-        visibility: visible;
-        transform: scale(1.0);
-        transition: visibility 0s linear 0s, opacity 0.25s 0s, transform 0.25s;
-    }
-    .desktopModalImgTitle {
-        
-    }
-    .desktopModalBtnsWrapper {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        width: 60%;
-    
-    }
-    .modalPriceQtyWrapper {
-
-        display: flex;
-        justify-content: space-around;
-        
-    }*/
-    /*end view item popup modal*/
+   
 }
 
 </style>

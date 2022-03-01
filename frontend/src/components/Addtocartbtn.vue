@@ -9,12 +9,20 @@
         
     </div>
 </form>
-<div class="addToCrtAndContShoppingBtnWrapper">
-    <button class="blueBtn" @click="addToCart">Add to cart</button>
-    <!-- can I set a @media query if/else? -->
-    <span @click="dsktopToggleModal">
-        <button class="blueBtn" @click="toggleModal">Continue shopping</button>
-    </span>
+
+<div class="dsktopModalWrapper">
+    <div class="addToCrtAndContShoppingBtnWrapper">
+        <button @click="addToCart">Add to cart</button>
+        <button @click="dsktopToggleModal">Continue shopping</button>
+        
+    </div>
+</div>
+
+<div class="mobileModalWrapper">
+    <div class="addToCrtAndContShoppingBtnWrapper">
+        <button @click="addToCart">Add to cart</button>
+        <button @click="toggleModal">Continue shopping</button>
+    </div>
 </div>
 </template>
 
@@ -149,8 +157,29 @@ export default defineComponent({
 </script>
 
 <style scoped>
+.mobileModalWrapper {
+    display: flex;
+}
+.dsktopModalWrapper {
+    display: none;
+}
 
+.blueBtn {
+    
+    background-color: #1980b6;
+    color: #ffffff;
+    border-color: #1980b6;
+    padding: .2rem;
+    
+} 
+.addToCrtAndContShoppingBtnWrapper {
 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 17px;
+    width: 100%;
+}  
 .buyQtyBtnWrapper {
 
     display: flex;
@@ -162,5 +191,12 @@ export default defineComponent({
     text-align: center;
     width: 35px;
 }
-
+@media (min-width: 1023px) {
+    .mobileModalWrapper {
+        display: flex;
+    }
+    .dsktopModalWrapper {
+        display: none;
+    }
+}
 </style>

@@ -175,20 +175,5 @@ export default defineComponent({
     padding: 2rem 0 1rem;
     
 }
-/* can replace viewItmBtn maybe*/
-.blueBtn {
-    
-    background-color: #1980b6;
-    color: #ffffff;
-    border-color: #1980b6;
-    padding: .2rem;
-    
-} 
-.addToCrtAndContShoppingBtnWrapper {
 
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 17px;
-}  
 </style>
