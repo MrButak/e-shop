@@ -134,13 +134,12 @@ export default defineComponent({
     .modalContentWrapper {
         display: flex;
         flex-direction: row;
+        justify-content: space-between;
         width: 100%;
-        gap: 25px;
+        
     }
     .dsktopModalImgWrapper {
         display: flex;
-        
-        width: 33.3%;
         max-height: auto;
         height: auto;
         justify-content: center;
@@ -162,7 +161,7 @@ export default defineComponent({
         background-color: white;
         padding: 1rem;
         width: 80%;
-        border-radius: 0.5rem;
+     /*   border-radius: 0.5rem;*/
         border: 1px solid black; 
     }
 
@@ -180,7 +179,6 @@ export default defineComponent({
     .desktopModalTitleAndDes {
         display: flex;
         flex-direction: column;
-        padding: 10px;
         width: 33.3%;
         
     }
@@ -188,8 +186,9 @@ export default defineComponent({
         display: flex;
         flex-direction: column;
         justify-content: center;
-        width: 33.3%;
-        align-content: center;
+        
+        align-items: center;
+        gap: 1rem;
     
     }
     .dsktopModalPriceQtyWrapper {

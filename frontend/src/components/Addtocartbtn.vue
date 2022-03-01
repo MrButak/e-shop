@@ -188,8 +188,9 @@ export default defineComponent({
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 17px;
+    
     width: 100%;
+    gap: .8rem;
 }  
 .buyQtyBtnWrapper {
 

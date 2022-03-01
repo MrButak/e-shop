@@ -48,14 +48,15 @@
                 
                 <p>{{ this.currentItemView['description'] }}</p>
                 
-              <!--  <div class="desktopModalBtnsWrapper"> -->
-                    <div class="modalPriceQtyWrapper">
-                        <p>Price: ${{ this.currentItemView['price'] }}</p>
-                        <!-- show message if out of stock -->
-                        <p v-if="this.currentItemView['quantity'] > 0">in stock: {{ this.currentItemView['quantity'] }}</p>
-                        <p v-else>Out of stock</p>
-                    </div>
-                    <Addtocartbtn ref="addToCartBtn" />
+            <div class="modalBtnsWrapper">
+                <div class="modalPriceQtyWrapper">
+                    <p>Price: ${{ this.currentItemView['price'] }}</p>
+                    <!-- show message if out of stock -->
+                    <p v-if="this.currentItemView['quantity'] > 0">in stock: {{ this.currentItemView['quantity'] }}</p>
+                    <p v-else>Out of stock</p>
+                </div>
+                <Addtocartbtn ref="addToCartBtn" />
+            </div>
                 
             </div>
         </div>
@@ -300,7 +301,18 @@ export default defineComponent({
    /* height: inherit; */
     overflow: scroll;
 }
-
+.modalBtnsWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .8rem;
+}
+.modalPriceQtyWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+}
 .close-button {
     display: none;
 }
