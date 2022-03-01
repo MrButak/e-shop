@@ -1,9 +1,17 @@
 const validationManager = require('../public/javascripts/validationManager');
 
-exports.validateDeliveryAddress = (req, res, next) => {
+exports.validateDeliveryForm = (req, res, next) => {
 
     let data = Object.keys(req.body)
-    data = JSON.parse(data)
-    // validationManager.validateDeliveryAddress(data)
-    res.status(200).json(validationManager.validateDeliveryAddress(data))
+    data = JSON.parse(data);
+
+    if(validationManager.validateDeliveryAddress(data) && validationManager.validateEmail(data.email)) {
+            res.status(200).json(true)
+    }
+    else {
+        res.status(200).json(false)
+    
+    };
+    
+    
 };

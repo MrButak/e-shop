@@ -54,7 +54,7 @@ export default defineComponent({
     mounted() {
 
         this.getPaymentMessage();
-        this.clearShoppingCart();
+        this.clearLocalStorage();
         // this.updateDatabaseMenuItems();
     },
 
@@ -121,7 +121,7 @@ export default defineComponent({
             });
         },
         // Function completely clears local storage
-        clearShoppingCart() {
+        clearLocalStorage() {
             
             // local storage
             if(this.lsInUse) {
@@ -129,6 +129,7 @@ export default defineComponent({
             };
             this.shoppingCart = {};
             this.cartItemCnt = 0;
+            this.menuItems = 0; // initially set to 0. If set to 0 a db call is made on '/' (Menuitems.vue) to get all menu items from db and set global state variable this.menuItems and localStorage.menuItems
         },
         // async updateDatabaseMenuItems() {
 

@@ -1,4 +1,5 @@
-<template>  
+<template> 
+
     <form id="address-form" action="" method="" autocomplete="on"> <!-- may have to toggleback on -->
         <p class="AddressFormTitle">Delivery Address</p>
         <p class="note"><em>* = required field</em></p>
@@ -12,7 +13,7 @@
             <input type="email" id="email" required="" autocomplete="on" placeholder="Email">
         </label>
         <label class="full-field">
-            <span class="form-label">Deliver to*</span>
+            <span class="form-label">Street address</span>
             <input id="ship-address" name="ship-address" required="" autocomplete="off" class="pac-target-input" placeholder="Enter a location">
         </label>
         <label class="full-field">
@@ -39,12 +40,15 @@
             <span class="form-label">Additional notes</span>
             <input id="deliveryNote" autocomplete="off" placeholder="additional notes" >
         </label>
-        <button @click="validateAddress" type="submit" class="my-button">Checkout</button>
+        <div class="submitBtnWrapper">
+            <button @click="validateAddress" type="submit" class="my-button">Checkout</button>
+        </div>
+        <p>{{ this.errorMessage }}</p>
         <!-- Reset button provided for development testing convenience.
     Not recommended for user-facing forms due to risk of mis-click when aiming for Submit button. -->
         <!--<input type="reset" value="Clear form">-->
     </form>
-
+    
 </template>
 
 <script>
@@ -73,6 +77,7 @@ export default defineComponent ({
         return {
 
             autocomplete: {},
+            errorMessage: "",
             name: "",
             email: "",
             address1Field: "",
@@ -192,6 +197,7 @@ export default defineComponent ({
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 url: 'http://127.0.0.1:3000/validatedeliveryaddress',
                 data: {
+                    email: this.email.value,
                     streetAddress: this.address1Field.value,
                     addressDetails: this.address2Field.value,
                     city: this.locality.value,
@@ -221,8 +227,9 @@ export default defineComponent ({
 
                 this.$router.push('Uservalidation');
             }
-            // TODO: display error message and clear form
+            
             else {
+                this.errorMessage = "Form Error. Please check that you have entered a valid email address and your delivery address is in Salem, MO.";
                 console.log("not salem, mo address");
                 return;
             };   
@@ -234,17 +241,14 @@ export default defineComponent ({
 </script>
 
 <style scoped>
-.addressFormWrapper {
-    width: 100%;
-    /*margin: 0 0 0 3%;*/
-}
+
 #address-form {
 
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     max-width: 400px;
-    padding: 60px 20px 20px 20px;
+    padding: 10px 20px 20px 10px;
 }
 .AddressFormTitle {
 
@@ -290,6 +294,9 @@ input {
     flex: 1 150px;
     margin: 15px 0px 15px 15px;
 }
+.submitBtnWrapper {
+    display: flex;
+}
 .my-button {
     background-color: #1980b6;
     border-radius: 6px;
@@ -304,5 +311,25 @@ input[type="reset"] {
     background-color: transparent;
     color: #686868;
    /* font-size: 14px; */
+}
+
+/*Tablet sizes*------------------------------------------------------*/
+@media (min-width: 723px) {
+
+ 
+}
+
+/*Desktop sizes*-----------------------------------------------------*/
+@media (min-width: 1023px) {
+
+    #address-form {
+
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    max-width: 45rem;
+    padding: 10px 0 0 0;
+}
+
 }
 </style>

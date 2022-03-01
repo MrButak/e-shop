@@ -52,6 +52,7 @@ export default defineComponent({
                 this.lsInUse = true; // set global state
                 localStorage.setItem("shoppingCart", "");
                 localStorage.setItem("cartItemCnt", "");
+                localStorage.setItem("menuItems", "");
                 
             };
         },
@@ -79,10 +80,13 @@ export default defineComponent({
 
             let lsShpCrt = localStorage.getItem("shoppingCart");
             lsShpCrt = JSON.parse(lsShpCrt);
+            let menuItems = localStorage.getItem("menuItems");
+            menuItems = JSON.parse(menuItems);
 
             // set global state variables
             this.shoppingCart = lsShpCrt;
-            this.cartItemCnt = localStorage.getItem("cartItemCnt");
+            this.cartItemCnt = parseInt(localStorage.getItem("cartItemCnt")); // ls items are stored as strings
+            this.menuItems = menuItems;
             return;
         }
     
@@ -111,44 +115,8 @@ export default defineComponent({
     padding-bottom: 4rem;
    
 }
-.payProcessBtn {
-    background-color: #1980b6;
-    border-radius: 6px;
-    color: #fff;
-    padding: 6px 24px;
-    text-decoration: none;
-}
-.shoppingCartItems {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-}
-.cartItem {
-    
-    width: 90%;
-    padding: 10px 0 10px;
-    border-bottom: 1px solid #ccbdae;
-}
-.cartItemName {
-    text-align: left;
-    font-weight: 600;
-}
-.subTotal {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    
-}
-.subTotalText {
-    width: 90%;
-    padding: 10px 0;
-    font-weight: 600;
-    border-bottom: 1px solid #ccbdae;
-}
+
+
 
 
 .pageTitle {
