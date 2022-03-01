@@ -4,9 +4,9 @@
 <div class="mobileModalWrapper">
     <form action="">
         <div class="buyQtyBtnWrapper">
-            <button type="button" @click="decreaseItemQty">-</button>
+            <button class="itemQtyBtnAdjust itemQtyBtnAdjustDown" type="button" @click="decreaseItemQty"><Downarrow /></button>
             <input id="buyQtyTxtInput" name="qtyInput" :value="currentItemView['buyQtyInput']" min="1" pattern="[0-9]*">
-            <button type="button" @click="increaseItemQty">+</button>   
+            <button class="itemQtyBtnAdjust itemQtyBtnAdjustUp" type="button" @click="increaseItemQty"><Uparrow /></button>   
         </div>
     </form>
 </div>
@@ -14,9 +14,9 @@
 <div class="dsktopModalWrapper">
     <form action="">
         <div class="buyQtyBtnWrapper">
-            <button type="button" @click="decreaseItemQty">-</button>
+            <button class="itemQtyBtnAdjust itemQtyBtnAdjustDown" type="button" @click="decreaseItemQty"><Downarrow /></button>
             <input id="buyQtyTxtInput" name="qtyInput" :value="currentItemView['buyQtyInput']" min="1" pattern="[0-9]*">
-            <button type="button" @click="increaseItemQty">+</button>   
+            <button class="itemQtyBtnAdjust itemQtyBtnAdjustUp" type="button" @click="increaseItemQty"><Uparrow /></button>   
         </div>
     </form>
 </div>
@@ -41,6 +41,8 @@
 
 import { defineComponent } from 'vue';
 import { globalState } from '../statestore/composition';
+import Downarrow from '@/components/svgs/Downarrow.vue';
+import Uparrow from '@/components/svgs/Uparrow.vue';
 export default defineComponent({
 
     name: "Addtocartbtn",
@@ -55,6 +57,10 @@ export default defineComponent({
             currentItemView,
             lsInUse
         }
+    },
+    components: {
+        Downarrow,
+        Uparrow
     },
    
     data() {
@@ -175,33 +181,39 @@ export default defineComponent({
     display: none;
 }
 
-.blueBtn {
+.itemQtyBtnAdjust {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    border-top: none;
+    border-bottom: none;
     
-    background-color: #1980b6;
-    color: #ffffff;
-    border-color: #1980b6;
-    padding: .2rem;
-    
-} 
+}
+.itemQtyBtnAdjustDown {
+    border-left: none;
+}
+.itemQtyBtnAdjustUp {
+    border-right: none;
+}
 .addToCrtAndContShoppingBtnWrapper {
 
     display: flex;
     flex-direction: column;
     justify-content: center;
-    
     width: 100%;
     gap: .8rem;
 }  
 .buyQtyBtnWrapper {
 
     display: flex;
-    flex-direction: row;
-    justify-content: center;
+    
 
 }
 #buyQtyTxtInput {
     text-align: center;
     width: 35px;
+    border: none;
 }
 @media (min-width: 1023px) {
     .mobileModalWrapper {
