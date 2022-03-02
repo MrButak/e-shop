@@ -1,19 +1,35 @@
+// TODO: use styles from Usrvalidation.vue
+
 <template>
+    
+<p>Payment: {{ stripePaymentMessage.status }}</p>
 
-    <p>Payment: {{ stripePaymentMessage.status }}</p>
-    <p>Receipt email: {{ this.receiptEmail }}</p>
 
-    <p> Items Ordered:</p>
-    <div v-for="item in this.itemsPurchased">
-        <p>{{ item.name }} x {{ item.qty }}</p>
-        <p>price per item: {{ item.price }}</p>
-    </div>
-    <p>Total ammount: ${{ this.totalPrice }}</p>
-    <p> Delivery address:</p>
+
+
+<p class="subTitleText">Items ordered:</p>
+
+
+<div class="itemWrapper" v-for="item in this.itemsPurchased">
+    <p>{{ item.name }} x {{ item.qty }}</p>
+    <p>price per item: {{ item.price }}</p>
+</div>
+   
+
+    
+        
+    
+    
+    
+    
+<p class="subTitleText">Delivery address:</p>
+
+<div class="addressWrapper">
     <p>{{ this.shippingAddress.line1 }} {{ this.shippingAddress.line2 }}</p>
     <p>{{ this.shippingAddress.city }} {{ this.shippingAddress.state }} {{ this.shippingAddress.postal_code }}</p>
-    
-    
+</div>
+<p class="summaryText">Total: ${{ this.totalPrice }}</p>
+<p class="summaryText">Receipt: {{ this.receiptEmail }}</p>
 </template>
 
 <script>
@@ -55,7 +71,6 @@ export default defineComponent({
 
         this.getPaymentMessage();
         this.clearLocalStorage();
-        // this.updateDatabaseMenuItems();
     },
 
     methods: {
@@ -95,30 +110,24 @@ export default defineComponent({
                 data: {
                     stripePiId: stripePiId,
                     email: email,
-                    
                 }
                  
             })
-            
-            .then((response) => {
-                
-                // if valid address
-                if(response.data) {
+       
+            if(response.data) {
 
-                    this.itemsPurchased = JSON.parse(response.data[0].items_purchased);
-                    this.shippingAddress = JSON.parse(response.data[0].shipping_address);
-                    this.receiptEmail = response.data[0].email;
-                    this.totalPrice = response.data[0].total_price;
-                    
-
-                }
-                // TODO: display error message(order not found)
-                else {
-                    console.log("order not in database");
-                    return;
-                };
+                this.itemsPurchased = JSON.parse(response.data[0].items_purchased);
+                this.shippingAddress = JSON.parse(response.data[0].shipping_address);
+                this.receiptEmail = response.data[0].email;
+                this.totalPrice = response.data[0].total_price;
                 
-            });
+            }
+            // TODO: display error message(order not found)
+            else {
+                console.log("order not in database");
+                return;
+            };
+        
         },
         // Function completely clears local storage
         clearLocalStorage() {
@@ -135,3 +144,36 @@ export default defineComponent({
 })
 
 </script>
+<style scoped>
+
+.subTitleText {
+
+    font-weight: 600;
+    padding: 10px 20px;
+}
+.itemWrapper {
+
+    display: flex;
+    flex-direction: column;
+    padding: 10px 20px;
+    border-bottom: 1px solid #ccbdae;
+}
+.addressWrapper {
+    padding: 10px 20px;
+    border-bottom: 1px solid #ccbdae;
+}
+.summaryText {
+    font-weight: 600;
+    padding: 0 20px;
+}
+/*Tablet sizes*------------------------------------------------------*/
+@media (min-width: 723px) {
+    
+ 
+}
+
+/*Desktop sizes*-----------------------------------------------------*/
+@media (min-width: 1023px) {
+    
+}
+</style>
