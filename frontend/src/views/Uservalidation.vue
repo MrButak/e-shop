@@ -1,3 +1,4 @@
+// TODO: to prevent error on page refresh. Check for global state variable (not created yet). If not present, redirect to /shoppingcart (.vue)
 <template>
     <Header />
     <Usrvalidation/>

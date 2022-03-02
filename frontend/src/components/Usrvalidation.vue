@@ -1,9 +1,11 @@
 <template>
 
-<div class="editCrtWrapper">
-    <p class="summarySubTitleText">Items ordered</p>
-    <a @click="this.$router.push('shoppingcart')"><p>edit cart</p></a>
-</div>
+
+    <div class="titleAndEditBtnWrapper">
+        <p class="summarySubTitleText">Items ordered</p>
+        <a @click="this.$router.push('shoppingcart')"><p>edit cart</p></a>
+    </div>
+
 
 <div class="orderSummaryWrapper">
     <div class="orderSummaryItems" v-for="item in this.shoppingCart">
@@ -16,11 +18,13 @@
     </div>
     
 </div>
-<div class="editCrtWrapper">
-    <p class="summarySubTitleText">Delivery address</p>
-    <!-- TODO: (maybe) send user to a seperate view for address form -->
-    <a @click="this.$router.push('shoppingcart')"><p>edit address</p></a>
-</div>
+
+    <div class="titleAndEditBtnWrapper">
+        <p class="summarySubTitleText">Delivery address</p>
+        <!-- TODO: have scroll down to address form. Set an anchor. /#address -->
+        <a @click="this.$router.push('shoppingcart')"><p>edit address</p></a>
+    </div>
+
 
 <div class="deliveryWrapperMain">
     <p>{{ this.customerDetails.user['name'] }}</p>
@@ -82,7 +86,19 @@ export default defineComponent({
 </script>
 
 <style scoped>
-
+.titleAndEditBtnWrapperMain {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    
+    
+}
+.titleAndEditBtnWrapper {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0 20px;
+}
 .summarySubTitleText {
 
     font-weight: 600;
@@ -94,25 +110,26 @@ export default defineComponent({
     flex-direction: column;
     align-items: center;
     width: 100%;
+    padding: 0 0 10px 0;
     
 }
 .orderSummaryItems {
 
-    width: 90%;
-    padding: 10px 0 10px;
+    width: 100%;
+    padding: 10px 20px;
     border-bottom: 1px solid #ccbdae;
 }
 .deliveryWrapperMain {
 
     display: flex;
     flex-direction: column;
-    padding: 10px 0;
-    margin-left: 5%;
+    padding: 10px 20px;
+    
     width: 100%;
 }
 .deliveryWrapper {
     display: flex;
-    width: 90%
+    width: 100%
 }
 .summarySubTotalWrapper {
     display:flex;
@@ -122,21 +139,83 @@ export default defineComponent({
     border-bottom: 1px solid #ccbdae;
 }
 .summarySubTotalText {
-    width: 90%;
-    padding: 10px 0;
+    width: 100%;
+    padding: 10px 20px;
     font-weight: 600;
 }
-.editCrtWrapper {
-    display: flex;
-    justify-content: space-between;
-    width: 90%;
-    margin: 0 0 0 5%;
-    
-}
+
 
 .payBtnWrapper {
     display:flex;
-    padding-top: 15px;
-    margin-left: 5%;
+    padding: 15px 0 0 20px;
+    
 }
+.payProcessBtn {
+    background-color: #1980b6;
+    border-radius: 6px;
+    color: #fff;
+    padding: 6px 24px;
+    text-decoration: none;
+}
+/*Tablet sizes*------------------------------------------------------*/
+@media (min-width: 723px) {
+
+ 
+}
+
+/*Desktop sizes*-----------------------------------------------------*/
+@media (min-width: 1023px) {
+
+    .titleAndEditBtnWrapper {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        padding: 12px 15rem 0 15rem;
+    }
+    .orderSummaryWrapper {
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        padding: 0 15rem;
+        
+    }
+    .orderSummaryItems {
+
+        width: 100%;
+        padding: 10px 0;
+        border-bottom: 1px solid #ccbdae;
+    }
+    .deliveryWrapperMain {
+
+        display: flex;
+        flex-direction: column;
+        padding: 10px 15rem;
+        width: 100%;
+    }
+    .summarySubTotalWrapper {
+        display:flex;
+        justify-content: center;
+        width: 100%;
+        padding: 0 15rem;
+        border: none;
+
+        
+    }
+    .summarySubTotalText {
+        width: 100%;
+        padding: 10px 0;
+        font-weight: 600;
+        border-top: 1px solid #ccbdae;
+        border-bottom: 1px solid #ccbdae;
+
+    }
+    .payBtnWrapper {
+        display: flex;
+        padding: 10px 15rem;
+        
+    }
+}
+
 </style>
