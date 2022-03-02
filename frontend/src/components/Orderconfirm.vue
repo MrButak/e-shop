@@ -1,15 +1,24 @@
+// TODO: use styles from Usrvalidation.vue
+
 <template>
 
     <p>Payment: {{ stripePaymentMessage.status }}</p>
     <p>Receipt email: {{ this.receiptEmail }}</p>
 
-    <p> Items Ordered:</p>
-    <div v-for="item in this.itemsPurchased">
-        <p>{{ item.name }} x {{ item.qty }}</p>
-        <p>price per item: {{ item.price }}</p>
+    <div class="titleAndEditBtnWrapper">
+        <p class="summarySubTitleText">Items ordered:</p>
+    </div>
+
+    <div class="orderSummaryWrapper">
+        <div class="orderSummaryItems" v-for="item in this.itemsPurchased">
+            <p>{{ item.name }} x {{ item.qty }}</p>
+            <p>price per item: {{ item.price }}</p>
+        </div>
     </div>
     <p>Total ammount: ${{ this.totalPrice }}</p>
-    <p> Delivery address:</p>
+    <div class="titleAndEditBtnWrapper">
+        <p> Delivery address:</p>
+    </div>
     <p>{{ this.shippingAddress.line1 }} {{ this.shippingAddress.line2 }}</p>
     <p>{{ this.shippingAddress.city }} {{ this.shippingAddress.state }} {{ this.shippingAddress.postal_code }}</p>
     
@@ -55,7 +64,6 @@ export default defineComponent({
 
         this.getPaymentMessage();
         this.clearLocalStorage();
-        // this.updateDatabaseMenuItems();
     },
 
     methods: {
@@ -95,30 +103,25 @@ export default defineComponent({
                 data: {
                     stripePiId: stripePiId,
                     email: email,
-                    
                 }
                  
             })
-            
-            .then((response) => {
-                
-                // if valid address
-                if(response.data) {
+       
+            if(response.data) {
 
-                    this.itemsPurchased = JSON.parse(response.data[0].items_purchased);
-                    this.shippingAddress = JSON.parse(response.data[0].shipping_address);
-                    this.receiptEmail = response.data[0].email;
-                    this.totalPrice = response.data[0].total_price;
-                    
-
-                }
-                // TODO: display error message(order not found)
-                else {
-                    console.log("order not in database");
-                    return;
-                };
+                this.itemsPurchased = JSON.parse(response.data[0].items_purchased);
+                this.shippingAddress = JSON.parse(response.data[0].shipping_address);
+                this.receiptEmail = response.data[0].email;
+                this.totalPrice = response.data[0].total_price;
                 
-            });
+
+            }
+            // TODO: display error message(order not found)
+            else {
+                console.log("order not in database");
+                return;
+            };
+        
         },
         // Function completely clears local storage
         clearLocalStorage() {
@@ -135,3 +138,56 @@ export default defineComponent({
 })
 
 </script>
+<style scoped>
+.titleAndEditBtnWrapper {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0 20px;
+}
+.orderSummaryWrapper {
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 0 0 10px 0;
+    
+}
+.orderSummaryItems {
+
+    width: 100%;
+    padding: 10px 20px;
+    border-bottom: 1px solid #ccbdae;
+}
+/*Tablet sizes*------------------------------------------------------*/
+@media (min-width: 723px) {
+
+ 
+}
+
+/*Desktop sizes*-----------------------------------------------------*/
+@media (min-width: 1023px) {
+    .titleAndEditBtnWrapper {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        padding: 12px 15rem 0 15rem;
+    }
+    .orderSummaryWrapper {
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        padding: 0 15rem;
+        
+    }
+    .orderSummaryItems {
+
+        width: 100%;
+        padding: 10px 0;
+        border-bottom: 1px solid #ccbdae;
+    }
+}
+</style>
