@@ -79,7 +79,7 @@ export default defineComponent({
                     this.stripePaymentMessage.status = result.paymentIntent.status;
                     // this.paymentMessage.receipt_email = result.paymentIntent.receipt_email;
 
-                    // make a db call and get more order details
+                    // make a db call to get more order details
                     this.getOrderInfo(result.paymentIntent.receipt_email, result.paymentIntent.id)
                 });
         },
@@ -131,19 +131,7 @@ export default defineComponent({
             this.cartItemCnt = 0;
             this.menuItems = 0; // initially set to 0. If set to 0 a db call is made on '/' (Menuitems.vue) to get all menu items from db and set global state variable this.menuItems and localStorage.menuItems
         },
-        // async updateDatabaseMenuItems() {
-
-        //     let response = await axios({
-                
-        //         method: 'post',
-        //         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        //         url: 'http://127.0.0.1:3000/getmenu',
-        //         data: null
-        //     })
-        // }
     }
-
-
 })
 
 </script>

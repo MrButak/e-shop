@@ -1,8 +1,7 @@
 <template>
-    <Header />
-   <Orderconfirm />
-   <Footer />
- 
+<Header />
+<Orderconfirm />
+<Footer />
 </template>
 
 <script>
