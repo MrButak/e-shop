@@ -70,9 +70,9 @@ exports.updateMenuItmQty = (paymentIntent) => {
 
         try {
             db.prepare('UPDATE items SET quantity = quantity - (?) WHERE id = (?)').run(purchasedItems[key].qty, key);
-            // if quantity is 0 set inStock to 0 (i can probably remove this row from the table and just use quantity to determine if item is in stock)
+            // if quantity is 0 set in_stock to 0 (i can probably remove this row from the table and just use quantity to determine if item is in stock)
             if(db.prepare('SELECT quantity FROM items WHERE id = (?)').get(key).quantity < 1) {
-                db.prepare('UPDATE items SET inStock = (?) WHERE id = (?)').run(0, key)
+                db.prepare('UPDATE items SET in_stock = (?) WHERE id = (?)').run(0, key)
             }
         }
         

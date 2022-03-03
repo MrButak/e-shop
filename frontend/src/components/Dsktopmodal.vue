@@ -8,7 +8,7 @@
             <div class="modalContentWrapper">
              <!---   <span @click="this.dsktopToggleModal" class="dsktopCloseBtn">&times;</span> -->
                 <div class="dsktopModalImgWrapper">
-                    <img :src="this.currentItemView['imageurl']"/>
+                    <img :src="this.currentItemView['image_url']"/>
                 </div>
                 <div class="desktopModalTitleAndDes">
                     <div class="modalMenuItemNameWrapper">

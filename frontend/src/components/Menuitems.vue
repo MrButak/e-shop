@@ -9,7 +9,7 @@
         
         <div v-for="item in this.menuItems" id="menuCardWrapper" :data-item="item['item_id']">
         
-            <img class="menuItemImg" :src="item['imageurl']"/> 
+            <img class="menuItemImg" :src="item['image_url']"/> 
             <h3 class="menuItemName">{{ item['name'] }}</h3>
             
             <!-- show message if out of stock -->
@@ -43,7 +43,7 @@
             <div class="modalContentWrapper">
                 <span @click="this.toggleModal" class="close-button">&times;</span>
                 
-                <img :src="this.currentItemView['imageurl']"/>
+                <img :src="this.currentItemView['image_url']"/>
                 <h3 class="modalMenuItemName">{{ this.currentItemView['name'] }}</h3>
                 
                 <p>{{ this.currentItemView['description'] }}</p>
