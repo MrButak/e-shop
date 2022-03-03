@@ -1,9 +1,15 @@
 const dbManager = require ('../public/javascripts/dbManager');
 
-exports.getMenu = (req, res, next) => {
+exports.getMenu = async (req, res, next) => {
 
-    let menuItems = dbManager.getMenu();
-    res.status(200).json(menuItems)
+    try {
+        let menuItems = await dbManager.getMenu();
+        res.status(200).json(menuItems);
+    }
+    catch(error) {
+        console.log(error);
+    };
+    
 };
 
 exports.getOrderDetails = (req, res, next) => {

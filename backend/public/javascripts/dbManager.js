@@ -1,19 +1,22 @@
 const Database = require('better-sqlite3');
+const { Client } = require('pg')
+
 
 // Function gets all menu items from database
-exports.getMenu = () => {
+exports.getMenu = async () => {
 
-    let db = new Database('menu.db');
-
-	try {
-		let statement = db.prepare('SELECT * FROM items');
-		let menuItems = statement.all();
-		db.close();
-		return menuItems;
-	}
-    catch (e) {
-		console.log(e);
-	};
+    const client = new Client()
+    await client.connect()
+    
+    try {
+        let res = await client.query('SELECT * FROM menu_items');
+        await client.end();
+        return(res.rows);
+        
+    }
+    catch(error) {
+        console.log(error) // error.stack
+    }
 };
 
 // Function stores purchase information into database when receives stripe webhook for paymentIntent success

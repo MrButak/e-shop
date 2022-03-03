@@ -1,7 +1,7 @@
 // this component works together with and imports Addressform.vue component
 <template>
 
-<div v-for="item in this.shoppingCart" class="shoppingCartItems" :data-item="item['id']">
+<div v-for="item in this.shoppingCart" class="shoppingCartItems" :data-item="item['item_id']">
     
     <!-- only show cart items with positive quantity -->
     <div v-if="item['buyQuantity'] > 0" class="cartItem"> 
