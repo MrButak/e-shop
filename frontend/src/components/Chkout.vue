@@ -60,8 +60,8 @@ export default defineComponent ({
             let tmpShpCrt = this.shoppingCart;
             let purchasedItemsObj = {};
             Object.keys(tmpShpCrt).forEach((key) => {
-
-                purchasedItemsObj[this.shoppingCart[key].id] = {
+                
+                purchasedItemsObj[this.shoppingCart[key].item_id] = { // here
 
                     "name": this.shoppingCart[key].name,
                     "price": this.shoppingCart[key].price,

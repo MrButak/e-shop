@@ -14,14 +14,7 @@
     <p>{{ item.name }} x {{ item.qty }}</p>
     <p>price per item: {{ item.price }}</p>
 </div>
-   
-
-    
-        
-    
-    
-    
-    
+ 
 <p class="subTitleText">Delivery address:</p>
 
 <div class="addressWrapper">
@@ -115,7 +108,8 @@ export default defineComponent({
             })
        
             if(response.data) {
-
+                let tmp = JSON.parse(response.data[0].items_purchased);
+                console.log(tmp[0])
                 this.itemsPurchased = JSON.parse(response.data[0].items_purchased);
                 this.shippingAddress = JSON.parse(response.data[0].shipping_address);
                 this.receiptEmail = response.data[0].email;

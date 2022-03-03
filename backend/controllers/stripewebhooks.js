@@ -31,11 +31,10 @@ exports.stripeWebHooks = (req, res, next) => {
 
         case 'payment_intent.succeeded':
             const paymentIntent = event.data.object;
-
-            // this function and front end function (axios post req) are hitting db close to the same time. Is there something I can do for this? is this a cause for concern?
+            
             dbManager.storePurchase(paymentIntent);
-            dbManager.updateMenuItmQty(paymentIntent);
-            emailManager.sendPaymentSuccessEmail(paymentIntent);
+            // dbManager.updateMenuItmQty(paymentIntent);
+            // emailManager.sendPaymentSuccessEmail(paymentIntent);
 
             break;
         // ... handle other event types
