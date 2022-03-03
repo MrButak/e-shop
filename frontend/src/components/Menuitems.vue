@@ -7,9 +7,9 @@
 <div class="menuCardWrapperDesktop">
     <div id="menuCardWrapperMain">
         
-        <div v-for="item in this.menuItems" id="menuCardWrapper" :data-item="item['id']">
+        <div v-for="item in this.menuItems" id="menuCardWrapper" :data-item="item['item_id']">
         
-            <img class="menuItemImg" :src="item['imageUrl']"/> 
+            <img class="menuItemImg" :src="item['image_url']"/> 
             <h3 class="menuItemName">{{ item['name'] }}</h3>
             
             <!-- show message if out of stock -->
@@ -43,7 +43,7 @@
             <div class="modalContentWrapper">
                 <span @click="this.toggleModal" class="close-button">&times;</span>
                 
-                <img :src="this.currentItemView['imageUrl']"/>
+                <img :src="this.currentItemView['image_url']"/>
                 <h3 class="modalMenuItemName">{{ this.currentItemView['name'] }}</h3>
                 
                 <p>{{ this.currentItemView['description'] }}</p>
@@ -147,7 +147,7 @@ export default defineComponent({
                 url: 'http://127.0.0.1:3000/getmenu',
                 data: null
             })
-                
+            console.log(response.data)
             // set global state of menuItems object if it hasn't already been set
             this.menuItems = {};
             let tmpCounter = 1;

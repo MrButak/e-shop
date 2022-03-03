@@ -95,7 +95,7 @@ export default defineComponent({
         increaseItemQty() {
 
             // make sure number can't increase past item quantity in stock
-            if(this.currentItemView['buyQtyInput'] >= this.menuItems[`item-${this.currentItemView['id']}`].quantity) {
+            if(this.currentItemView['buyQtyInput'] >= this.menuItems[`item-${this.currentItemView['item_id']}`].quantity) {
 
                 return
             }
@@ -120,7 +120,7 @@ export default defineComponent({
             //TODO: make a backend validation check on the input number
             
             // prevent adding to cart if quantity is 0
-            if(this.menuItems[`item-${this.currentItemView['id']}`].quantity < 1) {
+            if(this.menuItems[`item-${this.currentItemView['item_id']}`].quantity < 1) {
 
                 // TODO: make 'out of stock' message more assertive; possibly using animation
                 return;
@@ -136,9 +136,9 @@ export default defineComponent({
             };
 
             // if item already exists in shopping cart, increase order quantity
-            if(this.shoppingCart[`item-${this.currentItemView['id']}`]) {
+            if(this.shoppingCart[`item-${this.currentItemView['item_id']}`]) {
 
-                this.shoppingCart[`item-${this.currentItemView['id']}`].buyQuantity += this.currentItemView['buyQtyInput'];
+                this.shoppingCart[`item-${this.currentItemView['item_id']}`].buyQuantity += this.currentItemView['buyQtyInput'];
 
                 // local storage
                 if(this.lsInUse) {
@@ -151,8 +151,8 @@ export default defineComponent({
             // else add item to shopping cart
             else {
                 
-                this.shoppingCart[`item-${this.currentItemView['id']}`] = this.menuItems[`item-${this.currentItemView['id']}`];
-                this.shoppingCart[`item-${this.currentItemView['id']}`].buyQuantity = this.currentItemView['buyQtyInput'];
+                this.shoppingCart[`item-${this.currentItemView['item_id']}`] = this.menuItems[`item-${this.currentItemView['item_id']}`];
+                this.shoppingCart[`item-${this.currentItemView['item_id']}`].buyQuantity = this.currentItemView['buyQtyInput'];
                 // local storage
                 if(this.lsInUse) {
                     localStorage.setItem("shoppingCart", JSON.stringify(this.shoppingCart));
@@ -162,7 +162,7 @@ export default defineComponent({
             };
 
             // decrease qantity from menu item, later if payment successful then decrease quantity from database
-            this.menuItems[`item-${this.currentItemView['id']}`].quantity -= this.currentItemView['buyQtyInput'];
+            this.menuItems[`item-${this.currentItemView['item_id']}`].quantity -= this.currentItemView['buyQtyInput'];
 
             // after items added to cart, close modal
             this.toggleModal()
