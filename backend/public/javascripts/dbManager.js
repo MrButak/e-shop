@@ -9,7 +9,7 @@ exports.getMenu = async () => {
     await client.connect()
     
     try {
-        let res = await client.query('SELECT * FROM menu_items');
+        let res = await client.query('SELECT * FROM menu_items ORDER BY item_id ASC');
         await client.end();
         return(res.rows);
         
@@ -22,7 +22,6 @@ exports.getMenu = async () => {
 // Function stores purchase information into database when receives stripe webhook for paymentIntent success
 exports.storePurchase = async (paymentIntent) => {
     
-    console.log(paymentIntent)
     // create address object to store in db
     let shippingAddress = {};
     Object.keys(paymentIntent.shipping.address).forEach((key) => {
@@ -67,42 +66,29 @@ exports.getOrderDetails = async (stripePiId, email) => {
     catch(error) {
         console.log(error.stack);
     };
-    // let db = new Database('menu.db');
-
-	// try {
-	// 	let dbStmt = db.prepare('SELECT * FROM purchases WHERE stripe_pi = (?) AND email = (?)');
-	// 	let orderDetails = dbStmt.all(stripePiId, email);
-	// 	db.close();
-	// 	return orderDetails
-	// }
-    // catch (e) {
-	// 	console.log(e);
-	// };
-
 };
 
 // Function updates item quantity in database after purchase
-exports.updateMenuItmQty = (paymentIntent) => {
+exports.updateMenuItmQty = async (paymentIntent) => {
 
-    let db = new Database('menu.db');
+    const client = new Client();
+    await client.connect();
+    
+    let text = 'UPDATE menu_items SET quantity = quantity - ($1) WHERE item_id = ($2)';
+    let values; // = [purchasedItems[key].qty, key];
 
     let purchasedItems = JSON.parse(paymentIntent.metadata.purchasedItems);
     Object.keys(purchasedItems).forEach((key) => {
 
         try {
-            db.prepare('UPDATE items SET quantity = quantity - (?) WHERE id = (?)').run(purchasedItems[key].qty, key);
-            // if quantity is 0 set in_stock to 0 (i can probably remove this row from the table and just use quantity to determine if item is in stock)
-            if(db.prepare('SELECT quantity FROM items WHERE id = (?)').get(key).quantity < 1) {
-                db.prepare('UPDATE items SET in_stock = (?) WHERE id = (?)').run(0, key)
-            }
-        }
-        
-        catch(error) {
+            
+            values = [parseInt(purchasedItems[key].qty), parseInt(key)];
+            let res = client.query(text, values)
+            // no need for an 'await client.end();' ?
+        } 
+        catch (error) {
+            console.log(error.stack)
+        };
 
-            console.log(error)
-        }
     });
-    
-    console.log("ok I update db here")
-    
 };

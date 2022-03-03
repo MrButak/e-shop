@@ -31,10 +31,10 @@ exports.stripeWebHooks = (req, res, next) => {
 
         case 'payment_intent.succeeded':
             const paymentIntent = event.data.object;
-            
+
             dbManager.storePurchase(paymentIntent);
-            // dbManager.updateMenuItmQty(paymentIntent);
-            // emailManager.sendPaymentSuccessEmail(paymentIntent);
+            dbManager.updateMenuItmQty(paymentIntent);
+            emailManager.sendPaymentSuccessEmail(paymentIntent);
 
             break;
         // ... handle other event types
