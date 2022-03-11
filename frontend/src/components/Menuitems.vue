@@ -144,7 +144,7 @@ export default defineComponent({
             let response = await axios({
                 method: 'post',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                url: 'http://127.0.0.1:3000/getmenu',
+                url: 'https://salem-smoothies.herokuapp.com/getmenu',
                 data: null
             })
             console.log(response.data)
