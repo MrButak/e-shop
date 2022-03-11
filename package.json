@@ -7,6 +7,7 @@
     "heroku-postbuild": "cd frontend && ./build.sh"
   },
   "dependencies": {
+    "@vue/cli-service": "^5.0.1",
     "better-sqlite3": "^7.5.0",
     "body-parser": "^1.19.1",
     "cookie-parser": "~1.4.4",
