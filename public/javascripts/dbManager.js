@@ -1,6 +1,6 @@
 const Database = require('better-sqlite3');
 const { Client } = require('pg')
-require('dotenv').config()
+// require('dotenv').config()
 
 // For Deploy. Connect postgresql to heroku
 // const client = new Client({
