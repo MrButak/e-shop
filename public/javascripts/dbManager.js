@@ -1,5 +1,5 @@
 const Database = require('better-sqlite3');
-const { Client } = require('pg')
+const { Pool, Client } = require('pg')
 require('dotenv').config()
 
 // For Deploy. Connect postgresql to heroku
@@ -14,17 +14,18 @@ require('dotenv').config()
 exports.getMenu = async () => {
 
     //const client = new Client()
-    const client = new Client({
-        connectionString: process.env.DATABASE_URL,
-        ssl: {
-          rejectUnauthorized: false
-        }
-    })
-    await client.connect()
+    //const client = new Client({
+        //connectionString: process.env.DATABASE_URL,
+        //ssl: {
+          //rejectUnauthorized: false
+        //}
+    //})
+    //await client.connect()
+
+    const pool = new Pool();
     
     try {
-        let res = await client.query('SELECT * FROM menu_items ORDER BY item_id ASC');
-        await client.end();
+        let res = await pool.query('SELECT * FROM menu_items ORDER BY item_id ASC');
         return(res.rows);
         
     }

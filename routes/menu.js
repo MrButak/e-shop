@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var app = express();
 
-const index = require('../controllers/index');
+const menu = require('../controllers/menu');
 const payment = require('../controllers/payment');
 const stripeWebHooks = require('../controllers/stripewebhooks');
 const validateForms = require('../controllers/validateforms');
@@ -14,16 +14,12 @@ const allowRequest = app.use(function(req, res, next) {
     next();
 });
 
-router.post('/getmenu', index.getMenu);
-
+router.get('/getmenu', menu.getMenu);
 router.post('/create-payment-intent', allowRequest, payment.paymentIntent)
-
-
 router.post('/webhook', stripeWebHooks.stripeWebHooks);
-
 router.post('/validatedeliveryaddress', allowRequest, validateForms.validateDeliveryForm);
 
 // db lookup on "purchases" TABLE (need pi_stripe_key and email)
-router.post('/orderdetails', allowRequest, index.getOrderDetails)
+router.post('/orderdetails', allowRequest, menu.getOrderDetails)
 
 module.exports = router;

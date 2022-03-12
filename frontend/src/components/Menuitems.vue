@@ -142,10 +142,8 @@ export default defineComponent({
         async getMenuItems() {
 
             let response = await axios({
-                method: 'post',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                url: 'https://salem-smoothies.herokuapp.com/getmenu',
-                data: null
+                method: 'get',
+                url: `/menu/getmenu`
             })
             console.log(response.data)
             // set global state of menuItems object if it hasn't already been set
