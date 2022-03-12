@@ -73,7 +73,7 @@ export default defineComponent ({
 
                 method: 'post',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                url: 'http://127.0.0.1:3000/create-payment-intent',
+                url: '/menu/create-payment-intent',
                 data: {
                     name: this.customerDetails.user.name,
                     email: this.customerDetails.user.email,
@@ -128,7 +128,7 @@ export default defineComponent ({
                 elements,
                 confirmParams: {
                 // redirect to payment completion page
-                return_url: 'https://salem-smoothies.herokuapp.com/ordersuccess',
+                return_url: `/ordersuccess`,
                 },
             });
 

@@ -1,5 +1,4 @@
 const { default: Stripe } = require('stripe')
-const paymentManager = require('../public/javascripts/paymentManager')
 
 require('dotenv').config()
 const sk_test = process.env.STRIPE_SK;

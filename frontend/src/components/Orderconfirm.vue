@@ -99,7 +99,7 @@ export default defineComponent({
 
                 method: 'post',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                url: 'https://salem-smoothies.herokuapp.com/orderdetails',
+                url: `/orderdetails`,
                 data: {
                     stripePiId: stripePiId,
                     email: email,

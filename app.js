@@ -1,24 +1,26 @@
 require('dotenv').config()
 
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
 
-var indexRouter = require('./routes/index');
+const menuRouter = require('./routes/menu');
 const bodyParser = require('body-parser');
 
-var app = express();
-
+const app = express();
 
 // this ensures I receive the raw header from stripe webhooks
 app.use('/webhook', bodyParser.raw({type: "*/*"}));
 
+// TODO: Set logger config from env var
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
-app.use('/', indexRouter);
+app.use('/', express.static(path.join(__dirname, 'public', 'dist')));
+app.use('/css', express.static(path.join(__dirname, 'public', 'dist', 'css')));
+app.use('/js', express.static(path.join(__dirname, 'public', 'dist', 'js')));
+app.use('/menu', menuRouter);
 
 module.exports = app;

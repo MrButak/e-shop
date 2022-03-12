@@ -1,5 +1,5 @@
 const Database = require('better-sqlite3');
-const { Client } = require('pg')
+const { Pool, Client } = require('pg')
 require('dotenv').config()
 
 // For Deploy. Connect postgresql to heroku
@@ -12,21 +12,10 @@ require('dotenv').config()
 
 // Function gets all menu items from database
 exports.getMenu = async () => {
-
-    //const client = new Client()
-    const client = new Client({
-        connectionString: process.env.DATABASE_URL,
-        ssl: {
-          rejectUnauthorized: false
-        }
-    })
-    await client.connect()
-    
+    const pool = new Pool();
     try {
-        let res = await client.query('SELECT * FROM menu_items ORDER BY item_id ASC');
-        await client.end();
+        let res = await pool.query('SELECT * FROM menu_items ORDER BY item_id ASC');
         return(res.rows);
-        
     }
     catch(error) {
         console.log(error.stack);
@@ -49,21 +38,13 @@ exports.storePurchase = async (paymentIntent) => {
     let itemsPurchased = paymentIntent.metadata['purchasedItems'];
     let totalPrice = paymentIntent.amount / 100; // in cents
 
-    //const client = new Client();
-    const client = new Client({
-        connectionString: process.env.DATABASE_URL,
-        ssl: {
-          rejectUnauthorized: false
-        }
-    })
-    await client.connect();
+    const pool = new Pool();
     
     const text = 'INSERT INTO purchases(stripe_pi, email, items_purchased, total_price, shipping_address, account_id) VALUES($1, $2, $3, $4, $5, $6) RETURNING *';
     const values = [stripePiId, email, itemsPurchased, totalPrice, shippingAddress, null];
 
     try {
-        const res = await client.query(text, values)
-        // no need for an 'await client.end();' ?
+        const res = await pool.query(text, values)
     } 
     catch (error) {
         console.log(error.stack)
@@ -73,18 +54,11 @@ exports.storePurchase = async (paymentIntent) => {
 // Function gets order details from db when provided stripe_pi_key and email
 exports.getOrderDetails = async (stripePiId, email) => {
     
-    //const client = new Client()
-    const client = new Client({
-        connectionString: process.env.DATABASE_URL,
-        ssl: {
-          rejectUnauthorized: false
-        }
-    })
-    await client.connect()
+    const pool = new Pool();
     const text = 'SELECT * FROM purchases WHERE stripe_pi = ($1) AND email = ($2)';
     const values = [stripePiId, email];
     try {
-        let res = await client.query(text, values);
+        let res = await pool.query(text, values);
         await client.end();
         return(res.rows);
         
@@ -97,14 +71,7 @@ exports.getOrderDetails = async (stripePiId, email) => {
 // Function updates item quantity in database after purchase
 exports.updateMenuItmQty = async (paymentIntent) => {
 
-    //const client = new Client();
-    const client = new Client({
-        connectionString: process.env.DATABASE_URL,
-        ssl: {
-          rejectUnauthorized: false
-        }
-    })
-    await client.connect();
+    const pool = new Pool();
     
     let text = 'UPDATE menu_items SET quantity = quantity - ($1) WHERE item_id = ($2)';
     let values; // = [purchasedItems[key].qty, key];
@@ -115,7 +82,7 @@ exports.updateMenuItmQty = async (paymentIntent) => {
         try {
             
             values = [parseInt(purchasedItems[key].qty), parseInt(key)];
-            let res = client.query(text, values)
+            let res = pool.query(text, values)
             // no need for an 'await client.end();' ?
         } 
         catch (error) {
