@@ -99,7 +99,7 @@ export default defineComponent({
 
                 method: 'post',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                url: `${process.env.host}/orderdetails`,
+                url: `/orderdetails`,
                 data: {
                     stripePiId: stripePiId,
                     email: email,

@@ -16,6 +16,11 @@ const allowRequest = app.use(function(req, res, next) {
 
 router.get('/getmenu', menu.getMenu);
 router.post('/create-payment-intent', allowRequest, payment.paymentIntent)
+// Probably need to move this route somewhere else - webhooks controller?
+// app.js:
+// app.use('/webhook')
+// controllers/webhook.js:
+// router.post('/', stripeWebHooks.stripeWebHooks)
 router.post('/webhook', stripeWebHooks.stripeWebHooks);
 router.post('/validatedeliveryaddress', allowRequest, validateForms.validateDeliveryForm);
 
