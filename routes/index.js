@@ -14,7 +14,7 @@ const allowRequest = app.use(function(req, res, next) {
     next();
 });
 
-router.post('/getmenu', allowRequest, index.getMenu);
+router.get('/getmenu', index.getMenu);
 
 router.post('/create-payment-intent', allowRequest, payment.paymentIntent)
 
