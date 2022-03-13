@@ -15,9 +15,10 @@ const allowRequest = app.use(function(req, res, next) {
 });
 
 router.post('/getmenu', allowRequest, index.getMenu);
-// app.get(/.*/, function (req, res) {
-// 	res.sendFile(path.join(__dirname, 'public/dist/index.html'))
-// })
+app.get(/.*/, function (req, res) {
+    allowRequest;
+	res.sendFile(path.join(__dirname, 'public/dist/index.html'))
+})
 router.post('/create-payment-intent', allowRequest, payment.paymentIntent)
 
 
