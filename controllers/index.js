@@ -9,8 +9,7 @@ exports.getMenu = async (req, res, next) => {
         price: 300,
         imageUrl: "https://efdfds.com"
     }
-    // res.status(200).json(menuItems);
-    res.send.json(menuItems)
+    res.status(200).json(menuItems);
     // try {
     //     let menuItems = await dbManager.getMenu();
     //     res.status(200).json(menuItems);
