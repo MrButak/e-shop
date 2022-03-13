@@ -2,13 +2,21 @@ const dbManager = require ('../public/javascripts/dbManager');
 
 exports.getMenu = async (req, res, next) => {
 
-    try {
-        let menuItems = await dbManager.getMenu();
-        res.status(200).json(menuItems);
+    let menuItems = {
+        name: "green smoothies",
+        description: "dsfsfsfssf",
+        inStock: 1,
+        price: 300,
+        imageUrl: "https://efdfds.com"
     }
-    catch(error) {
-        console.log(error);
-    };
+    res.status(200).json(menuItems);
+    // try {
+    //     let menuItems = await dbManager.getMenu();
+    //     res.status(200).json(menuItems);
+    // }
+    // catch(error) {
+    //     console.log(error);
+    // };
     
 };
 
