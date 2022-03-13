@@ -143,9 +143,9 @@ export default defineComponent({
 
             let response = await axios({
                 method: 'post',
-                // headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 url: '/getmenu',
-                // data: null
+                data: null
             })
             console.log(response.data)
             // set global state of menuItems object if it hasn't already been set
