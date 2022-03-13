@@ -195,7 +195,7 @@ export default defineComponent ({
 
                 method: 'post',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                url: 'http://127.0.0.1:3000/validatedeliveryaddress',
+                url: '/validatedeliveryaddress',
                 data: {
                     email: this.email.value,
                     streetAddress: this.address1Field.value,

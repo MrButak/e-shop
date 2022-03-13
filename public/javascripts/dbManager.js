@@ -1,15 +1,37 @@
-const Database = require('better-sqlite3');
-const { Client } = require('pg')
+const { Client, Pool} = require('pg')
 
 
 // Function gets all menu items from database
 exports.getMenu = async () => {
 
-    const client = new Client()
-    await client.connect()
+    console.log("Can I see this in heroku logs? I'm at the db call")
+    const pool = new Pool();
+    // const pool = new Pool({
+    // connectionString: process.env.DATABASE_URL,
+    //     ssl: {
+    //     rejectUnauthorized: false
+    //     } 
+    // });
+    // const pool = new Pool({
+    //     connectionString: process.env.DATABASE_URL,
+    //     user: process.env.user,
+    //     host: process.env.host,
+    //     database: process.env.database,
+    //     password: process.env.password,
+    //     port: 3211,
+    // })
+    // const client = new Client({
+    //     connectionString: process.env.DATABASE_URL,
+    //     ssl: {
+    //     rejectUnauthorized: false
+    //     }
+    // });
+    // const client = new Client()
+    // await client.connect()
     
     try {
-        let res = await client.query('SELECT * FROM menu_items ORDER BY item_id ASC');
+        let res = await pool.query('SELECT * FROM menu_items ORDER BY item_id ASC');
+        // let res = await client.query('SELECT * FROM menu_items ORDER BY item_id ASC');
         await client.end();
         return(res.rows);
         
