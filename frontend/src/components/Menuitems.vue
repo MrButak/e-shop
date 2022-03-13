@@ -148,6 +148,8 @@ export default defineComponent({
             // set global state of menuItems object if it hasn't already been set
             this.menuItems = {};
             let tmpCounter = 1;
+            console.log(response)
+            console.log("this is the front end response from the backend /menu/getmenu db call")
             response.data.forEach((item) => {
                 this.menuItems[`item-${tmpCounter}`] = item;
                 // add a buyQuantity property to the object
