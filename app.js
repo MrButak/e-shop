@@ -22,9 +22,7 @@ app.use(cookieParser());
 // app.use(express.static(path.join(__dirname, 'public/dist')));
 app.use('/', indexRouter);
 // this * route is to serve project on different page routes except root `/`
-app.get(/.*/, function (req, res) {
-	res.sendFile(path.join(__dirname, 'public/dist/index.html'))
-})
+
 
 
 app.use('/', express.static(path.join(__dirname, 'public', 'dist')));
