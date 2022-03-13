@@ -7,6 +7,7 @@
     "heroku-postbuild": "cd frontend && ./build.sh"
   },
   "dependencies": {
+    "@vue/cli-service": "^5.0.1",
     "better-sqlite3": "^7.5.0",
     "body-parser": "^1.19.1",
     "cookie-parser": "~1.4.4",
@@ -14,10 +15,11 @@
     "dotenv": "^16.0.0",
     "express": "~4.16.1",
     "morgan": "~1.9.1",
+    "path": "^0.12.7",
     "pg": "^8.7.3",
+    "serve-static": "^1.14.2",
     "sib-api-v3-sdk": "^8.2.1",
-    "stripe": "^8.202.0",
-    "@vue/cli-service": "^5.0.1"
+    "stripe": "^8.202.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-router": "~4.5.0",
