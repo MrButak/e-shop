@@ -19,9 +19,17 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+// app.use(express.static(path.join(__dirname, 'public/dist')));
 app.use('/', indexRouter);
+// this * route is to serve project on different page routes except root `/`
+app.get(/.*/, function (req, res) {
+	res.sendFile(path.join(__dirname, 'public/dist/index.html'))
+})
 
+
+app.use('/', express.static(path.join(__dirname, 'public', 'dist')));
+app.use('/css', express.static(path.join(__dirname, 'public', 'dist', 'css')));
+app.use('/js', express.static(path.join(__dirname, 'public', 'dist', 'js')));
 // this * route is to serve project on different page routes except root `/`
 // app.get(/.*/, function (req, res) {
 //     res.sendFile(path.join(__dirname, '/dist/index.html'))
