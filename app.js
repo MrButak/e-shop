@@ -22,7 +22,10 @@ app.use(cookieParser());
 // app.use(express.static(path.join(__dirname, 'public/dist')));
 app.use('/', indexRouter);
 // this * route is to serve project on different page routes except root `/`
-
+const cors = require('cors');
+app.use(cors({
+    origin: 'https://salem-smoothies.herokuapp.com/'
+}));
 
 
 app.use('/', express.static(path.join(__dirname, 'public', 'dist')));
