@@ -13,7 +13,7 @@ client.connect();
 // Function gets all menu items from database
 exports.getMenu = async () => {
 
-    console.log("can /menu/getmenu database call here ********************")
+
 
     let res = await client.query('SELECT * FROM menu_items ORDER BY item_id ASC');
     return res.rows;
