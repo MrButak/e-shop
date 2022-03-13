@@ -31,6 +31,7 @@ app.use(cors({
 app.use('/', express.static(path.join(__dirname, 'public')));
 app.use('/css', express.static(path.join(__dirname, 'public', 'css')));
 app.use('/js', express.static(path.join(__dirname, 'public', 'js')));
+app.use('/js', express.static(path.join(__dirname, 'public', 'javascripts')));
 // this * route is to serve project on different page routes except root `/`
 // app.get(/.*/, function (req, res) {
 //     res.sendFile(path.join(__dirname, '/dist/index.html'))
