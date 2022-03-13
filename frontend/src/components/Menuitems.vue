@@ -145,7 +145,6 @@ export default defineComponent({
                 method: 'get',
                 url: `/menu/getmenu`
             })
-            console.log(response.data)
             // set global state of menuItems object if it hasn't already been set
             this.menuItems = {};
             let tmpCounter = 1;
