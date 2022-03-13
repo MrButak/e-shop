@@ -1,11 +1,8 @@
 const dbManager = require ('../public/javascripts/dbManager');
 
 exports.getMenu = async (req, res, next) => {
-    let myObj = {
-        name: "Matt",
-        age: 13
-    };
-    return(res.json(myObj))
+    
+    
     console.log("can /menu/getmenu database call here controllers/menu.js********************");
     try {
     let menuItems = await dbManager.getMenu();
