@@ -14,8 +14,8 @@ const allowRequest = app.use(function(req, res, next) {
     next();
 });
 
-// add this
-router.get('/ordersuccess');
+// TODO: upon successful stripe payment a redirect /get to /ordersuccess is made. I need to render that.
+// router.get('/ordersuccess');
 
 // router.post('/create-payment-intent', allowRequest, payment.paymentIntent)
 // Probably need to move this route somewhere else - webhooks controller?
