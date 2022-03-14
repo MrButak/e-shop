@@ -14,7 +14,7 @@ const allowRequest = app.use(function(req, res, next) {
     next();
 });
 
-router.get('/getmenu', menu.getMenu);
+router.get('/getmenu', allowRequest, menu.getMenu);
 router.post('/create-payment-intent', allowRequest, payment.paymentIntent)
 // Probably need to move this route somewhere else - webhooks controller?
 // app.js:
