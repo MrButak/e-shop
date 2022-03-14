@@ -61,7 +61,7 @@ export default defineComponent ({
             let purchasedItemsObj = {};
             Object.keys(tmpShpCrt).forEach((key) => {
                 
-                purchasedItemsObj[this.shoppingCart[key].item_id] = { // here
+                purchasedItemsObj[this.shoppingCart[key].item_id] = {
 
                     "name": this.shoppingCart[key].name,
                     "price": this.shoppingCart[key].price,
@@ -73,7 +73,7 @@ export default defineComponent ({
 
                 method: 'post',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                url: '/menu/create-payment-intent',
+                url: '/create-payment-intent',
                 data: {
                     name: this.customerDetails.user.name,
                     email: this.customerDetails.user.email,
