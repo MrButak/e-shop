@@ -14,17 +14,17 @@ const allowRequest = app.use(function(req, res, next) {
     next();
 });
 
-router.get('/getmenu', menu.getMenu);
-router.post('/create-payment-intent', payment.paymentIntent)
+
+// router.post('/create-payment-intent', allowRequest, payment.paymentIntent)
 // Probably need to move this route somewhere else - webhooks controller?
 // app.js:
 // app.use('/webhook')
 // controllers/webhook.js:
 // router.post('/', stripeWebHooks.stripeWebHooks)
+router.post('/webhook', stripeWebHooks.stripeWebHooks);
+// router.post('/validatedeliveryaddress', allowRequest, validateForms.validateDeliveryForm);
 
-router.post('/validatedeliveryaddress', validateForms.validateDeliveryForm);
-
-// db lookup on "purchases" TABLE (need pi_stripe_key and email)
-router.post('/orderdetails', menu.getOrderDetails)
+// // db lookup on "purchases" TABLE (need pi_stripe_key and email)
+// router.post('/orderdetails', allowRequest, menu.getOrderDetails)
 
 module.exports = router;

@@ -99,7 +99,7 @@ export default defineComponent({
 
                 method: 'post',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                url: `/orderdetails`,
+                url: 'menu/orderdetails',
                 data: {
                     stripePiId: stripePiId,
                     email: email,
