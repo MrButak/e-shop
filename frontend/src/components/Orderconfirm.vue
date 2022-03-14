@@ -61,7 +61,7 @@ export default defineComponent({
     },
 
     mounted() {
-
+        // route redirect
         this.getPaymentMessage();
         this.clearLocalStorage();
     },

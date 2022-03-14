@@ -21,7 +21,6 @@ router.post('/validatedeliveryaddress', validateForms.validateDeliveryForm);
 
 // db lookup on "purchases" TABLE (need pi_stripe_key and email)
 router.post('/orderdetails', menu.getOrderDetails);
-// add this
-router.get('/ordersuccess', menu.getOrderDetails);
+
 
 module.exports = router;
