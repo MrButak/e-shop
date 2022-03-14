@@ -20,6 +20,6 @@ router.post('/create-payment-intent', payment.paymentIntent)
 router.post('/validatedeliveryaddress', validateForms.validateDeliveryForm);
 
 // db lookup on "purchases" TABLE (need pi_stripe_key and email)
-router.post('/orderdetails', menu.getOrderDetails)
+router.get('/orderdetails', menu.getOrderDetails)
 
 module.exports = router;

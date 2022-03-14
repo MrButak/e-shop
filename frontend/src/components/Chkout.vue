@@ -128,7 +128,7 @@ export default defineComponent ({
                 elements,
                 confirmParams: {
                 // redirect to payment completion page
-                return_url: 'https://salem-smoothies.herokuapp.com/ordersuccess',
+                return_url: 'https://salem-smoothies.herokuapp.com/ordersuccess', // here fix
                 },
             });
 
