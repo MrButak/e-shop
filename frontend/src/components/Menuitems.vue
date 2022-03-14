@@ -143,7 +143,7 @@ export default defineComponent({
 
             let response = await axios({
                 method: 'get',
-                url: `/menu/getmenu`
+                url: 'http://127.0.0.1:3000/menu/getmenu'
             })
             // set global state of menuItems object if it hasn't already been set
             this.menuItems = {};

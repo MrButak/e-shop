@@ -6,6 +6,7 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 
 const menuRouter = require('./routes/menu');
+const indexRouter = require('./routes/index');
 const bodyParser = require('body-parser');
 
 const app = express();
@@ -22,5 +23,6 @@ app.use('/', express.static(path.join(__dirname, 'public', 'dist')));
 app.use('/css', express.static(path.join(__dirname, 'public', 'dist', 'css')));
 app.use('/js', express.static(path.join(__dirname, 'public', 'dist', 'js')));
 app.use('/menu', menuRouter);
+app.use('/', indexRouter);
 
 module.exports = app;
