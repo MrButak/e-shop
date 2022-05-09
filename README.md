@@ -16,3 +16,5 @@ delivery range.
 	
 **Order Receipt:** I used a webhook to watch for payment confirmation from Stripe, then used Send In Blue's 
 SMTP API to send a templatized e-mail with order details and delivery time.
+
+Deployed: https://salem-smoothies.herokuapp.com/
