@@ -5,7 +5,7 @@ Full-stack e-commerce website which accepts payments via stripe, sends confirmat
 menu items and store order information.
     
 **Technologies:**
-Frontend: Vue, Javascript , CSS, Backend: Node.js, Express, Postgres, Stripe API, Send In Blue API
+Frontend: Vue, Javascript , CSS, Backend: Node.js, Express, Postgres, Stripe API, Send In Blue API, Heroku (for deployment)
 
 **Database:** A Postgres database is used to store menu items and order and customer details.
 	
